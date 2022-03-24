@@ -1,3 +1,184 @@
+/* COMMON */
 body {
-    background-color: paleturquoise;
+    margin: 0;
+}
+/* LOGO STYLING */
+.navbar-brand {
+    margin-right: auto;
+}
+.navbar-brand>img{
+    height: 48px;
+}
+
+.btn {
+    padding: 0;
+    font-size: 0.9rem;
+    padding: 2px 10px;
+    border-radius: 16px;
+}
+.btn-outline-consign {
+    color: red;
+    border: red solid 1px;
+}
+.btn-outline-quote {
+    color: green;
+    border: green solid 1px;
+}
+.nav-icon {
+    font-size: 1.2rem;
+    color: rgb(201, 37, 37);
+    
+}
+/* NAVBAR */
+.nav-link {
+    font-size: 0.9rem;
+    color: rgb(58, 58, 58) !important;
+}
+/* MINI NAV */
+#mini-nav>.row>a {
+    font-size: 0.88rem;
+    font-weight: 500;
+    text-decoration: none;
+    color: rgb(97, 97, 97);
+    display: block;
+    background-image:linear-gradient(white,rgb(230, 230, 230)) ;
+}
+#nav-home {
+    display: none;
+}
+.mini-nav-img {
+    width:50px;
+    margin:10px
+}
+/* Section Alert */
+section.alert {
+    font-size: 0.8rem !important;
+    text-align: center;
+}
+.bg-alert {
+    background-color: rgb(220, 239, 252);
+}
+.alert {
+    font-size: 0.88rem;
+    font-style: italic; 
+    animation: alert 10s infinite alternate;
+}
+@keyframes alert {
+    from {color: rgb(106, 106, 106);}
+    to{color: rgb(165, 115, 115);}
+}
+/* SECTION SELL/CONSIGN */
+.img-calvin {
+    height: 180px;
+}
+.sc-form {
+    background-image:linear-gradient(rgb(230, 230, 230),white) ;
+}
+.sc-form input {
+    height: 32px;
+}
+.sc-tag-wrapper {
+    display: flex;
+}
+.sc-tag {
+    background-image:linear-gradient(rgb(230, 230, 230),white) ;
+    border-radius: 8px 8px 0 0;
+    flex: 1;
+    padding: 4px 24px;
+    margin-left: 1px;
+    text-align: center;
+}
+.sc-tag>a {
+    text-decoration: none;
+    color: rgb(97, 97, 97);
+}
+
+/* ADVERT BANNER */
+.banner {
+    min-height: 150px;
+    background-color:rgb(243, 241, 214);
+    margin: 10px 0;
+    border-top: 5px solid rgb(223, 223, 223) ;
+    border-bottom: 10px solid rgb(220, 220, 220) ;  
+}
+.bg-mikar9 {
+    /* background-image: url(../images/dealer.png); */
+    background-size: contain;
+    /* background-position:; */
+    
+}
+.bg-advert {
+    background-image: url();
+    background-size: cover;
+    background-position: center;
+}
+
+.list-frame {
+    min-height: 150px;
+    width: 100%;
+    /* margin: 10px auto; */
+    /* padding: 10px; */
+}
+.list-info h6 {
+    margin: 0;
+}
+
+/* SECTION COE */
+#section-coe {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* ipad setting */
+@media screen and (min-width:768px) {
+    /* MINI NAV */
+    #mini-nav>.row>a:hover{
+        color: rgb(58, 58, 58) !important;
+        background-image:linear-gradient(white,rgb(201, 201, 201));
+        font-weight: 500;
+    }
+}
+/* ipad pro setting */
+@media screen and (min-width:992px) {
+    /* MINI NAV */
+    #mini-nav img {
+        display: none;
+    }
+    #mini-nav>.row>a {
+        padding: 4px;
+        text-align: center;
+        color: rgb(80, 80, 80);
+        background-color:rgb(228, 228, 228);
+        margin-left: 0.5px;
+    }
+    #mini-nav>.row>a:hover {
+        background-color: rgb(218, 0, 0) !important;
+        background-image: none;
+        color: white !important;
+        font-weight: 700;
+    }
+    #nav-home {
+        display: inline-flex;
+        width: 40px !important;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color:rgb(228, 228, 228);
+        color: rgb(218, 0, 0);
+        font-size: 1.2rem;
+    }
+    #nav-home:hover {
+        color:rgb(228, 228, 228);
+        background-color: rgb(218, 0, 0);
+    }
+}
+/* laptop setting */
+@media screen and (min-width:1200px) {
+    body {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+}
+/* xxl setting */
+@media screen and (min-width:1400px) {
+    
 }

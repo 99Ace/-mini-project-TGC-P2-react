@@ -29,47 +29,111 @@ export default class App extends React.Component {
     let response = await axios.get('https://tgc-p2-99ace.herokuapp.com/admin/owners');
     console.log(response.data)
     this.setState({
+      // data : load in data; tracker for data loaded
       data: response.data,
-      dataLoaded: true
+      dataLoaded: true,
+      // navbar : page tracker
+      page: 1
     });
   };
   showNavbar = () => {
     return (
       <React.Fragment>
-        <nav className="navbar navbar-expand-lg navbar-light bg-light">
+        {/* navbar */}
+        <nav className="navbar navbar-expand-lg navbar-light bg-light px-md-3 ">
           <div className="container-fluid">
-            <a className="navbar-brand" href="#">Navbar</a>
-            <button class="navbar-toggler" type="button" dataBsToggle="collapse" dataBsTarget="#navbarSupportedContent" ariaControls="navbarSupportedContent" ariaExpanded="false" ariaLabel="Toggle navigation">
+            {/* logo */}
+            <a className="navbar-brand" href="#">
+              <img src={require("./images/logo.png")} alt="Mikar *9 Logo" />
+            </a>
+            <a className="d-md-none" href="#">
+              {/* <i className="fa fa-user text-danger"></i> */}
+              <i className="fa-regular fa-user nav-icon"></i>
+            </a>
+            {/* search */}
+            <form className="d-none d-md-flex d-lg-none ms-auto">
+              <button className="btn text-dark" type="submit">
+                <i className="fas fa-search"></i>
+                <i className="fa fa-user ms-2 text-danger"></i>
+              </button>
+            </form>
+
+            <button className="navbar-toggler ms-2 ms-md-2 p-0 border-0" type="button" dataBsToggle="collapse"
+              dataBsTarget="#navbarSupportedContent" ariaControls="navbarSupportedContent" ariaExpanded="false"
+              ariaLabel="Toggle navigation">
               <span className="navbar-toggler-icon"></span>
             </button>
             <div className="collapse navbar-collapse" id="navbarSupportedContent">
-              <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+              <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
                 <li className="nav-item">
-                  <a className="nav-link active" ariaCurrent="page" href="#">Home</a>
-                </li>
-                <li className="nav-item">
-                  <a className="nav-link" href="#">Link</a>
-                </li>
-                <li className="nav-item dropdown">
-                  <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" dataBsToggle="dropdown" ariaExpanded="false">
-                    Dropdown
+                  <a className="nav-link" href="#">
+                    {/* <div className="btn btn-outline-quote"> */}
+                    {/* Quote Car */}
+                    {/* </div> */}
                   </a>
-                  <ul className="dropdown-menu" ariaLabelledby="navbarDropdown">
-                    <li><a className="dropdown-item" href="#">Action</a></li>
-                    <li><a className="dropdown-item" href="#">Another action</a></li>
-                    <li><hr className="dropdown-divider"/></li>
-                    <li><a className="dropdown-item" href="#">Something else here</a></li>
-                  </ul>
                 </li>
+
                 <li className="nav-item">
-                  <a className="nav-link disabled">Disabled</a>
+                  <a className="nav-link" href="#">
+                    {/* <div className="btn btn-outline-consign">Consignment</div>  */}
+                  </a>
+                </li>
+
+                <li className="nav-item">
+                  <a className="nav-link" href="#">
+                    <i className="fa fa-user text-danger"></i>
+                  </a>
                 </li>
               </ul>
-              <form className="d-flex">
-                <input className="form-control me-2" type="search" placeholder="Search" ariaLabel="Search"/>
-                  <button className="btn btn-outline-success" type="submit">Search</button>
-              </form>
             </div>
+          </div>
+        </nav>
+
+        {/* <!-- mini navbar --> */}
+        <nav id="mini-nav" className="container-fluid p-2 px-lg-0">
+          <div className="row px-lg-0 mx-auto">
+            {/* <!-- Home --> */}
+            <div href="" id="nav-home"><i className="fas fa-car"></i></div>
+            {/* <!-- Quote --> */}
+            <a href="" className="col-6 col-md-4 col-lg border">
+              <img src={require("./images/bmw.png")} className="mini-nav-img" alt="" />
+              Get Quote
+            </a>
+            {/* <!-- Consign --> */}
+            <a href="" className="col-6 col-md-4 col-lg border">
+              <img src={require("./images/bmw.png")} className="mini-nav-img" alt="" />
+              Consign
+            </a>
+            {/* <!-- New Cars  --> */}
+            {/* <!-- <a href="" className="col-6 col-md-3 col-lg border">
+              <img src="assets/images/bmw.png" className="mini-nav-img" alt=""/>
+                New Cars
+            </a> --> */}
+            {/* <!-- Used Car --> */}
+            <a href="" className="col-6 col-md-4 col-lg border">
+              <img src={require("./images/bmw-m2.png")} className="mini-nav-img" alt="" />
+              Used Cars
+            </a>
+            {/* <!-- Insurance --> */}
+            <a href="" className="col-6 col-md-4 col-lg border">
+              <img src={ require ("./images/bmw.png") } className="mini-nav-img" alt=""/>
+              Insurance
+            </a>
+            {/* <!-- Workshop --> */}
+            <a href="" className="col-6 col-md-4 col-lg border">
+              <img src={ require ("./images/bmw.png") } className="mini-nav-img" alt=""/>
+              Workshop
+            </a>
+            {/* <!-- Loan --> */}
+            <a href="" className="col-6 col-md-4 col-lg border">
+            <img src={ require ("./images/bmw-m2.png") } className="mini-nav-img" alt=""/>
+              Car Loan
+            </a>
+            {/* <!-- Forms --> */}
+            {/* <!-- <a href="" className="col-6 col-md-3 col-lg border">
+              <img src="assets/images/bmw.png" className="mini-nav-img" alt="">
+                Resources
+            </a> --> */}
           </div>
         </nav>
       </React.Fragment>
@@ -81,9 +145,7 @@ export default class App extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <div className='container-fluid p-5'>
-
-          <h1> Happy World </h1>
+        <div className='container-fluid p-0'>
           {this.state.dataLoaded ?
             // Load in data when data is loaded
             <div>
