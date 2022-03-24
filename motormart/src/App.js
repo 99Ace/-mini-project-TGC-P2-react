@@ -1,13 +1,24 @@
 import React from 'react';
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./styles/style.css";
+// import component
 import Landing from './components/Landing';
+import Listing from './components/Listing';
+import CarAdd from './components/CarAdd';
+import CarUpdate from './components/CarUpdate';
+import Login from './components/Login';
+import Register from './components/Register';
+// Load axios
 import axios from 'axios'
 
 export default class App extends React.Component {
   state = {
-    data: [],
-    dataLoaded: false
+    // data : load in data; tracker for data loaded
+    dataUser: [],
+    dataCar: [],
+    dataLoaded: false,
+    // navbar : page tracker
+    page: "landing"
   };
 
   // base URL
@@ -26,14 +37,13 @@ export default class App extends React.Component {
     )
   };
   fetchData = async () => {
-    let response = await axios.get('https://tgc-p2-99ace.herokuapp.com/admin/owners');
-    console.log(response.data)
+    let response1 = await axios.get('https://tgc-p2-99ace.herokuapp.com/admin/owners');
+    let response2 = await axios.get('https://tgc-p2-99ace.herokuapp.com/admin/owners');
+
+
     this.setState({
-      // data : load in data; tracker for data loaded
-      data: response.data,
+      dataUser: response1.data,
       dataLoaded: true,
-      // navbar : page tracker
-      page: 1
     });
   };
   showNavbar = () => {
@@ -165,16 +175,32 @@ export default class App extends React.Component {
     return (
       <React.Fragment>
         <div className='container-fluid p-0'>
+          {this.showNavbar()}
           {this.state.dataLoaded ?
             // Load in data when data is loaded
             <div>
-              {this.showNavbar()}
-              <Landing />
-              {this.showFooter()}
+
+              {this.state.page === "landing" ?
+                <Landing /> :
+                this.state.page === "listing" ?
+                  <Listing /> :
+                  this.state.page === "carAdd" ?
+                  <CarAdd /> :
+                  this.state.page === "carUpdate" ?
+                  <CarUpdate /> :
+                  this.state.page === "login" ?
+                  <Login /> :
+                  this.state.page === "register" ?
+                  <Register/> :
+                  null
+              }
+
+
+
             </div>
             :
             this.loadingPage()}
-
+          {this.showFooter()}
         </div>
       </React.Fragment>
     )
