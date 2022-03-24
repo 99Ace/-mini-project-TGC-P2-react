@@ -46,19 +46,19 @@ export default class App extends React.Component {
             <a className="navbar-brand" href="#">
               <img src={require("./images/logo.png")} alt="Mikar *9 Logo" />
             </a>
-            <a className="d-md-none" href="#">
-              {/* <i className="fa fa-user text-danger"></i> */}
-              <i className="fa-regular fa-user nav-icon"></i>
-            </a>
             {/* search */}
-            <form className="d-none d-md-flex d-lg-none ms-auto">
+            <form className="ms-auto">
+              {/* search button */}
               <button className="btn text-dark" type="submit">
-                <i className="fas fa-search"></i>
-                <i className="fa fa-user ms-2 text-danger"></i>
+                <i className="fas fa-search nav-icon"></i>
+              </button>
+              {/* login button */}
+              <button className="btn text-dark" type="submit">
+                <i className="fa fa-user ms-2 text-danger nav-icon"></i>
               </button>
             </form>
 
-            <button className="navbar-toggler ms-2 ms-md-2 p-0 border-0" type="button" dataBsToggle="collapse"
+            {/* <button className="navbar-toggler ms-2 ms-md-2 p-0 border-0" type="button" dataBsToggle="collapse"
               dataBsTarget="#navbarSupportedContent" ariaControls="navbarSupportedContent" ariaExpanded="false"
               ariaLabel="Toggle navigation">
               <span className="navbar-toggler-icon"></span>
@@ -67,15 +67,13 @@ export default class App extends React.Component {
               <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
                 <li className="nav-item">
                   <a className="nav-link" href="#">
-                    {/* <div className="btn btn-outline-quote"> */}
-                    {/* Quote Car */}
-                    {/* </div> */}
+                    <div className="btn btn-outline-quote">Quote Car</div>
                   </a>
                 </li>
 
                 <li className="nav-item">
                   <a className="nav-link" href="#">
-                    {/* <div className="btn btn-outline-consign">Consignment</div>  */}
+                    <div className="btn btn-outline-consign">Consignment</div> 
                   </a>
                 </li>
 
@@ -85,7 +83,7 @@ export default class App extends React.Component {
                   </a>
                 </li>
               </ul>
-            </div>
+            </div> */}
           </div>
         </nav>
 
@@ -116,17 +114,17 @@ export default class App extends React.Component {
             </a>
             {/* <!-- Insurance --> */}
             <a href="" className="col-6 col-md-4 col-lg border">
-              <img src={ require ("./images/bmw.png") } className="mini-nav-img" alt=""/>
+              <img src={require("./images/bmw.png")} className="mini-nav-img" alt="" />
               Insurance
             </a>
             {/* <!-- Workshop --> */}
             <a href="" className="col-6 col-md-4 col-lg border">
-              <img src={ require ("./images/bmw.png") } className="mini-nav-img" alt=""/>
+              <img src={require("./images/bmw.png")} className="mini-nav-img" alt="" />
               Workshop
             </a>
             {/* <!-- Loan --> */}
             <a href="" className="col-6 col-md-4 col-lg border">
-            <img src={ require ("./images/bmw-m2.png") } className="mini-nav-img" alt=""/>
+              <img src={require("./images/bmw-m2.png")} className="mini-nav-img" alt="" />
               Car Loan
             </a>
             {/* <!-- Forms --> */}
@@ -136,6 +134,27 @@ export default class App extends React.Component {
             </a> --> */}
           </div>
         </nav>
+      </React.Fragment>
+    )
+  }
+  showFooter = () => {
+    return (
+      <React.Fragment>
+        <footer className="container-fluid mt-4 bg-dark text-light px-2 py-4">
+          <div className="row">
+            <div className="col-12">
+              <h6>Mikar <span className="text-danger">*</span>9 Pte Ltd</h6>
+            </div>
+            <div className="col-12">
+              Contact: <a className="text-light" href="tel:+6593632020">+65 9363 2020</a><br />
+              Email: <a className="text-light" href="mailto:admin@mikar9.com">admin@mikar9.com</a>
+            </div>
+
+            <div className="col">
+              <h6 className="text-center text-secondary mt-3">Design and build especially for drivers</h6>
+            </div>
+          </div>
+        </footer>
       </React.Fragment>
     )
   }
@@ -151,6 +170,7 @@ export default class App extends React.Component {
             <div>
               {this.showNavbar()}
               <Landing />
+              {this.showFooter()}
             </div>
             :
             this.loadingPage()}
