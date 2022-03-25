@@ -8,6 +8,7 @@ import CarAdd from './components/CarAdd';
 import CarUpdate from './components/CarUpdate';
 import Login from './components/Login';
 import Register from './components/Register';
+import Profile from './components/Profile';
 // Load axios
 import axios from 'axios'
 
@@ -26,7 +27,7 @@ export default class App extends React.Component {
 
   setActive = (page) => {
     this.setState({
-      'active': page
+      page : page
     })
   };
   loadingPage = () => {
@@ -37,12 +38,14 @@ export default class App extends React.Component {
     )
   };
   fetchData = async () => {
-    let response1 = await axios.get('https://tgc-p2-99ace.herokuapp.com/admin/owners');
-    let response2 = await axios.get('https://tgc-p2-99ace.herokuapp.com/admin/owners');
+    let res1 = await axios.get('https://tgc-p2-99ace.herokuapp.com/admin/owners');
+    let res2 = await axios.get('https://tgc-p2-99ace.herokuapp.com/car/listing');
 
+    console.log(res1, res2);
 
     this.setState({
-      dataUser: response1.data,
+      dataUser: res1.data,
+      dataCar: res2.data,
       dataLoaded: true,
     });
   };
@@ -57,16 +60,20 @@ export default class App extends React.Component {
               <img src={require("./images/logo.png")} alt="Mikar *9 Logo" />
             </a>
             {/* search */}
-            <form className="ms-auto">
+            <div>
               {/* search button */}
               <button className="btn text-dark" type="submit">
                 <i className="fas fa-search nav-icon"></i>
               </button>
               {/* login button */}
-              <button className="btn text-dark" type="submit">
-                <i className="fa fa-user ms-2 text-danger nav-icon"></i>
+              <button onClick={ ()=>{ this.setActive("login")} } className="border-0 bg-none">
+                <i className="fa fa-user ms-1 text-danger nav-icon"></i>
               </button>
-            </form>
+              {/* login button */}
+              <button onClick={ ()=>{ this.setActive("profile")} } className="border-0 bg-none">
+                <i className="fa fa-user ms-1 text-warning nav-icon"></i>
+              </button>
+            </div>
 
             {/* <button className="navbar-toggler ms-2 ms-md-2 p-0 border-0" type="button" dataBsToggle="collapse"
               dataBsTarget="#navbarSupportedContent" ariaControls="navbarSupportedContent" ariaExpanded="false"
@@ -101,47 +108,47 @@ export default class App extends React.Component {
         <nav id="mini-nav" className="container-fluid p-2 px-lg-0">
           <div className="row px-lg-0 mx-auto">
             {/* <!-- Home --> */}
-            <div href="" id="nav-home"><i className="fas fa-car"></i></div>
+            <button onClick={ ()=>{ this.setActive("")} } id="nav-home" ><i className="fas fa-car"></i></button>
             {/* <!-- Quote --> */}
-            <a href="" className="col-6 col-md-4 col-lg border">
+            <button onClick={ ()=>{ this.setActive("quote")} } className="col-6 col-md-4 col-lg border mini-nav" id={this.state.page==="quote"? "active": null }>
               <img src={require("./images/bmw.png")} className="mini-nav-img" alt="" />
               Get Quote
-            </a>
+            </button>
             {/* <!-- Consign --> */}
-            <a href="" className="col-6 col-md-4 col-lg border">
+            <button onClick={ ()=>{ this.setActive("consign")} } className="col-6 col-md-4 col-lg border mini-nav" id={this.state.page==="consign"? "active": null }>
               <img src={require("./images/bmw.png")} className="mini-nav-img" alt="" />
               Consign
-            </a>
+            </button>
             {/* <!-- New Cars  --> */}
-            {/* <!-- <a href="" className="col-6 col-md-3 col-lg border">
-              <img src="assets/images/bmw.png" className="mini-nav-img" alt=""/>
-                New Cars
-            </a> --> */}
+            <button onClick={ ()=>{ this.setActive("new_car")} } className="col-6 col-md-4 col-lg border mini-nav" id={this.state.page==="new_car"? "active": null }>
+              <img src={require("./images/bmw-m2.png")} className="mini-nav-img" alt="" />
+              New Car
+            </button>
             {/* <!-- Used Car --> */}
-            <a href="" className="col-6 col-md-4 col-lg border">
+            <button onClick={ ()=> {this.setActive("listing")}}  className="col-6 col-md-4 col-lg border mini-nav" id={this.state.page==="listing"? "active": null }>
               <img src={require("./images/bmw-m2.png")} className="mini-nav-img" alt="" />
               Used Cars
-            </a>
+            </button>
             {/* <!-- Insurance --> */}
-            <a href="" className="col-6 col-md-4 col-lg border">
+            <button onClick={ ()=>{ this.setActive("insurance")} } className="col-6 col-md-4 col-lg border mini-nav" id={this.state.page==="insurance"? "active": null }>
               <img src={require("./images/bmw.png")} className="mini-nav-img" alt="" />
               Insurance
-            </a>
+            </button>
             {/* <!-- Workshop --> */}
-            <a href="" className="col-6 col-md-4 col-lg border">
+            <button onClick={ ()=>{ this.setActive("workshop")} } className="col-6 col-md-4 col-lg border mini-nav" id={this.state.page==="workshop"? "active": null }>
               <img src={require("./images/bmw.png")} className="mini-nav-img" alt="" />
               Workshop
-            </a>
+            </button>
             {/* <!-- Loan --> */}
-            <a href="" className="col-6 col-md-4 col-lg border">
+            <button onClick={ ()=>{ this.setActive("loan")} } className="col-6 col-md-4 col-lg border mini-nav" id={this.state.page==="loan"? "active": null }>
               <img src={require("./images/bmw-m2.png")} className="mini-nav-img" alt="" />
               Car Loan
-            </a>
+            </button>
             {/* <!-- Forms --> */}
-            {/* <!-- <a href="" className="col-6 col-md-3 col-lg border">
-              <img src="assets/images/bmw.png" className="mini-nav-img" alt="">
-                Resources
-            </a> --> */}
+            <button onClick={ ()=>{ this.setActive("resources")} } className="col-6 col-md-4 col-lg border mini-nav" id={this.state.page==="resources"? "active": null }>
+              <img src={require("./images/bmw-m2.png")} className="mini-nav-img" alt="" />
+              Resources
+            </button>
           </div>
         </nav>
       </React.Fragment>
@@ -181,21 +188,23 @@ export default class App extends React.Component {
             <div>
 
               {this.state.page === "landing" ?
-                <Landing /> :
+                <Landing 
+                  
+                /> :
                 this.state.page === "listing" ?
                   <Listing /> :
                   this.state.page === "carAdd" ?
-                  <CarAdd /> :
-                  this.state.page === "carUpdate" ?
-                  <CarUpdate /> :
-                  this.state.page === "login" ?
-                  <Login /> :
-                  this.state.page === "register" ?
-                  <Register/> :
-                  null
+                    <CarAdd /> :
+                    this.state.page === "carUpdate" ?
+                      <CarUpdate /> :
+                      this.state.page === "login" ?
+                        <Login /> :
+                        this.state.page === "register" ?
+                          <Register /> :
+                          this.state.page === "profile" ?
+                          <Profile /> :
+                          null
               }
-
-
 
             </div>
             :
