@@ -12,6 +12,11 @@ import Profile from './components/Profile';
 import ShowCar from './components/ShowCar';
 // Load axios
 import axios from 'axios'
+// import sessions
+import { ReactSession } from 'react-client-session';
+
+ReactSession.setStoreType("localStorage");
+ReactSession.set("username", "Bob");
 
 export default class App extends React.Component {
   state = {
@@ -23,6 +28,8 @@ export default class App extends React.Component {
     page: "landing",
     nav: true
   };
+  
+  
 
   // base URL
   baseURL = "https://tgc-p2-99ace.herokuapp.com";
@@ -59,9 +66,9 @@ export default class App extends React.Component {
         <nav className="navbar navbar-expand-lg navbar-light bg-light px-md-3 ">
           <div className="container-fluid">
             {/* logo */}
-            <a className="navbar-brand" href="#">
+            <span className="navbar-brand" >
               <img src={require("./images/logo.png")} alt="Mikar *9 Logo" />
-            </a>
+            </span>
             {/* search */}
             <div>
               {/* search button */}
