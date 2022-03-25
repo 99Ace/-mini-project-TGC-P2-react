@@ -9,6 +9,7 @@ import CarUpdate from './components/CarUpdate';
 import Login from './components/Login';
 import Register from './components/Register';
 import Profile from './components/Profile';
+import ShowCar from './components/ShowCar';
 // Load axios
 import axios from 'axios'
 
@@ -19,15 +20,17 @@ export default class App extends React.Component {
     dataCar: [],
     dataLoaded: false,
     // navbar : page tracker
-    page: "landing"
+    page: "landing",
+    nav: true
   };
 
   // base URL
   baseURL = "https://tgc-p2-99ace.herokuapp.com";
 
-  setActive = (page) => {
+  setActive = (page,nav) => {
     this.setState({
-      page : page
+      page: page,
+      nav: nav
     })
   };
   loadingPage = () => {
@@ -66,11 +69,11 @@ export default class App extends React.Component {
                 <i className="fas fa-search nav-icon"></i>
               </button>
               {/* login button */}
-              <button onClick={ ()=>{ this.setActive("login")} } className="border-0 bg-none">
+              <button onClick={() => { this.setActive("login", true) }} className="border-0 bg-none">
                 <i className="fa fa-user ms-1 text-danger nav-icon"></i>
               </button>
               {/* login button */}
-              <button onClick={ ()=>{ this.setActive("profile")} } className="border-0 bg-none">
+              <button onClick={() => { this.setActive("profile", true) }} className="border-0 bg-none">
                 <i className="fa fa-user ms-1 text-warning nav-icon"></i>
               </button>
             </div>
@@ -108,44 +111,44 @@ export default class App extends React.Component {
         <nav id="mini-nav" className="container-fluid p-2 px-lg-0">
           <div className="row px-lg-0 mx-auto">
             {/* <!-- Home --> */}
-            <button onClick={ ()=>{ this.setActive("")} } id="nav-home" ><i className="fas fa-car"></i></button>
+            <button onClick={() => { this.setActive("",true) }} id="nav-home" ><i className="fas fa-car"></i></button>
             {/* <!-- Quote --> */}
-            <button onClick={ ()=>{ this.setActive("quote")} } className="col-6 col-md-4 col-lg border mini-nav" id={this.state.page==="quote"? "active": null }>
+            <button onClick={() => { this.setActive("quote",true) }} className="col-6 col-md-3 col-lg border mini-nav" id={this.state.page === "quote" ? "active" : null}>
               <img src={require("./images/bmw.png")} className="mini-nav-img" alt="" />
               Get Quote
             </button>
             {/* <!-- Consign --> */}
-            <button onClick={ ()=>{ this.setActive("consign")} } className="col-6 col-md-4 col-lg border mini-nav" id={this.state.page==="consign"? "active": null }>
+            <button onClick={() => { this.setActive("consign",true) }} className="col-6 col-md-3 col-lg border mini-nav" id={this.state.page === "consign" ? "active" : null}>
               <img src={require("./images/bmw.png")} className="mini-nav-img" alt="" />
               Consign
             </button>
             {/* <!-- New Cars  --> */}
-            <button onClick={ ()=>{ this.setActive("new_car")} } className="col-6 col-md-4 col-lg border mini-nav" id={this.state.page==="new_car"? "active": null }>
+            <button onClick={() => { this.setActive("new_car",true) }} className="col-6 col-md-3 col-lg border mini-nav" id={this.state.page === "new_car" ? "active" : null}>
               <img src={require("./images/bmw-m2.png")} className="mini-nav-img" alt="" />
               New Car
             </button>
             {/* <!-- Used Car --> */}
-            <button onClick={ ()=> {this.setActive("listing")}}  className="col-6 col-md-4 col-lg border mini-nav" id={this.state.page==="listing"? "active": null }>
+            <button onClick={() => { this.setActive("listing", true) }} className="col-6 col-md-3 col-lg border mini-nav" id={this.state.page === "listing" ? "active" : null}>
               <img src={require("./images/bmw-m2.png")} className="mini-nav-img" alt="" />
               Used Cars
             </button>
             {/* <!-- Insurance --> */}
-            <button onClick={ ()=>{ this.setActive("insurance")} } className="col-6 col-md-4 col-lg border mini-nav" id={this.state.page==="insurance"? "active": null }>
+            <button onClick={() => { this.setActive("insurance",true) }} className="col-6 col-md-3 col-lg border mini-nav" id={this.state.page === "insurance" ? "active" : null}>
               <img src={require("./images/bmw.png")} className="mini-nav-img" alt="" />
               Insurance
             </button>
             {/* <!-- Workshop --> */}
-            <button onClick={ ()=>{ this.setActive("workshop")} } className="col-6 col-md-4 col-lg border mini-nav" id={this.state.page==="workshop"? "active": null }>
+            <button onClick={() => { this.setActive("workshop",true) }} className="col-6 col-md-3 col-lg border mini-nav" id={this.state.page === "workshop" ? "active" : null}>
               <img src={require("./images/bmw.png")} className="mini-nav-img" alt="" />
               Workshop
             </button>
             {/* <!-- Loan --> */}
-            <button onClick={ ()=>{ this.setActive("loan")} } className="col-6 col-md-4 col-lg border mini-nav" id={this.state.page==="loan"? "active": null }>
+            <button onClick={() => { this.setActive("loan",true) }} className="col-6 col-md-3 col-lg border mini-nav" id={this.state.page === "loan" ? "active" : null}>
               <img src={require("./images/bmw-m2.png")} className="mini-nav-img" alt="" />
               Car Loan
             </button>
             {/* <!-- Forms --> */}
-            <button onClick={ ()=>{ this.setActive("resources")} } className="col-6 col-md-4 col-lg border mini-nav" id={this.state.page==="resources"? "active": null }>
+            <button onClick={() => { this.setActive("resources",true) }} className="col-6 col-md-3 col-lg border mini-nav" id={this.state.page === "resources" ? "active" : null}>
               <img src={require("./images/bmw-m2.png")} className="mini-nav-img" alt="" />
               Resources
             </button>
@@ -182,17 +185,20 @@ export default class App extends React.Component {
     return (
       <React.Fragment>
         <div className='container-fluid p-0'>
-          {this.showNavbar()}
+
+          { this.state.nav ? this.showNavbar() : null }
+
           {this.state.dataLoaded ?
             // Load in data when data is loaded
             <div>
 
               {this.state.page === "landing" ?
-                <Landing 
-                  
+                <Landing
                 /> :
                 this.state.page === "listing" ?
-                  <Listing /> :
+                  <Listing 
+                    setActive = {this.setActive}
+                  /> :
                   this.state.page === "carAdd" ?
                     <CarAdd /> :
                     this.state.page === "carUpdate" ?
@@ -202,8 +208,10 @@ export default class App extends React.Component {
                         this.state.page === "register" ?
                           <Register /> :
                           this.state.page === "profile" ?
-                          <Profile /> :
-                          null
+                            <Profile /> :
+                            this.state.page === "showcar" ?
+                              <ShowCar /> :
+                              null
               }
 
             </div>
