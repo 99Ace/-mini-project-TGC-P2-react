@@ -8,7 +8,7 @@ export default function Profile(props) {
     return (
         <React.Fragment>
             <h2>User Profile</h2>
-            <p>User Name is: {user}</p>
+            <p>User Name is: {props.username}</p>
         </React.Fragment>
     )
 }

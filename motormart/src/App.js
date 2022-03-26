@@ -7,10 +7,10 @@ import CarListing from './components/CarListing';
 import CarAdd from './components/CarAdd';
 import CarUpdate from './components/CarUpdate';
 // Auth Components
-import Login from './components/Login';
-import Logout from './components/Logout';
-import Register from './components/Register';
-import Profile from './components/Profile';
+import Login from './components/auth/Login';
+import Logout from './components/auth/Logout';
+import Register from './components/auth/Register';
+import Profile from './components/auth/Profile';
 
 import ShowCar from './components/ShowCar';
 import CarConsign from './components/CarConsign';
@@ -19,6 +19,7 @@ import CarConsign from './components/CarConsign';
 import axios from 'axios';
 // import and set up sessions
 import { ReactSession } from 'react-client-session';
+import ShowNav from './components/navbar/ShowNav';
 ReactSession.setStoreType("localStorage");
 // import encrypt
 
@@ -34,7 +35,7 @@ export default class App extends React.Component {
     nav: true,
 
     // ===AUTH=== 
-    user:"",
+    username:"",
     loginUser: "",
     // Login
     usernameLogin: "",
@@ -79,8 +80,13 @@ export default class App extends React.Component {
     });
   };
   fetchUser = () => {
-    let user =  ReactSession.get("username")
-    console.log("USER : " + user);
+    
+    console.log("USER : " + ReactSession.get("username") );
+    if (ReactSession.get("username") !== undefined) {
+      this.setState({
+        username : ReactSession.get("username")
+      })
+    }
   }
   // COMPONENT DID MOUNT
   async componentDidMount() {
@@ -89,104 +95,7 @@ export default class App extends React.Component {
   };
 
   // JSX functions
-  showNavbar = () => {
-    return (
-      <React.Fragment>
-
-        {/* navbar */}
-        <nav className="navbar navbar-expand-lg navbar-light bg-light">
-          <div className="container-fluid">
-            {/* logo */}
-            <button className="navbar-brand" onClick={() => { this.setActive("home", true) }}>
-              <img src={require("./images/logo.png")} alt="Mikar *9 Logo" />
-            </button>
-            {/* search */}
-            <div>
-              {/* search button */}
-              <button 
-                className="btn p-0 text-danger ms-2 ms-md-3" 
-                type="submit">
-                <i className="fas fa-search nav-icon"></i>
-              </button>
-
-              {/* login button */}
-              <button
-                onClick={() => { this.setActive("login", true) }}
-                className="btn p-0 text-muted ms-2 ms-md-3"
-                type="button"
-                databstoggle="tooltip"
-                databsplacement="bottom"
-                title="Login">
-                <i className="fa-solid fa-key nav-icon"></i>
-                {/* <i class="fa-solid fa-lock-keyhole nav-icon"></i> */}
-              </button>
-
-              {/* register button */}
-              <button
-                onClick={() => { this.setActive("profile", true) }}
-                className="btn p-0 text-muted ms-2 ms-md-3"
-                type="button"
-                databstoggle="tooltip"
-                databsplacement="bottom"
-                title="Register">
-                <i className="fa-solid fa-address-card nav-icon"></i>
-              </button>
-
-              {/* logout button */}
-              <button
-                onClick={() => { this.setActive("logout", true) }}
-                className="btn p-0 text-danger ms-2 ms-md-3"
-                type="button"
-                databstoggle="tooltip"
-                databsplacement="bottom"
-                title="Logout">
-                <i className="fa-solid fa-key nav-icon"></i>
-              </button>
-
-              {/* Profile button */}
-              <button
-                onClick={() => { this.setActive("profile", true) }}
-                className="btn p-0 text-danger ms-2 ms-md-3"
-                type="button"
-                databstoggle="tooltip"
-                databsplacement="bottom"
-                title="Profile">
-                <i className="fa-solid fa-user nav-icon"></i>
-              </button>
-            </div>
-
-            {/* <button className="navbar-toggler ms-2 ms-md-2 p-0 border-0" type="button" dataBsToggle="collapse"
-              dataBsTarget="#navbarSupportedContent" ariaControls="navbarSupportedContent" ariaExpanded="false"
-              ariaLabel="Toggle navigation">
-              <span className="navbar-toggler-icon"></span>
-            </button>
-            <div className="collapse navbar-collapse" id="navbarSupportedContent">
-              <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
-                <li className="nav-item">
-                  <a className="nav-link" href="#">
-                    <div className="btn btn-outline-quote">Quote Car</div>
-                  </a>
-                </li>
-
-                <li className="nav-item">
-                  <a className="nav-link" href="#">
-                    <div className="btn btn-outline-consign">Consignment</div> 
-                  </a>
-                </li>
-
-                <li className="nav-item">
-                  <a className="nav-link" href="#">
-                    <i className="fa fa-user text-danger"></i>
-                  </a>
-                </li>
-              </ul>
-            </div> */}
-          </div>
-        </nav>
-
-      </React.Fragment>
-    )
-  }
+  
   showMiniNavbar = () => {
     return (
       <React.Fragment>
@@ -273,7 +182,7 @@ export default class App extends React.Component {
     console.log(response.data)
     // save to session
     ReactSession.set(
-      "user", response.data.data.username
+      "username", response.data.data.username
     )
     // save to state
     this.setState({
@@ -286,7 +195,9 @@ export default class App extends React.Component {
     // Remove the user from session
     ReactSession.remove("user")
     // console.log(ReactSession.get("user"))
-
+    this.setState({
+      username : ""
+    })
     // Return user to home page
     this.setActive("home")
   }
@@ -295,7 +206,9 @@ export default class App extends React.Component {
     return (
       <React.Fragment>
         <div className='container p-0'>
-          {this.showNavbar()}
+          <ShowNav
+            setActive={this.setActive}
+          />
 
           {this.state.nav ? this.showMiniNavbar() : null}
 
@@ -320,6 +233,7 @@ export default class App extends React.Component {
                 {/* Logout */}
                 {this.state.page === "logout" ?
                 <Logout
+                  username={this.state.username}
                   submitLogout={this.submitLogout}
                   setActive={this.setActive}
                 /> : null}

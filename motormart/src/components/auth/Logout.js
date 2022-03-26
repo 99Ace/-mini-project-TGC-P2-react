@@ -1,6 +1,6 @@
 import React from 'react';
 import "bootstrap/dist/css/bootstrap.min.css";
-import "../styles/auth.css"
+import "../../styles/auth.css"
 
 export default function Logout(props) {
 
@@ -11,10 +11,11 @@ export default function Logout(props) {
                 <div className='col-12 col-md-8 col-lg-6'>
                     <div className="card p-5 mx-auto">
                         <div className="img-circle">
-                            <img src={require("../images/default-user.jpeg")} alt="default user icon" className="mx-auto" />
+                            <img src={require("../../images/default-user.jpeg")} alt="default user icon" className="mx-auto" />
                         </div>
                         <div className="card-body">
                             <div className="my-3 text-center">
+                                <h5>{props.username}</h5>
                                 <p>
                                     Sure you are logging out?
                                 </p>
