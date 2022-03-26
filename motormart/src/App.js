@@ -95,7 +95,6 @@ export default class App extends React.Component {
   };
 
   // JSX functions
-  
   showMiniNavbar = () => {
     return (
       <React.Fragment>
@@ -186,14 +185,14 @@ export default class App extends React.Component {
     )
     // save to state
     this.setState({
-      user: response.data.data
+      username: response.data.data.username
     })
     this.setActive("profile", true)
   }
   // Logout - execute logout
   submitLogout= () => {
     // Remove the user from session
-    ReactSession.remove("user")
+    ReactSession.remove("username")
     // console.log(ReactSession.get("user"))
     this.setState({
       username : ""
@@ -208,6 +207,7 @@ export default class App extends React.Component {
         <div className='container p-0'>
           <ShowNav
             setActive={this.setActive}
+            username={this.state.username}
           />
 
           {this.state.nav ? this.showMiniNavbar() : null}
@@ -257,6 +257,7 @@ export default class App extends React.Component {
                 /> : null}
               {this.state.page === "profile" ?
                 <Profile
+                  username={this.state.username}
                 /> : null}
               {this.state.page === "showcar" ?
                 <ShowCar
