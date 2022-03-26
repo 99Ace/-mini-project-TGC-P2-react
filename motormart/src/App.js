@@ -6,18 +6,22 @@ import Landing from './components/Landing';
 import CarListing from './components/CarListing';
 import CarAdd from './components/CarAdd';
 import CarUpdate from './components/CarUpdate';
+// Auth Components
 import Login from './components/Login';
+import Logout from './components/Logout';
 import Register from './components/Register';
 import Profile from './components/Profile';
+
 import ShowCar from './components/ShowCar';
 import CarConsign from './components/CarConsign';
+
 // Load axios
 import axios from 'axios';
-// import sessions
+// import and set up sessions
 import { ReactSession } from 'react-client-session';
-
 ReactSession.setStoreType("localStorage");
-ReactSession.set("username", "Bob");
+// import encrypt
+
 
 export default class App extends React.Component {
   state = {
@@ -30,25 +34,25 @@ export default class App extends React.Component {
     nav: true,
 
     // ===AUTH=== 
+    user:"",
+    loginUser: "",
     // Login
-    usernameLogin : "",
-    passwordLogin : "", 
+    usernameLogin: "",
+    passwordLogin: "",
   };
-
-
 
   // base URL
   baseURL = "https://tgc-p2-99ace.herokuapp.com";
 
-  updateFormField=(e)=>{
+  updateFormField = (e) => {
     this.setState({
-      [e.target.name]:e.target.value
+      [e.target.name]: e.target.value
     })
   }
   setActive = (page, nav) => {
-    if (window.screen.width < 992 && page !== "home"){
+    if (window.screen.width < 992 && page !== "home") {
       nav = false
-    }
+    } else { nav = true }
     this.setState({
       page: page,
       nav: nav
@@ -61,6 +65,7 @@ export default class App extends React.Component {
       </React.Fragment>
     )
   };
+
   fetchData = async () => {
     let res1 = await axios.get('https://tgc-p2-99ace.herokuapp.com/admin/owners');
     let res2 = await axios.get('https://tgc-p2-99ace.herokuapp.com/car/listing');
@@ -73,6 +78,17 @@ export default class App extends React.Component {
       dataLoaded: true,
     });
   };
+  fetchUser = () => {
+    let user =  ReactSession.get("username")
+    console.log("USER : " + user);
+  }
+  // COMPONENT DID MOUNT
+  async componentDidMount() {
+    this.fetchData();
+    this.fetchUser();
+  };
+
+  // JSX functions
   showNavbar = () => {
     return (
       <React.Fragment>
@@ -81,22 +97,61 @@ export default class App extends React.Component {
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
           <div className="container-fluid">
             {/* logo */}
-            <button className="navbar-brand"  onClick={() => { this.setActive("home", true) }}>
+            <button className="navbar-brand" onClick={() => { this.setActive("home", true) }}>
               <img src={require("./images/logo.png")} alt="Mikar *9 Logo" />
             </button>
             {/* search */}
             <div>
               {/* search button */}
-              <button className="btn text-dark" type="submit">
+              <button 
+                className="btn p-0 text-danger ms-2 ms-md-3" 
+                type="submit">
                 <i className="fas fa-search nav-icon"></i>
               </button>
+
               {/* login button */}
-              <button onClick={() => { this.setActive("login", true) }} className="border-0 bg-none">
-                <i className="fa fa-user ms-1 text-danger nav-icon"></i>
+              <button
+                onClick={() => { this.setActive("login", true) }}
+                className="btn p-0 text-muted ms-2 ms-md-3"
+                type="button"
+                databstoggle="tooltip"
+                databsplacement="bottom"
+                title="Login">
+                <i className="fa-solid fa-key nav-icon"></i>
+                {/* <i class="fa-solid fa-lock-keyhole nav-icon"></i> */}
               </button>
-              {/* login button */}
-              <button onClick={() => { this.setActive("profile", true) }} className="border-0 bg-none">
-                <i className="fa fa-user ms-1 text-warning nav-icon"></i>
+
+              {/* register button */}
+              <button
+                onClick={() => { this.setActive("profile", true) }}
+                className="btn p-0 text-muted ms-2 ms-md-3"
+                type="button"
+                databstoggle="tooltip"
+                databsplacement="bottom"
+                title="Register">
+                <i className="fa-solid fa-address-card nav-icon"></i>
+              </button>
+
+              {/* logout button */}
+              <button
+                onClick={() => { this.setActive("logout", true) }}
+                className="btn p-0 text-danger ms-2 ms-md-3"
+                type="button"
+                databstoggle="tooltip"
+                databsplacement="bottom"
+                title="Logout">
+                <i className="fa-solid fa-key nav-icon"></i>
+              </button>
+
+              {/* Profile button */}
+              <button
+                onClick={() => { this.setActive("profile", true) }}
+                className="btn p-0 text-danger ms-2 ms-md-3"
+                type="button"
+                databstoggle="tooltip"
+                databsplacement="bottom"
+                title="Profile">
+                <i className="fa-solid fa-user nav-icon"></i>
               </button>
             </div>
 
@@ -208,9 +263,34 @@ export default class App extends React.Component {
       </React.Fragment>
     )
   }
-  async componentDidMount() {
-    this.fetchData();
-  };
+
+  // Auth Functions
+  // Login - execute login 
+  submitLogin = async () => {
+    console.log(this.state.usernameLogin, this.state.passwordLogin)
+    // check if user can login
+    let response = await axios.get("https://tgc-p2-99ace.herokuapp.com/user/"+this.state.usernameLogin+"/"+this.state.passwordLogin+"/login")
+    console.log(response.data)
+    // save to session
+    ReactSession.set(
+      "user", response.data.data.username
+    )
+    // save to state
+    this.setState({
+      user: response.data.data
+    })
+    this.setActive("profile", true)
+  }
+  // Logout - execute logout
+  submitLogout= () => {
+    // Remove the user from session
+    ReactSession.remove("user")
+    // console.log(ReactSession.get("user"))
+
+    // Return user to home page
+    this.setActive("home")
+  }
+
   render() {
     return (
       <React.Fragment>
@@ -230,10 +310,18 @@ export default class App extends React.Component {
               {/* AUTH ROUTES */}
               {/* Login */}
               {this.state.page === "login" ?
-                <Login 
+                <Login
                   usernameLogin={this.state.usernameLogin}
                   passwordLogin={this.state.passwordLogin}
                   updateFormField={this.updateFormField}
+                  submitLogin={this.submitLogin}
+                  setActive={this.setActive}
+                /> : null}
+                {/* Logout */}
+                {this.state.page === "logout" ?
+                <Logout
+                  submitLogout={this.submitLogout}
+                  setActive={this.setActive}
                 /> : null}
 
               {this.state.page === "carlisting" ?
@@ -241,23 +329,23 @@ export default class App extends React.Component {
                   setActive={this.setActive}
                 /> : null}
               {this.state.page === "carAdd" ?
-                <CarAdd 
+                <CarAdd
                 /> : null}
               {this.state.page === "carUpdate" ?
-                <CarUpdate 
+                <CarUpdate
                 /> : null}
               {this.state.page === "consign" ?
                 <CarConsign
                 /> : null}
-              
+
               {this.state.page === "register" ?
-                <Register 
+                <Register
                 /> : null}
               {this.state.page === "profile" ?
-                <Profile 
+                <Profile
                 /> : null}
               {this.state.page === "showcar" ?
-                <ShowCar 
+                <ShowCar
                 /> : null}
 
             </div>

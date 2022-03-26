@@ -16,8 +16,16 @@
     width: 100%;
 }
 /* submit button */
-.login-submit{
+.auth-submit{
     background-color: rgb(186, 13, 13);
+    color: white;
+    border: none;
+    width: 100%;
+    padding-top: 8px;
+    padding-bottom: 8px;
+}
+.back-submit{
+    background-color: rgb(138, 138, 138);
     color: white;
     border: none;
     width: 100%;

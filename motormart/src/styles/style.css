@@ -27,10 +27,7 @@ body {
     border: green solid 1px;
 }
 .nav-icon {
-    font-size: 1.2rem;
-    color: rgb(201, 37, 37);
-    margin-right: 5px;
-    
+    font-size: 1.3rem;
 }
 /* NAVBAR */
 .nav-link {
