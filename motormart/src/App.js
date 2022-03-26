@@ -28,13 +28,13 @@ export default class App extends React.Component {
     page: "landing",
     nav: true
   };
-  
-  
+
+
 
   // base URL
   baseURL = "https://tgc-p2-99ace.herokuapp.com";
 
-  setActive = (page,nav) => {
+  setActive = (page, nav) => {
     this.setState({
       page: page,
       nav: nav
@@ -63,7 +63,7 @@ export default class App extends React.Component {
     return (
       <React.Fragment>
         {/* navbar */}
-        <nav className="navbar navbar-expand-lg navbar-light bg-light px-md-3 ">
+        <nav className="navbar navbar-expand-lg navbar-light bg-light">
           <div className="container-fluid">
             {/* logo */}
             <span className="navbar-brand" >
@@ -115,22 +115,22 @@ export default class App extends React.Component {
         </nav>
 
         {/* <!-- mini navbar --> */}
-        <nav id="mini-nav" className="container-fluid p-2 px-lg-0">
+        <nav id="mini-nav" className="container-fluid p-2 px-lg-0 pb-0">
           <div className="row px-lg-0 mx-auto">
             {/* <!-- Home --> */}
-            <button onClick={() => { this.setActive("",true) }} id="nav-home" ><i className="fas fa-car"></i></button>
+            <button onClick={() => { this.setActive("", true) }} id="nav-home" ><i className="fas fa-car"></i></button>
             {/* <!-- Quote --> */}
-            <button onClick={() => { this.setActive("quote",true) }} className="col-6 col-md-3 col-lg border mini-nav" id={this.state.page === "quote" ? "active" : null}>
+            <button onClick={() => { this.setActive("quote", true) }} className="col-6 col-md-3 col-lg border mini-nav" id={this.state.page === "quote" ? "active" : null}>
               <img src={require("./images/bmw.png")} className="mini-nav-img" alt="" />
               Get Quote
             </button>
             {/* <!-- Consign --> */}
-            <button onClick={() => { this.setActive("consign",true) }} className="col-6 col-md-3 col-lg border mini-nav" id={this.state.page === "consign" ? "active" : null}>
+            <button onClick={() => { this.setActive("consign", true) }} className="col-6 col-md-3 col-lg border mini-nav" id={this.state.page === "consign" ? "active" : null}>
               <img src={require("./images/bmw.png")} className="mini-nav-img" alt="" />
               Consign
             </button>
             {/* <!-- New Cars  --> */}
-            <button onClick={() => { this.setActive("new_car",true) }} className="col-6 col-md-3 col-lg border mini-nav" id={this.state.page === "new_car" ? "active" : null}>
+            <button onClick={() => { this.setActive("new_car", true) }} className="col-6 col-md-3 col-lg border mini-nav" id={this.state.page === "new_car" ? "active" : null}>
               <img src={require("./images/bmw-m2.png")} className="mini-nav-img" alt="" />
               New Car
             </button>
@@ -140,22 +140,22 @@ export default class App extends React.Component {
               Used Cars
             </button>
             {/* <!-- Insurance --> */}
-            <button onClick={() => { this.setActive("insurance",true) }} className="col-6 col-md-3 col-lg border mini-nav" id={this.state.page === "insurance" ? "active" : null}>
+            <button onClick={() => { this.setActive("insurance", true) }} className="col-6 col-md-3 col-lg border mini-nav" id={this.state.page === "insurance" ? "active" : null}>
               <img src={require("./images/bmw.png")} className="mini-nav-img" alt="" />
               Insurance
             </button>
             {/* <!-- Workshop --> */}
-            <button onClick={() => { this.setActive("workshop",true) }} className="col-6 col-md-3 col-lg border mini-nav" id={this.state.page === "workshop" ? "active" : null}>
+            <button onClick={() => { this.setActive("workshop", true) }} className="col-6 col-md-3 col-lg border mini-nav" id={this.state.page === "workshop" ? "active" : null}>
               <img src={require("./images/bmw.png")} className="mini-nav-img" alt="" />
               Workshop
             </button>
             {/* <!-- Loan --> */}
-            <button onClick={() => { this.setActive("loan",true) }} className="col-6 col-md-3 col-lg border mini-nav" id={this.state.page === "loan" ? "active" : null}>
+            <button onClick={() => { this.setActive("loan", true) }} className="col-6 col-md-3 col-lg border mini-nav" id={this.state.page === "loan" ? "active" : null}>
               <img src={require("./images/bmw-m2.png")} className="mini-nav-img" alt="" />
               Car Loan
             </button>
             {/* <!-- Forms --> */}
-            <button onClick={() => { this.setActive("resources",true) }} className="col-6 col-md-3 col-lg border mini-nav" id={this.state.page === "resources" ? "active" : null}>
+            <button onClick={() => { this.setActive("resources", true) }} className="col-6 col-md-3 col-lg border mini-nav" id={this.state.page === "resources" ? "active" : null}>
               <img src={require("./images/bmw-m2.png")} className="mini-nav-img" alt="" />
               Resources
             </button>
@@ -193,7 +193,7 @@ export default class App extends React.Component {
       <React.Fragment>
         <div className='container-fluid p-0'>
 
-          { this.state.nav ? this.showNavbar() : null }
+          {this.state.nav ? this.showNavbar() : null}
 
           {this.state.dataLoaded ?
             // Load in data when data is loaded
@@ -201,25 +201,30 @@ export default class App extends React.Component {
 
               {this.state.page === "landing" ?
                 <Landing
-                /> :
-                this.state.page === "listing" ?
-                  <Listing 
-                    setActive = {this.setActive}
-                  /> :
-                  this.state.page === "carAdd" ?
-                    <CarAdd /> :
-                    this.state.page === "carUpdate" ?
-                      <CarUpdate /> :
-                      this.state.page === "login" ?
-                        <Login /> :
-                        this.state.page === "register" ?
-                          <Register /> :
-                          this.state.page === "profile" ?
-                            <Profile /> :
-                            this.state.page === "showcar" ?
-                              <ShowCar /> :
-                              null
-              }
+                /> : null}
+
+              {this.state.page === "listing" ?
+                <Listing
+                  setActive={this.setActive}
+                /> : null}
+              {this.state.page === "carAdd" ?
+                <CarAdd 
+                /> : null}
+              {this.state.page === "carUpdate" ?
+                <CarUpdate 
+                /> : null}
+              {this.state.page === "login" ?
+                <Login 
+                /> : null}
+              {this.state.page === "register" ?
+                <Register 
+                /> : null}
+              {this.state.page === "profile" ?
+                <Profile 
+                /> : null}
+              {this.state.page === "showcar" ?
+                <ShowCar 
+                /> : null}
 
             </div>
             :

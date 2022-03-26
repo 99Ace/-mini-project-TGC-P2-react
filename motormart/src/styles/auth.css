@@ -1,0 +1,26 @@
+/* =======LOGIN====== */
+.card {
+    max-width: 500px;
+    /* border: none; */
+}
+/* circle styling for logo */
+.img-circle {
+    height: 150px;
+    width: 150px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin: 25px auto 0px;
+    border: 1px solid rgb(88, 88, 88);
+}
+.img-circle>img{
+    width: 100%;
+}
+/* submit button */
+.login-submit{
+    background-color: rgb(186, 13, 13);
+    color: white;
+    border: none;
+    width: 100%;
+    padding-top: 8px;
+    padding-bottom: 8px;
+}
