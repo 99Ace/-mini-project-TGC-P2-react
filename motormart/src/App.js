@@ -3,15 +3,16 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./styles/style.css";
 // import component
 import Landing from './components/Landing';
-import Listing from './components/Listing';
+import CarListing from './components/CarListing';
 import CarAdd from './components/CarAdd';
 import CarUpdate from './components/CarUpdate';
 import Login from './components/Login';
 import Register from './components/Register';
 import Profile from './components/Profile';
 import ShowCar from './components/ShowCar';
+import CarConsign from './components/CarConsign';
 // Load axios
-import axios from 'axios'
+import axios from 'axios';
 // import sessions
 import { ReactSession } from 'react-client-session';
 
@@ -25,7 +26,7 @@ export default class App extends React.Component {
     dataCar: [],
     dataLoaded: false,
     // navbar : page tracker
-    page: "landing",
+    page: "home",
     nav: true,
 
     // ===AUTH=== 
@@ -45,6 +46,9 @@ export default class App extends React.Component {
     })
   }
   setActive = (page, nav) => {
+    if (window.screen.width < 992 && page !== "home"){
+      nav = false
+    }
     this.setState({
       page: page,
       nav: nav
@@ -72,13 +76,14 @@ export default class App extends React.Component {
   showNavbar = () => {
     return (
       <React.Fragment>
+
         {/* navbar */}
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
           <div className="container-fluid">
             {/* logo */}
-            <span className="navbar-brand" >
+            <button className="navbar-brand"  onClick={() => { this.setActive("home", true) }}>
               <img src={require("./images/logo.png")} alt="Mikar *9 Logo" />
-            </span>
+            </button>
             {/* search */}
             <div>
               {/* search button */}
@@ -124,11 +129,18 @@ export default class App extends React.Component {
           </div>
         </nav>
 
+      </React.Fragment>
+    )
+  }
+  showMiniNavbar = () => {
+    return (
+      <React.Fragment>
+
         {/* <!-- mini navbar --> */}
         <nav id="mini-nav" className="container-fluid p-2 px-lg-0 pb-0">
           <div className="row px-lg-0 mx-auto">
             {/* <!-- Home --> */}
-            <button onClick={() => { this.setActive("", true) }} id="nav-home" ><i className="fas fa-car"></i></button>
+            <button onClick={() => { this.setActive("home", true) }} id="nav-home" ><i className="fas fa-car"></i></button>
             {/* <!-- Quote --> */}
             <button onClick={() => { this.setActive("quote", true) }} className="col-6 col-md-3 col-lg border mini-nav" id={this.state.page === "quote" ? "active" : null}>
               <img src={require("./images/bmw.png")} className="mini-nav-img" alt="" />
@@ -171,6 +183,7 @@ export default class App extends React.Component {
             </button>
           </div>
         </nav>
+
       </React.Fragment>
     )
   }
@@ -201,15 +214,16 @@ export default class App extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <div className='container-fluid p-0'>
+        <div className='container p-0'>
+          {this.showNavbar()}
 
-          {this.state.nav ? this.showNavbar() : null}
+          {this.state.nav ? this.showMiniNavbar() : null}
 
           {this.state.dataLoaded ?
             // Load in data when data is loaded
             <div>
 
-              {this.state.page === "landing" ?
+              {this.state.page === "home" ?
                 <Landing
                 /> : null}
 
@@ -222,8 +236,8 @@ export default class App extends React.Component {
                   updateFormField={this.updateFormField}
                 /> : null}
 
-              {this.state.page === "listing" ?
-                <Listing
+              {this.state.page === "carlisting" ?
+                <CarListing
                   setActive={this.setActive}
                 /> : null}
               {this.state.page === "carAdd" ?
@@ -231,6 +245,9 @@ export default class App extends React.Component {
                 /> : null}
               {this.state.page === "carUpdate" ?
                 <CarUpdate 
+                /> : null}
+              {this.state.page === "consign" ?
+                <CarConsign
                 /> : null}
               
               {this.state.page === "register" ?

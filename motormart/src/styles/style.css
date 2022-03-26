@@ -5,6 +5,8 @@ body {
 /* LOGO STYLING */
 .navbar-brand {
     margin-right: auto;
+    border: none;
+    background-color: transparent;
 }
 .navbar-brand>img{
     height: 48px;
