@@ -26,7 +26,12 @@ export default class App extends React.Component {
     dataLoaded: false,
     // navbar : page tracker
     page: "landing",
-    nav: true
+    nav: true,
+
+    // ===AUTH=== 
+    // Login
+    usernameLogin : "",
+    passwordLogin : "", 
   };
 
 
@@ -34,6 +39,11 @@ export default class App extends React.Component {
   // base URL
   baseURL = "https://tgc-p2-99ace.herokuapp.com";
 
+  updateFormField=(e)=>{
+    this.setState({
+      [e.target.name]:e.target.value
+    })
+  }
   setActive = (page, nav) => {
     this.setState({
       page: page,
@@ -203,6 +213,15 @@ export default class App extends React.Component {
                 <Landing
                 /> : null}
 
+              {/* AUTH ROUTES */}
+              {/* Login */}
+              {this.state.page === "login" ?
+                <Login 
+                  usernameLogin={this.state.usernameLogin}
+                  passwordLogin={this.state.passwordLogin}
+                  updateFormField={this.updateFormField}
+                /> : null}
+
               {this.state.page === "listing" ?
                 <Listing
                   setActive={this.setActive}
@@ -213,9 +232,7 @@ export default class App extends React.Component {
               {this.state.page === "carUpdate" ?
                 <CarUpdate 
                 /> : null}
-              {this.state.page === "login" ?
-                <Login 
-                /> : null}
+              
               {this.state.page === "register" ?
                 <Register 
                 /> : null}
