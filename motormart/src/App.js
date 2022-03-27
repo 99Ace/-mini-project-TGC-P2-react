@@ -35,11 +35,13 @@ export default class App extends React.Component {
     nav: true,
 
     // ===AUTH=== 
-    username:"",
+    username: "",
     loginUser: "",
     // Login
     usernameLogin: "",
     passwordLogin: "",
+    // Register
+    usernameReg:"",
   };
 
   // base URL
@@ -80,11 +82,11 @@ export default class App extends React.Component {
     });
   };
   fetchUser = () => {
-    
-    console.log("USER : " + ReactSession.get("username") );
+
+    console.log("USER : " + ReactSession.get("username"));
     if (ReactSession.get("username") !== undefined) {
       this.setState({
-        username : ReactSession.get("username")
+        username: ReactSession.get("username")
       })
     }
   }
@@ -177,7 +179,7 @@ export default class App extends React.Component {
   submitLogin = async () => {
     console.log(this.state.usernameLogin, this.state.passwordLogin)
     // check if user can login
-    let response = await axios.get("https://tgc-p2-99ace.herokuapp.com/user/"+this.state.usernameLogin+"/"+this.state.passwordLogin+"/login")
+    let response = await axios.get("https://tgc-p2-99ace.herokuapp.com/user/" + this.state.usernameLogin + "/" + this.state.passwordLogin + "/login")
     console.log(response.data)
     // save to session
     ReactSession.set(
@@ -190,12 +192,12 @@ export default class App extends React.Component {
     this.setActive("profile", true)
   }
   // Logout - execute logout
-  submitLogout= () => {
+  submitLogout = () => {
     // Remove the user from session
     ReactSession.remove("username")
     // console.log(ReactSession.get("user"))
     this.setState({
-      username : ""
+      username: ""
     })
     // Return user to home page
     this.setActive("home")
@@ -219,7 +221,7 @@ export default class App extends React.Component {
               {this.state.page === "home" ?
                 <Landing
                 /> : null}
-
+              {/* =========================================== */}
               {/* AUTH ROUTES */}
               {/* Login */}
               {this.state.page === "login" ?
@@ -230,13 +232,22 @@ export default class App extends React.Component {
                   submitLogin={this.submitLogin}
                   setActive={this.setActive}
                 /> : null}
-                {/* Logout */}
-                {this.state.page === "logout" ?
+              {/* Logout */}
+              {this.state.page === "logout" ?
                 <Logout
                   username={this.state.username}
                   submitLogout={this.submitLogout}
                   setActive={this.setActive}
                 /> : null}
+              {/* Register */}
+              {this.state.page === "register" ?
+                <Register
+                  usernameReg={this.state.usernameReg}
+                  updateFormField={this.updateFormField}
+                /> : null}
+              {/* =========================================== */}
+
+
 
               {this.state.page === "carlisting" ?
                 <CarListing
@@ -252,9 +263,7 @@ export default class App extends React.Component {
                 <CarConsign
                 /> : null}
 
-              {this.state.page === "register" ?
-                <Register
-                /> : null}
+
               {this.state.page === "profile" ?
                 <Profile
                   username={this.state.username}

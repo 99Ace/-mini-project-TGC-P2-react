@@ -9,10 +9,10 @@ export default function ShowNav(props) {
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
         <div className="container-fluid">
           {/* logo */}
-          <button className="navbar-brand" onClick={() => { props.setActive("home", true) }}>
+          <button className="navbar-brand" onClick={() => { props.setActive("home") }}>
             <img src={require("../../images/logo.png")} alt="Mikar *9 Logo" />
           </button>
-          {/* search */}
+
           <div>
             {/* search button */}
             <button
@@ -21,13 +21,13 @@ export default function ShowNav(props) {
               <i className="fas fa-search nav-icon"></i>
             </button>
 
-
             {
+              // when use is logged in: show Logout and Profile button
               props.username !== "" ?
                 <React.Fragment>
                   {/* logout button */}
                   <button
-                    onClick={() => { props.setActive("logout", true) }}
+                    onClick={() => { props.setActive("logout") }}
                     className="btn p-0 text-danger ms-2 ms-md-3"
                     type="button"
                     databstoggle="tooltip"
@@ -38,7 +38,7 @@ export default function ShowNav(props) {
 
                   {/* Profile button */}
                   <button
-                    onClick={() => { props.setActive("profile", true) }}
+                    onClick={() => { props.setActive("profile") }}
                     className="btn p-0 text-danger ms-2 ms-md-3"
                     type="button"
                     databstoggle="tooltip"
@@ -51,7 +51,7 @@ export default function ShowNav(props) {
                 <React.Fragment>
                   {/* login button */}
                   <button
-                    onClick={() => { props.setActive("login", true) }}
+                    onClick={() => { props.setActive("login") }}
                     className="btn p-0 text-muted ms-2 ms-md-3"
                     type="button"
                     databstoggle="tooltip"
@@ -63,7 +63,7 @@ export default function ShowNav(props) {
 
                   {/* register button */}
                   <button
-                    onClick={() => { props.setActive("profile", true) }}
+                    onClick={() => { props.setActive("register") }}
                     className="btn p-0 text-muted ms-2 ms-md-3"
                     type="button"
                     databstoggle="tooltip"
