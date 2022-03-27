@@ -37,12 +37,14 @@ export default class App extends React.Component {
     // ===AUTH=== 
     activeUser: "",
     loginUser: "",
-    // Login
-    usernameLogin: "",
-    passwordLogin: "",
-    // Register
-    usernameReg:"",
-    
+    // Form Input Field 
+    username: "",
+    password: "",
+    passwordConfirm: "",
+    email: "",
+    carPlate: "",
+    ownerIdType: "",
+    ownerId: "",
   };
 
   // base URL
@@ -178,9 +180,10 @@ export default class App extends React.Component {
   // Auth Functions
   // Login - execute login 
   submitLogin = async () => {
-    console.log(this.state.usernameLogin, this.state.passwordLogin)
+    // console.log(this.state.username, this.state.password)
+
     // check if user can login
-    let response = await axios.get("https://tgc-p2-99ace.herokuapp.com/user/" + this.state.usernameLogin + "/" + this.state.passwordLogin + "/login")
+    let response = await axios.get("https://tgc-p2-99ace.herokuapp.com/user/" + this.state.username + "/" + this.state.password + "/login")
     console.log(response.data)
     // save to session
     ReactSession.set(
@@ -203,7 +206,11 @@ export default class App extends React.Component {
     // Return user to home page
     this.setActive("home")
   }
-
+  // Register - Register New User
+  submitRegister = () => {
+    
+    this.state.activeUser !=="" ? this.setActive("profile") : this.setActive("home")
+  }
   render() {
     return (
       <React.Fragment>
@@ -227,8 +234,8 @@ export default class App extends React.Component {
               {/* Login */}
               {this.state.page === "login" ?
                 <Login
-                  usernameLogin={this.state.usernameLogin}
-                  passwordLogin={this.state.passwordLogin}
+                  username={this.state.username}
+                  password={this.state.password}
                   updateFormField={this.updateFormField}
                   submitLogin={this.submitLogin}
                   setActive={this.setActive}
@@ -243,8 +250,16 @@ export default class App extends React.Component {
               {/* Register */}
               {this.state.page === "register" ?
                 <Register
-                  usernameReg={this.state.usernameReg}
+                  username={this.state.username}
+                  password={this.state.password}
+                  passwordConfirm={this.state.passwordConfirm}
+                  email={this.state.email}
+                  carPlate={this.state.carPlate}
+                  ownerIdType={this.state.ownerIdType}
+                  ownerId={this.state.ownerId}
                   updateFormField={this.updateFormField}
+                  submitRegister={this.submitRegister}
+                  setActive={this.setActive}
                 /> : null}
               {/* =========================================== */}
 

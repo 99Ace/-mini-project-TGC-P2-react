@@ -5,12 +5,49 @@ import "../../styles/auth.css"
 export default class Register extends React.Component {
     state = {
         ownCar: false,
+        //form
+        username:"",
+        // Validation
+        noSpecialCharactersChecker:true,
+        min6charChecker : true,
+        formReady: false,
     }
     setOwnCar = (status) => {
         this.setState({
             ownCar: status
         })
     }
+    checkFormReady=()=>{
+        console.log("check if form ready")
+        console.log(
+            this.state.noSpecialCharactersChecker &&
+            this.state.min6charChecker
+        )
+    }
+    updateFormField=(e)=>{
+        // check username entry
+        let check1 = !this.hasSpecialCharacters( e.target.value )
+        let check2 = !(e.target.value.length<6)
+
+        let formReady = check1 && check2
+        this.setState({
+            [e.target.name]:e.target.value,
+            noSpecialCharactersChecker: check1,
+            min6charChecker: check2,
+
+            formReady: formReady
+        })
+    }
+    // ===================== VERIFICATION =====================
+    // check for specialChars
+    hasSpecialCharacters=(username)=> {
+        console.log(username)
+        let specialChars = `/[!@#$%^&*()_+-=[]{};':"\\|,.<>/?]+/;`
+        let userCheck = specialChars.split('').some(char => username.includes(char));
+        
+        return (userCheck) // will return true/false
+    } 
+
 
     render() {
         return (
@@ -23,40 +60,87 @@ export default class Register extends React.Component {
                     <div className="card-body">
                         {/* Username register */}
                         <div className="mb-1">
-                            <label for="usernameReg" className="form-label">
+                            <label className="form-label">
                                 <b>Username</b> <span className="text-danger">*</span><br />
                             </label>
                             <input
                                 type="text"
                                 className="form-control"
-                                name="usernameReg"
-                                id="usernameReg"
-                                value={this.props.usernameReg}
+                                name="username"
+                                id="username"
+                                value={this.state.username}
+                                onChange={this.updateFormField}
+                            />
+                            <p>
+                                { !this.state.noSpecialCharactersChecker ? <React.Fragment><span className='text-danger'>special characters not allowed </span><br/></React.Fragment>: null } 
+                                { !this.state.min6charChecker? <span className='text-danger'>minimum 6 characters</span>:null }
+                            </p>
+                            
+                        </div>
+
+                         {/* Old code    */}
+                        {/* <div className="mb-1">
+                            <label className="form-label">
+                                <b>Username</b> <span className="text-danger">*</span><br />
+                            </label>
+                            <input
+                                type="text"
+                                className="form-control"
+                                name="username"
+                                id="username"
+                                value={this.props.username}
+                                onChange={this.props.updateFormField}
+                            />
+                            <p>
+                                { !this.state.noSpecialCharacters ? <React.Fragment><span className='text-danger'>special characters not allowed </span><br/></React.Fragment>: null } 
+                                { this.props.username.length<6? <span className='text-danger'>minimum 6 characters</span>:null }
+                            </p>
+                            
+                        </div> */}
+
+                        <div className="mb-1">
+                            <label className="form-label">
+                                <b>Email Address</b> <span className="text-danger">*</span>
+                            </label>
+
+                            <input
+                                type="text"
+                                className="form-control"
+                                name="email"
+                                id="email"
+                                value={this.props.email}
                                 onChange={this.props.updateFormField}
                             />
                         </div>
                         <div className="mb-1">
-                            <label for="email" className="form-label">
-                                <b>Email Address</b> <span className="text-danger">*</span>
-                            </label>
-
-                            <input type="text" className="form-control" name="email" id="email" />
-                        </div>
-                        <div className="mb-1">
-                            <label for="password" className="form-label">
+                            <label className="form-label">
                                 <b>Password</b> <span className="text-danger">*</span>
                             </label>
-                            <input type="text" className="form-control" name="password" id="password" />
+                            <input
+                                type="text"
+                                className="form-control"
+                                name="password"
+                                id="password"
+                                value={this.props.password}
+                                onChange={this.props.updateFormField}
+                            />
                         </div>
                         <div className="mb-3">
-                            <label for="password-confirm" className="form-label">
+                            <label className="form-label">
                                 <b>Confirm Password</b> <span className="text-danger">*</span>
                             </label>
-                            <input type="text" className="form-control" name="password-confirm" id="password-confirm" />
+                            <input
+                                type="text"
+                                className="form-control"
+                                name="passwordConfirm"
+                                id="passwordConfirm"
+                                value={this.props.passwordConfirm}
+                                onChange={this.props.updateFormField}
+                            />
                         </div>
                         <div className="mb-3">
                             {/* Check if user have a vehicle */}
-                            <label for="own-car" className="form-label">
+                            <label className="form-label">
                                 <b>Do you own a car ?</b>
                             </label>
                             <div className="mb-3">
@@ -80,17 +164,31 @@ export default class Register extends React.Component {
                                     {/* Vehicle info */}
                                     <div className="mb-3">
                                         <div className="mb-1">
-                                            <label for="car-plate" className="form-label">
+                                            <label className="form-label">
                                                 <b>Vehicle Plate Number</b> <span className="text-danger">*</span>
                                             </label>
-                                            <input type="text" maxlength="8" className="form-control" name="car-plate" id="car-plate" />
+                                            <input
+                                                type="text"
+                                                maxLength="8"
+                                                className="form-control"
+                                                name="carPlate"
+                                                id="carPlate"
+                                                value={this.props.carPlate}
+                                                onChange={this.props.updateFormField}
+                                            />
                                         </div>
                                         <div className="mb-1">
-                                            <label for="owner-id-type" className="form-label">
+                                            <label className="form-label">
                                                 <b>Owner ID Type</b> <span className="text-danger">*</span>
                                             </label>
-                                            <select className="form-select" aria-label="Default select example">
-                                                <option selected>- Select Owner ID Type -</option>
+                                            <select 
+                                                name="ownerIdType" 
+                                                id="ownerIdType" 
+                                                className="form-select" 
+                                                aria-label="Default select example"
+                                                onChange={this.props.updateFormField}
+                                            >
+                                                <option>- Select Owner ID Type -</option>
                                                 <option value="0">Singapore NRIC</option>
                                                 <option value="1">Company</option>
                                                 <option value="2">Business</option>
@@ -104,10 +202,18 @@ export default class Register extends React.Component {
                                             </select>
                                         </div>
                                         <div>
-                                            <label for="owner-id" className="form-label">
+                                            <label className="form-label">
                                                 <b>Owner ID (last 4 char)</b> <span className="text-danger">*</span>
                                             </label>
-                                            <input type="text" maxlength="4" className="form-control" name="owner-id" id="owner-id" />
+                                            <input 
+                                                type="text" 
+                                                maxLength="4" 
+                                                className="form-control" 
+                                                name="ownerId" 
+                                                id="ownerId" 
+                                                value={this.props.ownerId}
+                                                onChange={this.props.updateFormField}
+                                            />
                                         </div>
                                     </div>
                                 </React.Fragment> : null
@@ -117,7 +223,20 @@ export default class Register extends React.Component {
                         </div>
 
                         <div className="mb-3">
-                            <input type="submit" value="Create my acount" className="back-submit" />
+                            <input 
+                                type="submit" 
+                                value="Create my acount" 
+                                onClick={ ()=> {this.props.submitRegister()}}
+                                className="back-submit" 
+                                disabled={ !this.state.formReady }
+                                />
+                        </div>
+                        <div className="mb-3">
+                            <input 
+                                type="submit" 
+                                value="Already have an account" 
+                                onClick={ ()=> {this.props.setActive("profile")}}
+                                className="back-submit" />
                         </div>
 
                     </div>

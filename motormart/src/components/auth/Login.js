@@ -17,12 +17,12 @@ export default function Login(props) {
                             <div className="mb-3">
                                 <label className="form-label">Username</label>
                                 {/* UsernameLogin input */}
-                                <input type="text" className="form-control" name="usernameLogin" id="usernameLogin" value={props.usernameLogin} onChange={props.updateFormField} placeholder="alphaowner" />
+                                <input type="text" className="form-control" name="username" id="username" value={props.username} onChange={props.updateFormField} placeholder="alphaowner" />
                             </div>
                             <div className="mb-3">
                                 {/* PasswordLogin input */}
                                 <label className="form-label">Password</label>
-                                <input type="password" className="form-control" name="passwordLogin" id="passwordLogin" value={props.passwordLogin} onChange={props.updateFormField} placeholder="********" />
+                                <input type="password" className="form-control" name="password" id="password" value={props.password} onChange={props.updateFormField} placeholder="********" />
                             </div>
                             <div className="mb-1">
                                 {/* SubmitLogin button */}
