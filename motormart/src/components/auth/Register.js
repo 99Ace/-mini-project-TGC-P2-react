@@ -14,9 +14,9 @@ export default class Register extends React.Component {
         ownerIdType: "",
         ownerId: "",
         // Validation
-        noSpecialCharactersChecker: true,
-        min6charChecker: true,
-        emailChecker: true,
+        noSpecialCharactersChecker: false,
+        min6charChecker: false,
+        emailChecker: false,
         passwordChecker:false,
 
         formReady: false,
@@ -27,14 +27,16 @@ export default class Register extends React.Component {
         })
     }
     checkFormReady=()=>{
-        console.log("======= checkFormReady=======")
-        console.log(
-            this.state.noSpecialCharactersChecker, 
-            this.state.min6charChecker, 
-            this.state.emailChecker)
-        // this.setState({
-        //     formReady: formReady
-        // })
+        
+        let formReady = (
+            this.state.noSpecialCharactersChecker && 
+            this.state.min6charChecker &&
+            this.state.emailChecker &&
+            this.state.passwordChecker)
+        // Save formReady status
+        this.setState({
+            formReady: formReady
+        })
     }
     updateUsername = (e) => {
         // check username entry
@@ -85,6 +87,7 @@ export default class Register extends React.Component {
         var emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
         return emailPattern.test(elementValue);
     }
+    // validate password matches
     validatePassword=()=>{
         console.log(
             this.state.password, 
@@ -92,7 +95,7 @@ export default class Register extends React.Component {
             this.state.password === this.state.passwordConfirm)
         this.setState({
             passwordChecker:this.state.password === this.state.passwordConfirm
-        })
+        }, ()=>this.checkFormReady() )
     }
 
     render() {
@@ -118,8 +121,9 @@ export default class Register extends React.Component {
                                 onChange={this.updateUsername}
                             />
                             <p>
-                                {!this.state.noSpecialCharactersChecker ? <React.Fragment><span className='text-danger'>special characters not allowed </span><br /></React.Fragment> : null}
-                                {!this.state.min6charChecker ? <span className='text-danger'>minimum 6 characters</span> : null}
+                                {!this.state.noSpecialCharactersChecker ? <React.Fragment><span className='text-muted'>no special characters not allowed </span><br /></React.Fragment> : null}
+                                {!this.state.min6charChecker ? <span className='text-muted'>minimum 6 characters</span> : 
+                                <i className="fa-solid fa-check text-success"></i>}
                             </p>
 
                         </div>
@@ -136,6 +140,10 @@ export default class Register extends React.Component {
                                 value={this.state.email}
                                 onChange={this.updateEmail}
                             />
+                            <p>
+                                { !this.state.emailChecker ? <React.Fragment><span className='text-muted'>e.g xyz@gmail.com  </span><br /></React.Fragment> : 
+                                <i className="fa-solid fa-check text-success"></i>}
+                            </p>
                         </div>
                         {/* Password */}
                         <div className="mb-1">
@@ -143,7 +151,7 @@ export default class Register extends React.Component {
                                 <b>Password</b> <span className="text-danger">*</span>
                             </label>
                             <input
-                                type="text"
+                                type="password"
                                 className="form-control"
                                 name="password"
                                 id="password"
@@ -157,13 +165,17 @@ export default class Register extends React.Component {
                                 <b>Confirm Password</b> <span className="text-danger">*</span>
                             </label>
                             <input
-                                type="text"
+                                type="password"
                                 className="form-control"
                                 name="passwordConfirm"
                                 id="passwordConfirm"
                                 value={this.state.passwordConfirm}
                                 onChange={this.updatePassword}
                             />
+                            <p>
+                                { !this.state.passwordChecker ? <React.Fragment><span className='text-muted'> Make sure you match the password </span><br /></React.Fragment> : 
+                                <i className="fa-solid fa-check text-success"></i>}
+                            </p>
                         </div>
                         {/* Vehicle Detail */}
                         <div className="mb-3">
@@ -256,7 +268,7 @@ export default class Register extends React.Component {
                         <div className="mb-3">
                             <input
                                 type="submit"
-                                value="Create my acount"
+                                value="Create my account"
                                 onClick={() => {
                                     this.props.submitRegister(
                                         {
@@ -270,7 +282,7 @@ export default class Register extends React.Component {
                                         }
                                     )
                                 }}
-                                className="back-submit"
+                                className={ !this.state.formReady ? "back-submit": "auth-submit" }
                                 disabled={!this.state.formReady}
                             />
                         </div>
