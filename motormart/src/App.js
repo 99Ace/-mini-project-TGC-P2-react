@@ -35,13 +35,14 @@ export default class App extends React.Component {
     nav: true,
 
     // ===AUTH=== 
-    username: "",
+    activeUser: "",
     loginUser: "",
     // Login
     usernameLogin: "",
     passwordLogin: "",
     // Register
     usernameReg:"",
+    
   };
 
   // base URL
@@ -83,10 +84,10 @@ export default class App extends React.Component {
   };
   fetchUser = () => {
 
-    console.log("USER : " + ReactSession.get("username"));
-    if (ReactSession.get("username") !== undefined) {
+    console.log("USER : " + ReactSession.get("activeUser"));
+    if (ReactSession.get("activeUser") !== undefined) {
       this.setState({
-        username: ReactSession.get("username")
+        activeUser: ReactSession.get("activeUser")
       })
     }
   }
@@ -183,21 +184,21 @@ export default class App extends React.Component {
     console.log(response.data)
     // save to session
     ReactSession.set(
-      "username", response.data.data.username
+      "activeUser", response.data.data.activeUser
     )
     // save to state
     this.setState({
-      username: response.data.data.username
+      activeUser: response.data.data.username
     })
     this.setActive("profile", true)
   }
   // Logout - execute logout
   submitLogout = () => {
     // Remove the user from session
-    ReactSession.remove("username")
+    ReactSession.remove("activeUser")
     // console.log(ReactSession.get("user"))
     this.setState({
-      username: ""
+      activeUser: ""
     })
     // Return user to home page
     this.setActive("home")
@@ -209,7 +210,7 @@ export default class App extends React.Component {
         <div className='container p-0'>
           <ShowNav
             setActive={this.setActive}
-            username={this.state.username}
+            activeUser={this.state.activeUser}
           />
 
           {this.state.nav ? this.showMiniNavbar() : null}
@@ -235,7 +236,7 @@ export default class App extends React.Component {
               {/* Logout */}
               {this.state.page === "logout" ?
                 <Logout
-                  username={this.state.username}
+                  activeUser={this.state.activeUser}
                   submitLogout={this.submitLogout}
                   setActive={this.setActive}
                 /> : null}
@@ -266,7 +267,7 @@ export default class App extends React.Component {
 
               {this.state.page === "profile" ?
                 <Profile
-                  username={this.state.username}
+                  activeUser={this.state.activeUser}
                 /> : null}
               {this.state.page === "showcar" ?
                 <ShowCar

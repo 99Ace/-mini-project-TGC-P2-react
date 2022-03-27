@@ -17,7 +17,7 @@ export default class Register extends React.Component {
             <React.Fragment>
                 <div className="card p-5 bg-light">
                     <div className="img-circle-reg">
-                        <img src={require("../../images/default-user.jpeg")} alt="default user image" />
+                        <img src={require("../../images/default-user.jpeg")} alt="" />
                     </div>
                     <hr />
                     <div className="card-body">
