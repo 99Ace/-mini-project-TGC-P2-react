@@ -6,11 +6,19 @@ export default class Register extends React.Component {
     state = {
         ownCar: false,
         //form
-        username:"",
-        newData:{},
+        username: "",
+        password: "",
+        passwordConfirm: "",
+        email: "",
+        carPlate: "",
+        ownerIdType: "",
+        ownerId: "",
         // Validation
-        noSpecialCharactersChecker:true,
-        min6charChecker : true,
+        noSpecialCharactersChecker: true,
+        min6charChecker: true,
+        emailChecker: true,
+        passwordChecker:false,
+
         formReady: false,
     }
     setOwnCar = (status) => {
@@ -18,30 +26,74 @@ export default class Register extends React.Component {
             ownCar: status
         })
     }
-    updateFormField=(e)=>{
+    checkFormReady=()=>{
+        console.log("======= checkFormReady=======")
+        console.log(
+            this.state.noSpecialCharactersChecker, 
+            this.state.min6charChecker, 
+            this.state.emailChecker)
+        // this.setState({
+        //     formReady: formReady
+        // })
+    }
+    updateUsername = (e) => {
         // check username entry
-        let check1 = !this.hasSpecialCharacters( e.target.value )
-        let check2 = !(e.target.value.length<6)
+        let check1 = !this.hasSpecialCharacters(e.target.value)
+        let check2 = !(e.target.value.length < 6)
 
-        let formReady = check1 && check2
+        // let formReady = check1 && check2
         this.setState({
-            [e.target.name]:e.target.value,
+            [e.target.name]: e.target.value,
             noSpecialCharactersChecker: check1,
             min6charChecker: check2,
+        }, ()=> this.checkFormReady()
+        )
+    }
+    updateEmail = (e) => {
+        // check username entry
+        let check3 = this.validateEmail(e.target.value)
+        console.log( check3 )
+        this.setState({
+            [e.target.name]: e.target.value,
+            emailChecker: check3
 
-            formReady: formReady
+        //     formReady: formReady
+        }, ()=> this.checkFormReady() )
+    }
+    updatePassword = (e) => {
+        this.setState({
+            [e.target.name]: e.target.value,
+        }, ()=>this.validatePassword() )
+        
+    }
+    updateFormField = (e) => {
+        this.setState({
+            [e.target.name]: e.target.value,
         })
     }
     // ===================== VERIFICATION =====================
     // check for specialChars
-    hasSpecialCharacters=(username)=> {
+    hasSpecialCharacters = (username) => {
         console.log(username)
         let specialChars = `/[!@#$%^&*()_+-=[]{};':"\\|,.<>/?]+/;`
         let userCheck = specialChars.split('').some(char => username.includes(char));
-        
-        return (userCheck) // will return true/false
-    } 
 
+        return (userCheck) // will return true/false
+    }
+    // validate is email
+    validateEmail = (elementValue) => {
+        var emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+        return emailPattern.test(elementValue);
+    }
+    validatePassword=()=>{
+        console.log(
+            this.state.password, 
+            this.state.passwordConfirm, 
+            this.state.password === this.state.passwordConfirm)
+        this.setState({
+            passwordChecker:this.state.password === this.state.passwordConfirm
+        })
+    }
 
     render() {
         return (
@@ -63,29 +115,29 @@ export default class Register extends React.Component {
                                 name="username"
                                 id="username"
                                 value={this.state.username}
-                                onChange={this.updateFormField}
+                                onChange={this.updateUsername}
                             />
                             <p>
-                                { !this.state.noSpecialCharactersChecker ? <React.Fragment><span className='text-danger'>special characters not allowed </span><br/></React.Fragment>: null } 
-                                { !this.state.min6charChecker? <span className='text-danger'>minimum 6 characters</span>:null }
+                                {!this.state.noSpecialCharactersChecker ? <React.Fragment><span className='text-danger'>special characters not allowed </span><br /></React.Fragment> : null}
+                                {!this.state.min6charChecker ? <span className='text-danger'>minimum 6 characters</span> : null}
                             </p>
-                            
-                        </div>
 
+                        </div>
+                        {/* Email */}
                         <div className="mb-1">
                             <label className="form-label">
                                 <b>Email Address</b> <span className="text-danger">*</span>
                             </label>
-
                             <input
                                 type="text"
                                 className="form-control"
                                 name="email"
                                 id="email"
-                                value={this.props.email}
-                                onChange={this.props.updateFormField}
+                                value={this.state.email}
+                                onChange={this.updateEmail}
                             />
                         </div>
+                        {/* Password */}
                         <div className="mb-1">
                             <label className="form-label">
                                 <b>Password</b> <span className="text-danger">*</span>
@@ -95,10 +147,11 @@ export default class Register extends React.Component {
                                 className="form-control"
                                 name="password"
                                 id="password"
-                                value={this.props.password}
-                                onChange={this.props.updateFormField}
+                                value={this.state.password}
+                                onChange={this.updatePassword}
                             />
                         </div>
+                        {/* Confirm Password */}
                         <div className="mb-3">
                             <label className="form-label">
                                 <b>Confirm Password</b> <span className="text-danger">*</span>
@@ -108,10 +161,11 @@ export default class Register extends React.Component {
                                 className="form-control"
                                 name="passwordConfirm"
                                 id="passwordConfirm"
-                                value={this.props.passwordConfirm}
-                                onChange={this.props.updateFormField}
+                                value={this.state.passwordConfirm}
+                                onChange={this.updatePassword}
                             />
                         </div>
+                        {/* Vehicle Detail */}
                         <div className="mb-3">
                             {/* Check if user have a vehicle */}
                             <label className="form-label">
@@ -133,10 +187,11 @@ export default class Register extends React.Component {
                                     }}
                                 >No</button>
                             </div>
+                            {/* Show Vehicle Form */}
                             {this.state.ownCar ?
                                 <React.Fragment>
-                                    {/* Vehicle info */}
                                     <div className="mb-3">
+                                        {/* Vehicle Plate Number */}
                                         <div className="mb-1">
                                             <label className="form-label">
                                                 <b>Vehicle Plate Number</b> <span className="text-danger">*</span>
@@ -147,20 +202,21 @@ export default class Register extends React.Component {
                                                 className="form-control"
                                                 name="carPlate"
                                                 id="carPlate"
-                                                value={this.props.carPlate}
-                                                onChange={this.props.updateFormField}
+                                                value={this.state.carPlate}
+                                                onChange={this.updateFormField}
                                             />
                                         </div>
+                                        {/* Owner ID Type */}
                                         <div className="mb-1">
                                             <label className="form-label">
                                                 <b>Owner ID Type</b> <span className="text-danger">*</span>
                                             </label>
-                                            <select 
-                                                name="ownerIdType" 
-                                                id="ownerIdType" 
-                                                className="form-select" 
+                                            <select
+                                                name="ownerIdType"
+                                                id="ownerIdType"
+                                                className="form-select"
                                                 aria-label="Default select example"
-                                                onChange={this.props.updateFormField}
+                                                onChange={this.updateFormField}
                                             >
                                                 <option>- Select Owner ID Type -</option>
                                                 <option value="0">Singapore NRIC</option>
@@ -175,18 +231,19 @@ export default class Register extends React.Component {
                                                 <option value="9">Statutory Board</option>
                                             </select>
                                         </div>
+                                        {/* Owner ID */}
                                         <div>
                                             <label className="form-label">
                                                 <b>Owner ID (last 4 char)</b> <span className="text-danger">*</span>
                                             </label>
-                                            <input 
-                                                type="text" 
-                                                maxLength="4" 
-                                                className="form-control" 
-                                                name="ownerId" 
-                                                id="ownerId" 
-                                                value={this.props.ownerId}
-                                                onChange={this.props.updateFormField}
+                                            <input
+                                                type="text"
+                                                maxLength="4"
+                                                className="form-control"
+                                                name="ownerId"
+                                                id="ownerId"
+                                                value={this.state.ownerId}
+                                                onChange={this.updateFormField}
                                             />
                                         </div>
                                     </div>
@@ -197,23 +254,31 @@ export default class Register extends React.Component {
                         </div>
 
                         <div className="mb-3">
-                            <input 
-                                type="submit" 
-                                value="Create my acount" 
-                                onClick={ ()=> {this.props.submitRegister(
-                                    {
-                                        username : this.state.username
-                                    }
-                                )}}
-                                className="back-submit" 
-                                disabled={ !this.state.formReady }
-                                />
+                            <input
+                                type="submit"
+                                value="Create my acount"
+                                onClick={() => {
+                                    this.props.submitRegister(
+                                        {
+                                            username: this.state.username,
+                                            email: this.state.email,
+                                            password: this.state.password,
+                                            passwordConfirm: this.state.passwordConfirm,
+                                            carPlate: this.state.carPlate,
+                                            ownerIdType: this.state.ownerIdType,
+                                            ownerId: this.state.ownerId
+                                        }
+                                    )
+                                }}
+                                className="back-submit"
+                                disabled={!this.state.formReady}
+                            />
                         </div>
                         <div className="mb-3">
-                            <input 
-                                type="submit" 
-                                value="Already have an account" 
-                                onClick={ ()=> {this.props.setActive("profile")}}
+                            <input
+                                type="submit"
+                                value="Already have an account"
+                                onClick={() => { this.props.setActive("profile") }}
                                 className="back-submit" />
                         </div>
 

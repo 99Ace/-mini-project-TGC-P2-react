@@ -39,12 +39,7 @@ export default class App extends React.Component {
     loginUser: "",
     // Form Input Field 
     username: "",
-    password: "",
-    passwordConfirm: "",
-    email: "",
-    carPlate: "",
-    ownerIdType: "",
-    ownerId: "",
+    password: ""
   };
 
   // base URL
@@ -210,9 +205,16 @@ export default class App extends React.Component {
   submitRegister = ( newData ) => {
     
     this.state.activeUser !=="" ? this.setActive("profile") : this.setActive("home")
-    this.setState({
-      username : newData.username
-    })
+    let newUser = {
+      username : newData.username,
+      email : newData.email,
+      password : newData.password,
+      passwordConfirm : newData.passwordConfirm,
+      carPlate : newData.carPlate,
+      ownerIdType : newData.ownerIdType,
+      ownerId : newData.ownerId
+    }
+    console.log(newUser)
   }
   render() {
     return (
@@ -253,14 +255,6 @@ export default class App extends React.Component {
               {/* Register */}
               {this.state.page === "register" ?
                 <Register
-                  username={this.state.username}
-                  password={this.state.password}
-                  passwordConfirm={this.state.passwordConfirm}
-                  email={this.state.email}
-                  carPlate={this.state.carPlate}
-                  ownerIdType={this.state.ownerIdType}
-                  ownerId={this.state.ownerId}
-                  updateFormField={this.updateFormField}
                   submitRegister={this.submitRegister}
                   setActive={this.setActive}
                 /> : null}
