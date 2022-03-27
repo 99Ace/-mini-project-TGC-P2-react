@@ -7,6 +7,7 @@ export default class Register extends React.Component {
         ownCar: false,
         //form
         username:"",
+        newData:{},
         // Validation
         noSpecialCharactersChecker:true,
         min6charChecker : true,
@@ -16,13 +17,6 @@ export default class Register extends React.Component {
         this.setState({
             ownCar: status
         })
-    }
-    checkFormReady=()=>{
-        console.log("check if form ready")
-        console.log(
-            this.state.noSpecialCharactersChecker &&
-            this.state.min6charChecker
-        )
     }
     updateFormField=(e)=>{
         // check username entry
@@ -77,26 +71,6 @@ export default class Register extends React.Component {
                             </p>
                             
                         </div>
-
-                         {/* Old code    */}
-                        {/* <div className="mb-1">
-                            <label className="form-label">
-                                <b>Username</b> <span className="text-danger">*</span><br />
-                            </label>
-                            <input
-                                type="text"
-                                className="form-control"
-                                name="username"
-                                id="username"
-                                value={this.props.username}
-                                onChange={this.props.updateFormField}
-                            />
-                            <p>
-                                { !this.state.noSpecialCharacters ? <React.Fragment><span className='text-danger'>special characters not allowed </span><br/></React.Fragment>: null } 
-                                { this.props.username.length<6? <span className='text-danger'>minimum 6 characters</span>:null }
-                            </p>
-                            
-                        </div> */}
 
                         <div className="mb-1">
                             <label className="form-label">
@@ -226,7 +200,11 @@ export default class Register extends React.Component {
                             <input 
                                 type="submit" 
                                 value="Create my acount" 
-                                onClick={ ()=> {this.props.submitRegister()}}
+                                onClick={ ()=> {this.props.submitRegister(
+                                    {
+                                        username : this.state.username
+                                    }
+                                )}}
                                 className="back-submit" 
                                 disabled={ !this.state.formReady }
                                 />

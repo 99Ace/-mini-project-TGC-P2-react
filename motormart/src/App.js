@@ -207,9 +207,12 @@ export default class App extends React.Component {
     this.setActive("home")
   }
   // Register - Register New User
-  submitRegister = () => {
+  submitRegister = ( newData ) => {
     
     this.state.activeUser !=="" ? this.setActive("profile") : this.setActive("home")
+    this.setState({
+      username : newData.username
+    })
   }
   render() {
     return (
