@@ -210,6 +210,7 @@ export default class App extends React.Component {
       email : newData.email,
       password : newData.password,
       passwordConfirm : newData.passwordConfirm,
+      ownCar : newData.ownCar,
       carPlate : newData.carPlate,
       ownerIdType : newData.ownerIdType,
       ownerId : newData.ownerId

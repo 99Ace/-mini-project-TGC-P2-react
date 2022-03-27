@@ -4,12 +4,13 @@ import "../../styles/auth.css"
 
 export default class Register extends React.Component {
     state = {
-        ownCar: false,
+
         //form
         username: "",
         password: "",
         passwordConfirm: "",
         email: "",
+        ownCar: false,
         carPlate: "",
         ownerIdType: "",
         ownerId: "",
@@ -17,7 +18,9 @@ export default class Register extends React.Component {
         noSpecialCharactersChecker: false,
         min6charChecker: false,
         emailChecker: false,
-        passwordChecker:false,
+        passwordChecker: false,
+        carPlateChecker:false,
+
 
         formReady: false,
     }
@@ -26,10 +29,10 @@ export default class Register extends React.Component {
             ownCar: status
         })
     }
-    checkFormReady=()=>{
-        
+    checkFormReady = () => {
+
         let formReady = (
-            this.state.noSpecialCharactersChecker && 
+            this.state.noSpecialCharactersChecker &&
             this.state.min6charChecker &&
             this.state.emailChecker &&
             this.state.passwordChecker)
@@ -48,25 +51,33 @@ export default class Register extends React.Component {
             [e.target.name]: e.target.value,
             noSpecialCharactersChecker: check1,
             min6charChecker: check2,
-        }, ()=> this.checkFormReady()
+        }, () => this.checkFormReady()
         )
     }
     updateEmail = (e) => {
         // check username entry
         let check3 = this.validateEmail(e.target.value)
-        console.log( check3 )
+        console.log(check3)
         this.setState({
             [e.target.name]: e.target.value,
             emailChecker: check3
 
-        //     formReady: formReady
-        }, ()=> this.checkFormReady() )
+            //     formReady: formReady
+        }, () => this.checkFormReady())
     }
     updatePassword = (e) => {
         this.setState({
             [e.target.name]: e.target.value,
-        }, ()=>this.validatePassword() )
-        
+        }, () => this.validatePassword())
+
+    }
+    updateCarPlate = (e) => {
+        let check5 = this.validateCarPlate(e.target.value)
+        console.log(check5)
+        this.setState({
+            [e.target.name]: e.target.value,
+        }, () => this.checkFormReady())
+
     }
     updateFormField = (e) => {
         this.setState({
@@ -88,14 +99,19 @@ export default class Register extends React.Component {
         return emailPattern.test(elementValue);
     }
     // validate password matches
-    validatePassword=()=>{
+    validatePassword = () => {
         console.log(
-            this.state.password, 
-            this.state.passwordConfirm, 
+            this.state.password,
+            this.state.passwordConfirm,
             this.state.password === this.state.passwordConfirm)
         this.setState({
-            passwordChecker:this.state.password === this.state.passwordConfirm
-        }, ()=>this.checkFormReady() )
+            passwordChecker: this.state.password === this.state.passwordConfirm
+        }, () => this.checkFormReady())
+    }
+    // validate car detail : car plate
+    validateCarPlate = (elementValue) => {
+        var carPlate = /^[a-zA-Z]{3}[0-9]+[a-zA-Z]{1}$/;
+        return carPlate.test(elementValue);
     }
 
     render() {
@@ -122,8 +138,8 @@ export default class Register extends React.Component {
                             />
                             <p>
                                 {!this.state.noSpecialCharactersChecker ? <React.Fragment><span className='text-muted'>no special characters not allowed </span><br /></React.Fragment> : null}
-                                {!this.state.min6charChecker ? <span className='text-muted'>minimum 6 characters</span> : 
-                                <i className="fa-solid fa-check text-success"></i>}
+                                {!this.state.min6charChecker ? <span className='text-muted'>minimum 6 characters</span> :
+                                    <i className="fa-solid fa-check text-success"></i>}
                             </p>
 
                         </div>
@@ -141,8 +157,8 @@ export default class Register extends React.Component {
                                 onChange={this.updateEmail}
                             />
                             <p>
-                                { !this.state.emailChecker ? <React.Fragment><span className='text-muted'>e.g xyz@gmail.com  </span><br /></React.Fragment> : 
-                                <i className="fa-solid fa-check text-success"></i>}
+                                {!this.state.emailChecker ? <React.Fragment><span className='text-muted'>e.g xyz@gmail.com  </span><br /></React.Fragment> :
+                                    <i className="fa-solid fa-check text-success"></i>}
                             </p>
                         </div>
                         {/* Password */}
@@ -173,8 +189,8 @@ export default class Register extends React.Component {
                                 onChange={this.updatePassword}
                             />
                             <p>
-                                { !this.state.passwordChecker ? <React.Fragment><span className='text-muted'> Make sure you match the password </span><br /></React.Fragment> : 
-                                <i className="fa-solid fa-check text-success"></i>}
+                                {!this.state.passwordChecker ? <React.Fragment><span className='text-muted'> Make sure you match the password </span><br /></React.Fragment> :
+                                    <i className="fa-solid fa-check text-success"></i>}
                             </p>
                         </div>
                         {/* Vehicle Detail */}
@@ -215,8 +231,12 @@ export default class Register extends React.Component {
                                                 name="carPlate"
                                                 id="carPlate"
                                                 value={this.state.carPlate}
-                                                onChange={this.updateFormField}
+                                                onChange={this.updateCarPlate}
                                             />
+                                            <p>
+                                                {!this.state.carPlateChecker ? <React.Fragment><span className='text-muted'> e.g SCN3430M </span><br /></React.Fragment> :
+                                                    <i className="fa-solid fa-check text-success"></i>}
+                                            </p>
                                         </div>
                                         {/* Owner ID Type */}
                                         <div className="mb-1">
@@ -230,7 +250,6 @@ export default class Register extends React.Component {
                                                 aria-label="Default select example"
                                                 onChange={this.updateFormField}
                                             >
-                                                <option>- Select Owner ID Type -</option>
                                                 <option value="0">Singapore NRIC</option>
                                                 <option value="1">Company</option>
                                                 <option value="2">Business</option>
@@ -276,13 +295,14 @@ export default class Register extends React.Component {
                                             email: this.state.email,
                                             password: this.state.password,
                                             passwordConfirm: this.state.passwordConfirm,
+                                            ownCar: this.state.ownCar,
                                             carPlate: this.state.carPlate,
                                             ownerIdType: this.state.ownerIdType,
                                             ownerId: this.state.ownerId
                                         }
                                     )
                                 }}
-                                className={ !this.state.formReady ? "back-submit": "auth-submit" }
+                                className={!this.state.formReady ? "back-submit" : "auth-submit"}
                                 disabled={!this.state.formReady}
                             />
                         </div>
