@@ -37,9 +37,7 @@ export default class App extends React.Component {
     // ===AUTH=== 
     activeUser: "",
     loginUser: "",
-    // Form Input Field 
-    username: "",
-    password: ""
+
   };
 
   // base URL
@@ -174,11 +172,12 @@ export default class App extends React.Component {
 
   // Auth Functions
   // Login - execute login 
-  submitLogin = async () => {
-    // console.log(this.state.username, this.state.password)
+  submitLogin = async ( data ) => {
+    let username = data.username;
+    let password = data.password;
 
     // check if user can login
-    let response = await axios.get("https://tgc-p2-99ace.herokuapp.com/user/" + this.state.username + "/" + this.state.password + "/login")
+    let response = await axios.get("https://tgc-p2-99ace.herokuapp.com/user/" + username + "/" + password + "/login")
     console.log(response.data)
     // save to session
     ReactSession.set(
@@ -241,9 +240,6 @@ export default class App extends React.Component {
               {/* Login */}
               {this.state.page === "login" ?
                 <Login
-                  username={this.state.username}
-                  password={this.state.password}
-                  updateFormField={this.updateFormField}
                   submitLogin={this.submitLogin}
                   setActive={this.setActive}
                 /> : null}
