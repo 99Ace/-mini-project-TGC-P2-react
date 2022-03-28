@@ -12,6 +12,7 @@ export default class Login extends React.Component {
             [e.target.name]: e.target.value
         })
     }
+    
     render() {
         return (
             <React.Fragment>
@@ -33,6 +34,10 @@ export default class Login extends React.Component {
                                     <label className="form-label">Password</label>
                                     <input type="password" className="form-control" name="password" id="password" value={this.state.password} onChange={this.updateFormField} placeholder="********" />
                                 </div>
+                                {this.props.errorInLogin ?
+                                <p className='text-danger'>
+                                    Invalid Username / Password
+                                </p> : null}
                                 <div className="mb-1">
                                     {/* SubmitLogin button */}
                                     <input type="submit" value="Login" className="auth-submit" onClick={() => { this.props.submitLogin( {

@@ -15,13 +15,15 @@ import Profile from './components/auth/Profile';
 import ShowCar from './components/ShowCar';
 import CarConsign from './components/CarConsign';
 
+import ShowNav from './components/navbar/ShowNav';
+
 // Load axios
 import axios from 'axios';
+
 // import and set up sessions
 import { ReactSession } from 'react-client-session';
-import ShowNav from './components/navbar/ShowNav';
 ReactSession.setStoreType("localStorage");
-// import encrypt
+
 
 
 export default class App extends React.Component {
@@ -37,7 +39,7 @@ export default class App extends React.Component {
     // ===AUTH=== 
     activeUser: "",
     loginUser: "",
-
+    errorInLogin: false
   };
 
   // base URL
@@ -172,48 +174,67 @@ export default class App extends React.Component {
 
   // Auth Functions
   // Login - execute login 
-  submitLogin = async ( data ) => {
+  submitLogin = async (data) => {
     let username = data.username;
     let password = data.password;
-
+    console.log(data)
     // check if user can login
-    let response = await axios.get("https://tgc-p2-99ace.herokuapp.com/user/" + username + "/" + password + "/login")
-    console.log(response.data)
-    // save to session
-    ReactSession.set(
-      "activeUser", response.data.data.activeUser
-    )
-    // save to state
-    this.setState({
-      activeUser: response.data.data.username
-    })
-    this.setActive("profile", true)
+    // let response = await axios.get("https://tgc-p2-99ace.herokuapp.com/user/" + username + "/" + password + "/login")
+    let response = await axios.get(`https://3001-99ace-miniprojecttgcp-leqq5j6lxcz.ws-us38.gitpod.io/user/${username}/${password}/login`)
+
+    let result = response.data
+
+    console.log(result.data)
+    console.log(result.auth)
+    console.log(result.message)
+
+    if (result.auth) {
+      console.log(result.auth)
+      // save to session
+      ReactSession.set(
+        "activeUser", result.data.username
+      )
+      // save to state
+      this.setState({
+        activeUser: result.data.username,
+        errorInLogin:false
+      })
+      this.setActive("profile", true)
+    } else {
+      this.setState({
+        errorInLogin: true
+      })
+      this.setActive("login", true)
+    }
+
+
   }
   // Logout - execute logout
   submitLogout = () => {
     // Remove the user from session
     ReactSession.remove("activeUser")
-    // console.log(ReactSession.get("user"))
+
     this.setState({
-      activeUser: ""
+      activeUser: "",
+      errorInLogin:false
     })
     // Return user to home page
     this.setActive("home")
   }
   // Register - Register New User
-  submitRegister = ( newData ) => {
-    
-    this.state.activeUser !=="" ? this.setActive("profile") : this.setActive("home")
+  submitRegister = (newData) => {
+
+    this.state.activeUser !== "" ? this.setActive("profile") : this.setActive("home")
     let newUser = {
-      username : newData.username,
-      email : newData.email,
+      username: newData.username,
+      email: newData.email,
       contact: newData.contact,
-      password : newData.password,
-      passwordConfirm : newData.passwordConfirm,
-      ownCar : newData.ownCar,
-      carPlate : newData.carPlate,
-      ownerIdType : newData.ownerIdType,
-      ownerId : newData.ownerId
+      password: newData.password,
+      passwordConfirm: newData.passwordConfirm,
+      ownCar: newData.ownCar,
+      carPlate: newData.carPlate,
+      ownerIdType: newData.ownerIdType,
+      ownerId: newData.ownerId
     }
     console.log(newUser)
   }
@@ -240,6 +261,7 @@ export default class App extends React.Component {
               {/* Login */}
               {this.state.page === "login" ?
                 <Login
+                  errorInLogin={this.state.errorInLogin}
                   submitLogin={this.submitLogin}
                   setActive={this.setActive}
                 /> : null}
