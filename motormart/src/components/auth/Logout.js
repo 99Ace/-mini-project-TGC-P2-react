@@ -15,7 +15,7 @@ export default function Logout(props) {
                         </div>
                         <div className="card-body">
                             <div className="my-3 text-center">
-                                <h5>{props.activeUser}</h5>
+                                <h5>{props.activeUser.username}</h5>
                                 <p>
                                     Sure you are logging out?
                                 </p>

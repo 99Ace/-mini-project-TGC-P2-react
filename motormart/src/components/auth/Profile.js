@@ -1,12 +1,20 @@
 import React from 'react';
 import "bootstrap/dist/css/bootstrap.min.css";
 
-export default function Profile(props) {
+export default class Profile extends React.Component {
+    state={
 
-    return (
-        <React.Fragment>
-            <h2>User Profile</h2>
-            <p>User Name is: {props.activeUser}</p>
-        </React.Fragment>
-    )
+    }
+
+    render() {
+        return (
+            <React.Fragment>
+                <h2>User Profile</h2>
+                <p>User Name is: {this.props.activeUser.username}</p>
+    
+                
+            </React.Fragment>
+        )
+    }
+    
 }

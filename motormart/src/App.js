@@ -37,7 +37,7 @@ export default class App extends React.Component {
     nav: true,
 
     // ===AUTH=== 
-    activeUser: "",
+    activeUser: null,
     loginUser: "",
     errorInLogin: false
   };
@@ -179,8 +179,8 @@ export default class App extends React.Component {
     let password = data.password;
     console.log(data)
     // check if user can login
-    // let response = await axios.get("https://tgc-p2-99ace.herokuapp.com/user/" + username + "/" + password + "/login")
-    let response = await axios.get(`https://3001-99ace-miniprojecttgcp-leqq5j6lxcz.ws-us38.gitpod.io/user/${username}/${password}/login`)
+    let response = await axios.get("https://tgc-p2-99ace.herokuapp.com/user/" + username + "/" + password + "/login")
+    // let response = await axios.get(`https://3001-99ace-miniprojecttgcp-leqq5j6lxcz.ws-us38.gitpod.io/user/${username}/${password}/login`)
 
     let result = response.data
 
@@ -192,12 +192,12 @@ export default class App extends React.Component {
       console.log(result.auth)
       // save to session
       ReactSession.set(
-        "activeUser", result.data.username
+        "activeUser", result.data
       )
       // save to state
       this.setState({
-        activeUser: result.data.username,
-        errorInLogin:false
+        activeUser: result.data,
+        errorInLogin: false
       })
       this.setActive("profile", true)
     } else {
@@ -215,8 +215,8 @@ export default class App extends React.Component {
     ReactSession.remove("activeUser")
 
     this.setState({
-      activeUser: "",
-      errorInLogin:false
+      activeUser: null,
+      errorInLogin: false
     })
     // Return user to home page
     this.setActive("home")
@@ -278,6 +278,13 @@ export default class App extends React.Component {
                   submitRegister={this.submitRegister}
                   setActive={this.setActive}
                 /> : null}
+              {/* Profile */}
+              {this.state.page === "profile" ?
+                <Profile
+                  activeUser={this.state.activeUser}
+                /> : null}
+
+
               {/* =========================================== */}
 
 
@@ -297,10 +304,7 @@ export default class App extends React.Component {
                 /> : null}
 
 
-              {this.state.page === "profile" ?
-                <Profile
-                  activeUser={this.state.activeUser}
-                /> : null}
+
               {this.state.page === "showcar" ?
                 <ShowCar
                 /> : null}

@@ -23,7 +23,7 @@ export default function ShowNav(props) {
 
             {
               // when use is logged in: show Logout and Profile button
-              props.activeUser !== "" ?
+              props.activeUser !== null ?
                 <React.Fragment>
                   {/* logout button */}
                   <button
