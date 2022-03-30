@@ -3,7 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 export default class Profile extends React.Component {
     state = {
-        profileTab: "inventory",
+        profileTab: "profile",
     }
     activeTab = (tab) => {
         this.setState({
@@ -258,16 +258,26 @@ export default class Profile extends React.Component {
                         </div>
                         <ul className="nav nav-tabs d-flex justify-content-center mt-4">
                             <li className="nav-item">
-                                <a className="nav-link active text-danger" aria-current="page" href="#" onClick={() => { this.activeTab("inventory") }}>
-                                    <i className="fa-solid fa-car active text-danger"></i> Inventory</a>
+                                <a  ariacurrent="page" 
+                                    href="#" 
+                                    className={this.state.profileTab==="inventory"? "nav-link active":"nav-link"}
+                                    onClick={() => { this.activeTab("inventory") }}>
+                                    <i className={this.state.profileTab==="inventory"? "fa-solid fa-car text-danger":"fa-solid fa-car text-muted"}></i> Inventory</a>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link text-muted" aria-current="page" href="#" onClick={() => { this.activeTab("profile") }}>
-                                    <i className="fa-solid fa-circle-user"></i> Profile</a>
+                                <a  ariacurrent="page" 
+                                    href="#" 
+                                    className={this.state.profileTab==="profile"? "nav-link active":"nav-link"}
+                                    onClick={() => { this.activeTab("profile") }}>
+                                    <i className={this.state.profileTab==="profile"? "fa-solid fa-circle-user text-danger":"fa-solid fa-circle-user text-muted"}></i> Profile</a>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link text-muted" aria-current="page" href="#" onClick={() => { this.activeTab("favorite") }}>
-                                    <i className="fa-solid fa-star"></i> Favourite</a>
+                                <a 
+                                    className={this.state.profileTab==="favorite"? "nav-link active":"nav-link"}
+                                    ariacurrent="page" 
+                                    href="#" 
+                                    onClick={() => { this.activeTab("favorite") }}>
+                                    <i className={this.state.profileTab==="favorite"?"fa-solid fa-star text-danger":"fa-solid fa-star text-muted"}></i> Favourite</a>
                             </li>
                         </ul>
                     </div>
