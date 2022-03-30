@@ -38,7 +38,7 @@ export default function ShowNav(props) {
 
                   {/* Profile button */}
                   <button
-                    onClick={() => { props.setActive("profile") }}
+                    onClick={() => { props.setActive("profile", false) }}
                     className="btn p-0 text-danger ms-2 ms-md-3"
                     type="button"
                     databstoggle="tooltip"
@@ -76,33 +76,6 @@ export default function ShowNav(props) {
             }
 
           </div>
-
-          {/* <button className="navbar-toggler ms-2 ms-md-2 p-0 border-0" type="button" dataBsToggle="collapse"
-              dataBsTarget="#navbarSupportedContent" ariaControls="navbarSupportedContent" ariaExpanded="false"
-              ariaLabel="Toggle navigation">
-              <span className="navbar-toggler-icon"></span>
-            </button>
-            <div className="collapse navbar-collapse" id="navbarSupportedContent">
-              <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
-                <li className="nav-item">
-                  <a className="nav-link" href="#">
-                    <div className="btn btn-outline-quote">Quote Car</div>
-                  </a>
-                </li>
-
-                <li className="nav-item">
-                  <a className="nav-link" href="#">
-                    <div className="btn btn-outline-consign">Consignment</div> 
-                  </a>
-                </li>
-
-                <li className="nav-item">
-                  <a className="nav-link" href="#">
-                    <i className="fa fa-user text-danger"></i>
-                  </a>
-                </li>
-              </ul>
-            </div> */}
         </div>
       </nav>
 

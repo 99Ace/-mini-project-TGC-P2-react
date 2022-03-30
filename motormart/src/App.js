@@ -50,8 +50,14 @@ export default class App extends React.Component {
       [e.target.name]: e.target.value
     })
   }
+  
+
   setActive = (page, nav) => {
-    if (window.screen.width < 992 && page !== "home") {
+    console.log(nav)
+    const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0)
+    console.log("VW",vw)
+
+    if ( vw < 992 && page !== "home") {
       nav = false
     } else { nav = true }
     this.setState({
