@@ -1,7 +1,6 @@
 /* =======LOGIN====== */
 .card {
-    max-width: 500px;
-    /* border: none; */
+    height:100%
 }
 /* circle styling for logo */
 .img-circle {
@@ -26,6 +25,16 @@
 .img-circle-reg>img{
     width: 100%;
 }
+.img-circle-profile {
+    height: 80px;
+    width: 80px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 1px solid rgb(88, 88, 88);
+}
+.img-circle-profile>img{
+    width: 100%;
+}
 
 .form-control {
     padding:5px;
@@ -48,4 +57,47 @@
     width: 100%;
     padding-top: 8px;
     padding-bottom: 8px;
+}
+
+/* ==============PROFILE============== */
+#profile-card .content-box {
+    display: block;
+    height:60vh;
+    /* overflow: scroll; */
+    /* background-color:paleturquoise; */
+    font-size: 14px;
+    /* border: 1px solid lightgray; */
+}
+#profile-card .content-box>.row {
+    height: 100%;
+    overflow-y: scroll;
+}
+.road-tax-warning{
+    font-size: 8px;
+}
+
+/* Chat icon styling with message number */
+.chat-icon {
+    position: relative;
+}
+.chat-icon>i {
+    font-size: 1.8rem;
+}
+.chat-icon>span {
+    position: absolute;
+    transform: translate(-30%, -40%);
+}
+
+.btn-open {
+    border: none;
+    column-rule: rgb(34, 34, 34);
+    background-color: transparent;
+}
+.btn-open:hover {
+    color: rgb(220,53,69);
+}
+.clip-text {
+    white-space: nowrap; 
+    overflow: hidden;
+    text-overflow: ellipsis; 
 }
