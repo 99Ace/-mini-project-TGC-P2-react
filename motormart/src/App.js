@@ -37,7 +37,7 @@ export default class App extends React.Component {
 
     // ===AUTH=== 
     activeUser: null, // tracker for login
-    dataUser: [],
+    dataUser: {},
     errMessage : "",
     // errorInLogin: false
   };
@@ -87,11 +87,11 @@ export default class App extends React.Component {
     });
   };
   fetchUser = () => {
-
     console.log("USER : " + ReactSession.get("activeUser"));
     if (ReactSession.get("activeUser") !== undefined) {
       this.setState({
-        activeUser: ReactSession.get("activeUser")
+        activeUser: ReactSession.get("activeUser"),
+        userData: ReactSession.get("userData")
       })
     }
   }
@@ -201,6 +201,9 @@ export default class App extends React.Component {
       ReactSession.set(
         "activeUser", result.userData.username
       )
+      ReactSession.set(
+        "userData", result.userData
+      )
       // # save to state
       this.setState({
         activeUser: result.userData.username,
@@ -251,12 +254,15 @@ export default class App extends React.Component {
     if (response.data.auth) {
       ReactSession.set(
         "activeUser", result.userData.username
-      )
+      );
+      ReactSession.set(
+        "userData", result.userData
+      );
       // save to state
       this.setState({
         activeUser: result.userData,
         errorInLogin: false
-      })
+      });
       // redirect to profile page
       this.setActive("profile", false) 
     } else {
@@ -312,7 +318,7 @@ export default class App extends React.Component {
               {/* Profile */}
               {this.state.page === "profile" ?
                 <Profile
-                  activeUser={this.state.activeUser}
+                  userData={this.state.userData}
                 /> : null}
 
 

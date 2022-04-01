@@ -171,16 +171,23 @@ export default class Profile extends React.Component {
                 <div className="col-12">
                     <div className="row">
                         <div className="col-12 d-flex align-items-baseline justify-content-between">
-                            <h5>Username : Master</h5>
+                            <h5>Username : { this.props.userData.username }</h5>
                             <i className="fa-solid fa-pen-to-square ms-3 text-muted"></i>
                         </div>
                         <div className="col-12 d-flex align-items-baseline justify-content-between mt-2">
-                            <h6>Email : master@gmail.com </h6>
+                            <h6>Email : { this.props.userData.username } </h6>
+                            <i className="fa-solid fa-pen-to-square ms-1 text-muted"></i>
+                        </div>
+                        <div className="col-12 d-flex align-items-baseline justify-content-between mt-2">
+                            <h6>Contact : { this.props.userData.contact } </h6>
                             <i className="fa-solid fa-pen-to-square ms-1 text-muted"></i>
                         </div>
                         <div className="col-12 d-flex align-items-baseline justify-content-between mt-2">
                             <h6>Password : ********* </h6>
                             <i className="fa-solid fa-pen-to-square ms-1 text-muted"></i>
+                        </div>
+                        <div className="col-12 d-flex align-items-baseline justify-content-between mt-2">
+                            <h6>Date joined since { this.props.userData.dateJoin } </h6>
                         </div>
                     </div>
                 </div>
@@ -285,7 +292,7 @@ export default class Profile extends React.Component {
                             <img src="https://i.i-sgcm.com/cars_used/202109/1031766_1b.jpg" alt="default user image" />
                         </div>
                         <div className="ms-4 mt-3">
-                            <h5 className="m-0">Master</h5>
+                            <h5 className="m-0">{ this.props.userData.username}</h5>
                             <p className="text-muted">xyz@gmail.com</p>
                         </div>
                         <div className="ms-auto pe-3 pt-3">
