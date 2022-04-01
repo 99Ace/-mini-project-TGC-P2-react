@@ -53,7 +53,7 @@ export default class Register extends React.Component {
                 this.state.carPlateChecker &&
                 this.state.ownerIdChecker)       
         }
-        console.log("Form Status",formReady)
+        // console.log("Form Status",formReady)
         // Save formReady status
         this.setState({
             formReady: formReady
@@ -153,7 +153,7 @@ export default class Register extends React.Component {
     }
     // validate car detail : car plate
     validateCarPlate = (elementValue) => {
-        var carPlate = /^[a-zA-Z]{3}[0-9]+[a-zA-Z]{1}$/;
+        var carPlate = /^[a-zA-Z]{1,3}[0-9]{1,4}[a-zA-Z]{1}$/;
         return carPlate.test(elementValue);
     }
     // validate car detail : owner id
@@ -219,6 +219,7 @@ export default class Register extends React.Component {
                                 className="form-control"
                                 name="contact"
                                 id="contact"
+                                maxLength="8"
                                 value={this.state.contact}
                                 onChange={this.updateContact}
                             />

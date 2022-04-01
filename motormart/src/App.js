@@ -37,13 +37,16 @@ export default class App extends React.Component {
     nav: true,
 
     // ===AUTH=== 
-    activeUser: null,
-    loginUser: "",
+    activeUser: null, // tracker for login
+    // loginUser: "",
     errorInLogin: false
   };
 
-  // base URL
-  baseURL = "https://tgc-p2-99ace.herokuapp.com";
+  // base URL for testing with heroku deployed API
+  // baseURL = "https://tgc-p2-99ace.herokuapp.com";
+  
+  // Route for testing with express in development API 
+  baseURL = "https://3001-99ace-miniprojecttgcp-leqq5j6lxcz.ws-us38.gitpod.io";
 
   updateFormField = (e) => {
     this.setState({
@@ -51,12 +54,10 @@ export default class App extends React.Component {
     })
   }
   
-
   setActive = (page, nav) => {
-    console.log(nav)
+    // console.log("nav passed to setActive:", nav)
     const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0)
-    console.log("VW",vw)
-
+    // console.log("View width:",vw)
     if ( vw < 992 && page !== "home") {
       nav = false
     } else { nav = true }
@@ -74,10 +75,10 @@ export default class App extends React.Component {
   };
 
   fetchData = async () => {
-    let res1 = await axios.get('https://tgc-p2-99ace.herokuapp.com/admin/owners');
-    let res2 = await axios.get('https://tgc-p2-99ace.herokuapp.com/car/listing');
+    let res1 = axios.get('https://tgc-p2-99ace.herokuapp.com/admin/owners');
+    let res2 = axios.get('https://tgc-p2-99ace.herokuapp.com/car/listing');
 
-    console.log(res1, res2);
+    // console.log(res1.data, res2.data);
 
     this.setState({
       dataUser: res1.data,
@@ -228,9 +229,8 @@ export default class App extends React.Component {
     this.setActive("home")
   }
   // Register - Register New User
-  submitRegister = (newData) => {
+  submitRegister = async (newData) => {
 
-    this.state.activeUser !== "" ? this.setActive("profile") : this.setActive("home")
     let newUser = {
       username: newData.username,
       email: newData.email,
@@ -242,7 +242,32 @@ export default class App extends React.Component {
       ownerIdType: newData.ownerIdType,
       ownerId: newData.ownerId
     }
-    console.log(newUser)
+    let response = await axios.post(this.baseURL + "/user/register", newUser)
+    let result = response.data
+    // console.log(response.data.auth);
+    // console.log(response.data.carData);
+    // console.log(response.data.userData);
+    // console.log(response.data.message);
+    if (response.data.auth) {
+      ReactSession.set(
+        "activeUser", result.userData.username
+      )
+      // save to state
+      this.setState({
+        activeUser: result.userData,
+        errorInLogin: false
+      })
+      // redirect to profile page
+      this.setActive("profile", false) 
+    } else {
+      ReactSession.set(
+        "message", result.message
+      )
+      this.setActive("home", true)
+    }
+    
+
+    
   }
   render() {
     return (
