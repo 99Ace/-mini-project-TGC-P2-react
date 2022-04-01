@@ -5,8 +5,9 @@ import "../../styles/auth.css"
 export default class Login extends React.Component {
     state = {
         username : "",
-        password : ""
+        password : "",
     }
+
     updateFormField=(e)=>{
         this.setState({
             [e.target.name]: e.target.value
@@ -36,7 +37,7 @@ export default class Login extends React.Component {
                                 </div>
                                 {this.props.errorInLogin ?
                                 <p className='text-danger'>
-                                    Invalid Username / Password
+                                    { this.props.errMessage!=="" ? <span className="text-danger"> this.state.errMessage </span>: null}
                                 </p> : null}
                                 <div className="mb-1">
                                     {/* SubmitLogin button */}

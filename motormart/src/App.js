@@ -29,7 +29,6 @@ ReactSession.setStoreType("localStorage");
 export default class App extends React.Component {
   state = {
     // data : load in data; tracker for data loaded
-    dataUser: [],
     dataCar: [],
     dataLoaded: false,
     // navbar : page tracker
@@ -38,8 +37,9 @@ export default class App extends React.Component {
 
     // ===AUTH=== 
     activeUser: null, // tracker for login
-    // loginUser: "",
-    errorInLogin: false
+    dataUser: [],
+    errMessage : "",
+    // errorInLogin: false
   };
 
   // base URL for testing with heroku deployed API
@@ -186,8 +186,8 @@ export default class App extends React.Component {
     let password = data.password;
     console.log(data)
     // check if user can login
-    let response = await axios.get("https://tgc-p2-99ace.herokuapp.com/user/" + username + "/" + password + "/login")
-    // let response = await axios.get(`https://3001-99ace-miniprojecttgcp-leqq5j6lxcz.ws-us38.gitpod.io/user/${username}/${password}/login`)
+    // let response = await axios.get("https://tgc-p2-99ace.herokuapp.com/user/" + username + "/" + password + "/login")
+    let response = await axios.get(`https://3001-99ace-miniprojecttgcp-leqq5j6lxcz.ws-us38.gitpod.io/user/${username}/${password}/login`)
 
     let result = response.data
 
@@ -195,26 +195,26 @@ export default class App extends React.Component {
     console.log(result.auth)
     console.log(result.message)
 
-    if (result.auth) {
-      console.log(result.auth)
-      // save to session
+    if (response.data.auth) {
+
+      // # save to session
       ReactSession.set(
-        "activeUser", result.data
+        "activeUser", result.userData.username
       )
-      // save to state
+      // # save to state
       this.setState({
-        activeUser: result.data,
-        errorInLogin: false
+        activeUser: result.userData.username,
+        userData: result.userData,
+        errMessage : ""
       })
-      this.setActive("profile", true)
+      // # redirect to profile page
+      this.setActive("profile", false) 
     } else {
       this.setState({
-        errorInLogin: true
+        errMessage : result.message
       })
-      this.setActive("login", true)
+      this.setActive("login", false)
     }
-
-
   }
   // Logout - execute logout
   submitLogout = () => {
@@ -277,7 +277,7 @@ export default class App extends React.Component {
             setActive={this.setActive}
             activeUser={this.state.activeUser}
           />
-
+         
           {this.state.nav ? this.showMiniNavbar() : null}
 
           {this.state.dataLoaded ?
@@ -292,7 +292,7 @@ export default class App extends React.Component {
               {/* Login */}
               {this.state.page === "login" ?
                 <Login
-                  errorInLogin={this.state.errorInLogin}
+                  errMessage={this.state.errMessage}
                   submitLogin={this.submitLogin}
                   setActive={this.setActive}
                 /> : null}
