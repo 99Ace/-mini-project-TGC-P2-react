@@ -35,10 +35,8 @@ export default class Login extends React.Component {
                                     <label className="form-label">Password</label>
                                     <input type="password" className="form-control" name="password" id="password" value={this.state.password} onChange={this.updateFormField} placeholder="********" />
                                 </div>
-                                {this.props.errorInLogin ?
-                                <p className='text-danger'>
-                                    { this.props.errMessage!=="" ? <span className="text-danger"> this.state.errMessage </span>: null}
-                                </p> : null}
+                                
+                                   
                                 <div className="mb-1">
                                     {/* SubmitLogin button */}
                                     <input type="submit" value="Login" className="auth-submit" onClick={() => { this.props.submitLogin( {
@@ -50,7 +48,7 @@ export default class Login extends React.Component {
                                     {/* SubmitLogin button */}
                                     <input type="submit" value="Register" className="back-submit" onClick={() => { this.props.setActive("register") }} />
                                 </div>
-
+                                {!this.props.auth? <div className='text-danger'>{this.props.message[0]}</div>:null }
                             </div>
                         </div>
                     </div>

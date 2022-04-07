@@ -191,7 +191,7 @@ export default class Profile extends React.Component {
                         </div>
                         <div className="ms-4 mt-3">
                             <h5 className="m-0">{this.props.userData.username}</h5>
-                            <p className="text-muted">xyz@gmail.com</p>
+                            <p className="text-muted">{this.props.userData.email}</p>
                         </div>
                         <div className="ms-auto pe-3 pt-3">
                             <div className="chat-icon">
