@@ -24,8 +24,6 @@ import axios from 'axios';
 import { ReactSession } from 'react-client-session';
 ReactSession.setStoreType("localStorage");
 
-
-
 export default class App extends React.Component {
   state = {
     // data : load in data; tracker for data loaded
@@ -35,18 +33,21 @@ export default class App extends React.Component {
     page: "home",
     nav: true,
 
-    // ===AUTH=== 
+    // ===AUTH===
     activeUser: null, // tracker for login
-    dataUser: {},
-    errMessage : "",
+    message : [],
+    auth : false
+    // dataUser: {},
+    // errMessage : "",
+    
     // errorInLogin: false
   };
 
   // base URL for testing with heroku deployed API
-  // baseURL = "https://tgc-p2-99ace.herokuapp.com";
+  baseURL = "https://tgc-p2-99ace.herokuapp.com";
   
   // Route for testing with express in development API 
-  baseURL = "https://3001-99ace-miniprojecttgcp-leqq5j6lxcz.ws-us38.gitpod.io";
+  // baseURL = "https://3001-99ace-miniprojecttgcp-leqq5j6lxcz.ws-us38.gitpod.io";
 
   updateFormField = (e) => {
     this.setState({
@@ -187,7 +188,7 @@ export default class App extends React.Component {
     console.log(data)
     // check if user can login
     // let response = await axios.get("https://tgc-p2-99ace.herokuapp.com/user/" + username + "/" + password + "/login")
-    let response = await axios.get(`https://3001-99ace-miniprojecttgcp-leqq5j6lxcz.ws-us38.gitpod.io/user/${username}/${password}/login`)
+    let response = await axios.get(this.baseURL + `/${username}/${password}/login`)
 
     let result = response.data
 
@@ -220,7 +221,10 @@ export default class App extends React.Component {
     }
   }
   // Logout - execute logout
-  submitLogout = () => {
+  submitLogout = async () => {
+    // call to logout from server
+    // let res = await axios.put
+
     // Remove the user from session
     ReactSession.remove("activeUser")
 
@@ -231,9 +235,8 @@ export default class App extends React.Component {
     // Return user to home page
     this.setActive("home")
   }
-  // Register - Register New User
+  // REGISTER - Register New User (TEST: * )
   submitRegister = async (newData) => {
-
     let newUser = {
       username: newData.username,
       email: newData.email,
@@ -245,36 +248,42 @@ export default class App extends React.Component {
       ownerIdType: newData.ownerIdType,
       ownerId: newData.ownerId
     }
+    // REGISTER TO SERVER
+    console.log(this.baseURL + "/user/register")
     let response = await axios.post(this.baseURL + "/user/register", newUser)
     let result = response.data
-    // console.log(response.data.auth);
-    // console.log(response.data.carData);
-    // console.log(response.data.userData);
-    // console.log(response.data.message);
-    if (response.data.auth) {
+    console.log(result)
+
+    // IF RESPONSE IS true; USER IS LOGIN
+    if (result.auth) {
+      // ReactSession.set(
+        // "activeUser", result.userData.username,
+      // );
+      // save userId to session
       ReactSession.set(
-        "activeUser", result.userData.username
+        "userId", result.userData._id,
       );
-      ReactSession.set(
-        "userData", result.userData
-      );
-      // save to state
+      
+      // save to state: userData and message[]
       this.setState({
-        activeUser: result.userData,
-        errorInLogin: false
+        userData: result.userData,
+        message: result.message,
+        auth : result.auth
       });
       // redirect to profile page
       this.setActive("profile", false) 
     } else {
-      ReactSession.set(
-        "message", result.message
-      )
-      this.setActive("home", true)
+      this.setState({
+        message: result.message,
+        auth: false
+      })
+      this.setActive("register", true)
     }
     
 
     
   }
+
   render() {
     return (
       <React.Fragment>
@@ -314,11 +323,15 @@ export default class App extends React.Component {
                 <Register
                   submitRegister={this.submitRegister}
                   setActive={this.setActive}
+                  auth = {this.state.auth}
+                  message = {this.state.message}
                 /> : null}
               {/* Profile */}
               {this.state.page === "profile" ?
                 <Profile
-                  userData={this.state.userData}
+                  userData={this.state.activeUser}
+                  message={this.state.message}
+                  auth={this.state.auth }
                 /> : null}
 
 

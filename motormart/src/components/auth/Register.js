@@ -162,6 +162,14 @@ export default class Register extends React.Component {
         return ownerId.test(elementValue);
     }
 
+    showMessage =(message)=> {
+        let text;
+        text = message.map( m=>{
+            return <React.Fragment><li> {m} </li></React.Fragment>
+        })
+        return text
+
+    }
     render() {
         return (
             <React.Fragment>
@@ -171,6 +179,9 @@ export default class Register extends React.Component {
                     </div>
                     <hr />
                     <div className="card-body">
+                        <ul className='mb-1 text-danger'>
+                            { !this.props.auth ? this.showMessage(this.props.message) : null}
+                        </ul>
                         {/* Username register */}
                         <div className="mb-1">
                             <label className="form-label">
@@ -186,8 +197,9 @@ export default class Register extends React.Component {
                             />
                             <p>
                                 {!this.state.noSpecialCharactersChecker ? <React.Fragment><span className='text-muted'>no special characters not allowed </span><br /></React.Fragment> : null}
-                                {!this.state.min6charChecker ? <span className='text-muted'>minimum 6 characters</span> :
-                                    <i className="fa-solid fa-check text-success"></i>}
+                                {!this.state.min6charChecker ? <span className='text-muted'>minimum 6 characters</span> 
+                                : <i className="fa-solid fa-check text-success"></i>
+                                }
                             </p>
 
                         </div>
