@@ -27,6 +27,8 @@ export default class Register extends React.Component {
         ownerIdChecker: false,
 
         formReady: false,
+        // errMessage
+        invalidUserPass: false || this.props.invalidUserPass
     }
     setOwnCar = (status) => {
         this.setState({
@@ -179,9 +181,9 @@ export default class Register extends React.Component {
                     </div>
                     <hr />
                     <div className="card-body">
-                        <ul className='mb-1 text-danger'>
-                            { !this.props.auth ? this.showMessage(this.props.message) : null}
-                        </ul>
+                        {/* <ul className='mb-1 text-danger'>
+                            { !this.state.invalidUserPass ? this.showMessage(this.props.message) : null}
+                        </ul> */}
                         {/* Username register */}
                         <div className="mb-1">
                             <label className="form-label">

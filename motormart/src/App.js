@@ -61,7 +61,7 @@ export default class App extends React.Component {
     } else { nav = true }
     this.setState({
       page: page,
-      nav: nav
+      nav: nav,
     })
   };
   loadingPage = () => {
@@ -200,7 +200,7 @@ export default class App extends React.Component {
     let userData = result.data.userData;
     let auth = result.data.auth;
     let message = result.data.message;
-
+    console.log(auth)
     if (auth) {
       // # save to session
       ReactSession.set(
@@ -220,7 +220,7 @@ export default class App extends React.Component {
       this.setState({
         message,
         auth,
-        activeUser: null
+        activeUser: ""
       })
       this.setActive("login", true)
     }
@@ -265,13 +265,14 @@ export default class App extends React.Component {
     let userData = result.data.userData;
     let auth = result.data.auth;
     let message = result.data.message;
+    console.log(result.data)
 
     // IF RESPONSE IS true; USER IS LOGIN
     if (auth) {
-
+      console.log("Register =>",userData._id)
       // # save to session
       ReactSession.set(
-        "userId", userData.userId
+        "userId", userData._id
       )
 
       // save to state: userData and message[]
@@ -293,9 +294,6 @@ export default class App extends React.Component {
       })
       this.setActive("register", true)
     }
-
-
-
   }
 
   render() {

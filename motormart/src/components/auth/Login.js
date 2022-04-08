@@ -45,8 +45,8 @@ export default class Login extends React.Component {
                                     }) }} />
                                 </div>
                                 <div className="mb-3">
-                                    {/* SubmitLogin button */}
-                                    <input type="submit" value="Register" className="back-submit" onClick={() => { this.props.setActive("register") }} />
+                                    {/* Go Register page button */}
+                                    <a className="back-submit" onClick={() => { this.props.setActive("register") }} >Register</a>
                                 </div>
                                 {!this.props.auth? <div className='text-danger'>{this.props.message[0]}</div>:null }
                             </div>

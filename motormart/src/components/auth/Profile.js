@@ -4,60 +4,117 @@ import "bootstrap/dist/css/bootstrap.min.css";
 export default class Profile extends React.Component {
     state = {
         profileTab: "inventory",
+        tabs: []
+
+    }
+    componentDidMount = () => {
+        let tabs = []
+        this.props.userData.cars.map((car, index) => {
+            tabs.push({
+                tab: "list"
+            })
+            // console.log(car, index)
+        })
+        this.setState({
+            tabs: tabs
+        })
+
     }
     activeTab = (tab) => {
         this.setState({
             profileTab: tab
         })
     }
-    renderInventory = () => {
-        return <React.Fragment>
-            <div className="row gy-2">
-                {/* <!-- each car 1 --> */}
-                {
-                    <div className="col-12 p-0">
-                        <div className="row">
-                            <div className="col-4 d-flex justify-content-center align-items-start flex-column">
-                                <img src="https://i.i-sgcm.com/cars_used/202112/1053408_1b.jpg" alt=""
-                                    className="img-fluid" />
-                                <div className="text-danger road-tax-warning">Road tax : 30-Apr-2022</div>
-                            </div>
-                            <div className="col-8">
-                                <div>
-                                    <h6 className="fw-bold clip-text">McLaren 12C Spider</h6>
-                                    <div>
-                                        <b>SMM123F</b>
-                                        <small className="ms-2 text-danger fst-italic "> $288,800</small>
-                                    </div>
+    updateTabs = (tab, index) =>{
+        let clone = [...this.state.tabs];
+        clone[index].tab = tab
+        this.setState({
+            tabs: clone
+        })
+    }
+    showEachCar = (car, index) => {
+        console.log(car, index)
 
-                                    <ul className="nav nav-tabs d-flex justify-content-center">
-                                        <li className="nav-item">
-                                            <a className="nav-link active text-danger" ariacurrent="page" href="#"><i
-                                                className="fa-brands fa-adversal"></i></a>
-                                        </li>
-                                        <li className="nav-item">
-                                            <a className="nav-link text-muted" ariacurrent="page" href="#"><i
-                                                className="fa-solid fa-pen-to-square"></i></a>
-                                        </li>
-                                        <li className="nav-item">
-                                            <a className="nav-link text-muted" ariacurrent="page" href="#"><i
-                                                className="fa-solid fa-wrench"></i></a>
-                                        </li>
-                                        <li className="nav-item">
-                                            <a className="nav-link text-muted" ariacurrent="page" href="#"><i
-                                                className="fa-solid fa-trash-can"></i></a>
-                                        </li>
-                                        <li className="nav-item">
-                                            <a className="nav-link text-muted" ariacurrent="page" href="#">
-                                                <i className="fa-solid fa-arrow-up-right-from-square"></i>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
+        return <React.Fragment>
+            <div className="col-12 p-1">
+                <div className="row">
+                    <div className="col-4 d-flex justify-content-center align-items-start flex-column">
+                        <img src="https://i.i-sgcm.com/cars_used/202112/1053408_1b.jpg" alt=""
+                            className="img-fluid" />
+                        <div className="text-danger road-tax-warning">Road tax : 30-Apr-2022</div>
+                    </div>
+                    <div className="col-8">
+                        <div>
+                            <h6 className="fw-bold clip-text">{car.carMake} {car.carModel} </h6>
+                            <div>
+                                <b>{car.carPlate}</b>
+                                <small className="ms-2 text-danger fst-italic "> ${car.carDetails.carPrice}</small>
                             </div>
+
+                            <ul className="nav nav-tabs d-flex justify-content-center">
+                                <li className="nav-item">
+                                    <a  className="nav-link active text-danger"  
+                                        ariacurrent="page" 
+                                        href="#"
+                                        onClick={ ()=> {
+                                            this.updateTabs("list", index)
+                                        }}
+                                        ><i
+                                        className="fa-brands fa-adversal"></i></a>
+                                </li>
+                                <li className="nav-item">
+                                    <a  className="nav-link text-muted"          
+                                        ariacurrent="page" 
+                                        href="#" 
+                                        onClick={ ()=> {
+                                            this.updateTabs("edit", index)
+                                        }}
+                                    ><i
+                                        className="fa-solid fa-pen-to-square"></i></a>
+                                </li>
+                                {/* <li className="nav-item">
+                                    <a  className="nav-link text-muted" 
+                                        ariacurrent="page" 
+                                        href="#"
+                                        onClick={ ()=> {
+                                            this.updateTabs("s", index)
+                                        }}
+                                        ><i
+                                        className="fa-solid fa-wrench"></i></a>
+                                </li> */}
+                                <li className="nav-item">
+                                    <a  className="nav-link text-muted" 
+                                        ariacurrent="page" 
+                                        href="#"
+                                        onClick={ ()=> {
+                                            this.updateTabs("delete", index)
+                                        }}
+                                        ><i
+                                        className="fa-solid fa-trash-can"></i></a>
+                                </li>
+                                <li className="nav-item">
+                                    <a  className="nav-link text-muted" 
+                                        ariacurrent="page" 
+                                        href="#"
+                                        onClick={ ()=> {
+                                            this.updateTabs("view", index)
+                                        }}
+                                        >
+                                        <i className="fa-solid fa-arrow-up-right-from-square"></i>
+                                    </a>
+                                </li>
+                            </ul>
                         </div>
                     </div>
-                }
+                </div>
+            </div>
+        </React.Fragment>
+    }
+    renderInventory = () => {
+        return <React.Fragment>
+            <div className="row">
+                {/* EACH CAR */}
+                {this.props.userData.cars.map((car, index) => this.showEachCar(car, index))}
 
 
             </div>
@@ -204,41 +261,41 @@ export default class Profile extends React.Component {
                         </div>
                     </div>
 
-                    <div className="card-body">
-                        <div className="content-box">
-                            {this.state.profileTab === "inventory" ?
-                                this.renderInventory()
-                                : null}
-                            {this.state.profileTab === "profile" ?
-                                this.renderProfile()
-                                : null}
-                            {this.state.profileTab === "favorite" ?
-                                this.renderFavorite()
-                                : null}
-                        </div>
-                        {/* Tab nav at the bottom */}
-                        <ul className="nav nav-tabs d-flex justify-content-center mt-4">
-                            <li className="nav-item">
-                                <a ariacurrent="page"
-                                    className={this.state.profileTab === "inventory" ? "nav-link active" : "nav-link"}
-                                    onClick={() => { this.activeTab("inventory") }}>
-                                    <i className={this.state.profileTab === "inventory" ? "fa-solid fa-car text-danger" : "fa-solid fa-car text-muted"}></i> Inventory</a>
-                            </li>
-                            <li className="nav-item">
-                                <a ariacurrent="page"
-                                    className={this.state.profileTab === "profile" ? "nav-link active" : "nav-link"}
-                                    onClick={() => { this.activeTab("profile") }}>
-                                    <i className={this.state.profileTab === "profile" ? "fa-solid fa-circle-user text-danger" : "fa-solid fa-circle-user text-muted"}></i> Profile</a>
-                            </li>
-                            <li className="nav-item">
-                                <a
-                                    className={this.state.profileTab === "favorite" ? "nav-link active" : "nav-link"}
-                                    ariacurrent="page"
-                                    onClick={() => { this.activeTab("favorite") }}>
-                                    <i className={this.state.profileTab === "favorite" ? "fa-solid fa-star text-danger" : "fa-solid fa-star text-muted"}></i> Favourite</a>
-                            </li>
-                        </ul>
+                    {/* <div className="card-body"> */}
+                    <div className="content-box container-fluid">
+                        {this.state.profileTab === "inventory" ?
+                            this.renderInventory()
+                            : null}
+                        {this.state.profileTab === "profile" ?
+                            this.renderProfile()
+                            : null}
+                        {this.state.profileTab === "favorite" ?
+                            this.renderFavorite()
+                            : null}
                     </div>
+                    {/* Tab nav at the bottom */}
+                    <ul className="nav nav-tabs d-flex justify-content-center mt-4">
+                        <li className="nav-item">
+                            <a ariacurrent="page"
+                                className={this.state.profileTab === "inventory" ? "nav-link active" : "nav-link"}
+                                onClick={() => { this.activeTab("inventory") }}>
+                                <i className={this.state.profileTab === "inventory" ? "fa-solid fa-car text-danger" : "fa-solid fa-car text-muted"}></i> Inventory</a>
+                        </li>
+                        <li className="nav-item">
+                            <a ariacurrent="page"
+                                className={this.state.profileTab === "profile" ? "nav-link active" : "nav-link"}
+                                onClick={() => { this.activeTab("profile") }}>
+                                <i className={this.state.profileTab === "profile" ? "fa-solid fa-circle-user text-danger" : "fa-solid fa-circle-user text-muted"}></i> Profile</a>
+                        </li>
+                        <li className="nav-item">
+                            <a
+                                className={this.state.profileTab === "favorite" ? "nav-link active" : "nav-link"}
+                                ariacurrent="page"
+                                onClick={() => { this.activeTab("favorite") }}>
+                                <i className={this.state.profileTab === "favorite" ? "fa-solid fa-star text-danger" : "fa-solid fa-star text-muted"}></i> Favourite</a>
+                        </li>
+                    </ul>
+                    {/* </div> */}
 
                 </div>
             </React.Fragment>
