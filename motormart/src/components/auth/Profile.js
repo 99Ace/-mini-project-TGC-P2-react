@@ -4,7 +4,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 export default class Profile extends React.Component {
     state = {
         profileTab: "inventory",
-        tabs: []
+        tabs: [],
+        tabsReady:false
 
     }
     componentDidMount = () => {
@@ -16,7 +17,8 @@ export default class Profile extends React.Component {
             // console.log(car, index)
         })
         this.setState({
-            tabs: tabs
+            tabs: tabs,
+            tabsReady : true
         })
 
     }
@@ -32,10 +34,9 @@ export default class Profile extends React.Component {
             tabs: clone
         })
     }
-    showEachCar = (car, index) => {
-        console.log(car, index)
-
-        return <React.Fragment>
+    showEachCar = (car, index) => {        
+        return this.state.tabsReady ? 
+        <React.Fragment>
             <div className="col-12 p-1">
                 <div className="row">
                     <div className="col-4 d-flex justify-content-center align-items-start flex-column">
@@ -52,8 +53,11 @@ export default class Profile extends React.Component {
                             </div>
 
                             <ul className="nav nav-tabs d-flex justify-content-center">
-                                <li className="nav-item">
-                                    <a  className="nav-link active text-danger"  
+                                <li key={ "list"+index } className="nav-item">
+                                    <a  
+                                        className={ this.state.tabs[index].tab==="list"?
+                                        "nav-link active text-danger":
+                                        "nav-link text-muted"}  
                                         ariacurrent="page" 
                                         href="#"
                                         onClick={ ()=> {
@@ -62,8 +66,10 @@ export default class Profile extends React.Component {
                                         ><i
                                         className="fa-brands fa-adversal"></i></a>
                                 </li>
-                                <li className="nav-item">
-                                    <a  className="nav-link text-muted"          
+                                <li key={ "edit"+index } className="nav-item">
+                                    <a  className={ this.state.tabs[index].tab==="edit"?
+                                        "nav-link active text-danger":
+                                        "nav-link text-muted"}           
                                         ariacurrent="page" 
                                         href="#" 
                                         onClick={ ()=> {
@@ -82,8 +88,10 @@ export default class Profile extends React.Component {
                                         ><i
                                         className="fa-solid fa-wrench"></i></a>
                                 </li> */}
-                                <li className="nav-item">
-                                    <a  className="nav-link text-muted" 
+                                <li key={ "delete"+index } className="nav-item">
+                                    <a  className={ this.state.tabs[index].tab==="delete"?
+                                        "nav-link active text-danger":
+                                        "nav-link text-muted"}
                                         ariacurrent="page" 
                                         href="#"
                                         onClick={ ()=> {
@@ -92,8 +100,10 @@ export default class Profile extends React.Component {
                                         ><i
                                         className="fa-solid fa-trash-can"></i></a>
                                 </li>
-                                <li className="nav-item">
-                                    <a  className="nav-link text-muted" 
+                                <li key={ "view"+index } className="nav-item">
+                                    <a  className={ this.state.tabs[index].tab==="view"?
+                                        "nav-link active text-danger":
+                                        "nav-link text-muted"}
                                         ariacurrent="page" 
                                         href="#"
                                         onClick={ ()=> {
@@ -109,6 +119,7 @@ export default class Profile extends React.Component {
                 </div>
             </div>
         </React.Fragment>
+        : null
     }
     renderInventory = () => {
         return <React.Fragment>
