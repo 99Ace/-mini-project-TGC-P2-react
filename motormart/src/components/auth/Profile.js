@@ -335,7 +335,7 @@ export default class Profile extends React.Component {
 
                             {/* Registration date */}
                             <div className="mb-2 col-6">
-                                <label className="form-label">Registration Date {this.state.carRegDate} </label>
+                                <label className="form-label">Registration Date</label>
                                 <input type="date" className="form-control"
                                     name="carRegDate"
                                     value={this.state.carRegDate}
@@ -406,6 +406,7 @@ export default class Profile extends React.Component {
                                     onClick={() => {
 
                                         this.props.updateCar({
+                                            carId : this.props.userData.cars[this.state.carToBeEdited]._id,
                                             carPrice: parseInt(this.state.carPrice),
                                             carRegDate: this.state.carRegDate,
                                             carMileage: parseInt(this.state.carMileage),
