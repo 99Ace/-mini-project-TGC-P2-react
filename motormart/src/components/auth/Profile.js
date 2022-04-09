@@ -17,7 +17,8 @@ export default class Profile extends React.Component {
         carCOE: "",
         carARF: "",
         carNoOfOwner: "",
-        carType: ""
+        carType: "",
+        availability: false
     }
     componentDidMount = () => {
         let tabs = []
@@ -64,7 +65,8 @@ export default class Profile extends React.Component {
             carCOE: car.carDetails.carCOE,
             carARF: car.carDetails.carARF,
             carNoOfOwner: car.carDetails.carNoOfOwner,
-            carType: car.carDetails.carType
+            carType: car.carDetails.carType,
+            availability: car.availability
         })
         this.activeTab("editCar", index)
     }
@@ -148,21 +150,29 @@ export default class Profile extends React.Component {
                                 <div className="mini-content">
                                     {/* car info */}
                                     {this.state.tabs[index].tab === "info" ?
-                                        <div>
-                                            <span className="fw-bold clip-text">
-                                                {car.carDetails.carMake} {car.carDetails.carModel}
-                                            </span>
+                                        <div className='row'>
+                                            <div className='col-8'>
+                                                <span className="fw-bold clip-text">
+                                                    {car.carDetails.carMake} {car.carDetails.carModel}
+                                                </span>
 
-                                            <br />
-                                            <b>Status:</b> {car.availability}
-                                            {
-                                                car.availability ?
-                                                    <a href='#' className='text-danger fw-bold text-decoration-none'>Advertised</a> :
-                                                    <a href='#' className='text-muted fw-bold text-decoration-none'>Owned</a>
-                                            }
-                                            <br />
-                                            <b>Price:</b> ${(car.carDetails.carPrice).toLocaleString()}
-                                        </div> : null}
+                                                <br />
+                                                <b>Status:</b>
+                                                {
+                                                    car.availability ?
+                                                        <a href='#' className='text-danger fw-bold text-decoration-none'>Advertised</a> :
+                                                        <a href='#' className='text-muted fw-bold text-decoration-none'>Owned</a>
+                                                }
+                                                <br />
+                                                <b>Price:</b> ${(car.carDetails.carPrice).toLocaleString()}
+                                            </div>
+                                            <div className='col-4'>
+
+                                            </div>
+                                        </div>
+
+                                        : null}
+
                                     {this.state.tabs[index].tab === "delete" ?
                                         <div>
                                             <span className="fw-bold clip-text">
@@ -314,8 +324,28 @@ export default class Profile extends React.Component {
                 <div className="row bg-light">
                     {/* <!-- one car listing --> */}
                     <div className="col-12">
-                        <h6 className='mt-2'><b>[ {this.props.userData.cars[this.state.carToBeEdited].carPlate} ]</b></h6>
                         <div className='row mb-2'>
+                            <div className='col-6'>
+                                <h6 className='mt-2'><b>[ {this.props.userData.cars[this.state.carToBeEdited].carPlate} ]</b></h6>
+                            </div>
+
+                            <div className='col-6 d-flex justify-content-end align-items-center'>
+                                {this.state.availability ?
+                                    <div className='badge bg-success'>Listed</div> :
+                                    <div className='badge bg-secondary'>Not listed</div>}
+
+                                <div class="form-check form-switch ms-2 pt-1">
+                                    <input class="form-check-input" type="checkbox"
+                                        role="switch" name='availability'
+                                        defaultChecked={this.state.availability}
+                                        onClick={() => {
+                                            this.setState({
+                                                availability: !this.state.availability
+                                            })
+                                        }}
+                                    />
+                                </div>
+                            </div>
                             {/* Car Make */}
                             <div className="col-6">
                                 <label className="form-label">Make:</label>
@@ -342,7 +372,7 @@ export default class Profile extends React.Component {
                                     onChange={this.updateFormField}
                                 />
                             </div>
-                            
+
                             {/* Pricing */}
                             <div className="mb-2 col-6">
                                 <label className="form-label">Price:</label>
@@ -416,8 +446,8 @@ export default class Profile extends React.Component {
                                     onClick={() => {
 
                                         this.props.updateCar({
-                                            index : this.state.carToBeEdited,
-                                            carId : this.props.userData.cars[this.state.carToBeEdited]._id,
+                                            index: this.state.carToBeEdited,
+                                            carId: this.props.userData.cars[this.state.carToBeEdited]._id,
                                             carPrice: parseInt(this.state.carPrice),
                                             carRegDate: this.state.carRegDate,
                                             carMileage: parseInt(this.state.carMileage),
@@ -427,7 +457,8 @@ export default class Profile extends React.Component {
                                             carCOE: parseInt(this.state.carCOE),
                                             carARF: parseInt(this.state.carARF),
                                             carNoOfOwner: parseInt(this.state.carNoOfOwner),
-                                            carType: this.state.carType
+                                            carType: this.state.carType,
+                                            availability: this.state.availability
                                         })
 
                                         this.setState({

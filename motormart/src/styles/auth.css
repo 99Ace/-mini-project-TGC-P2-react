@@ -82,6 +82,9 @@
     /* overflow: hidden; */
 }
 
+.form-check-input:checked {
+    background-color: rgb(36, 113, 48);
+}
 
 .road-tax-warning{
     font-size: 10pt;
