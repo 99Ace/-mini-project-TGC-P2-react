@@ -1,6 +1,5 @@
 import React from 'react';
 import "bootstrap/dist/css/bootstrap.min.css";
-// import "./styles/auth.css";
 
 export default class Profile extends React.Component {
     state = {
@@ -33,6 +32,14 @@ export default class Profile extends React.Component {
         })
 
     }
+
+
+    handleDateChange(event) {
+        const { name, value } = event.target;
+        this.setState({ [name]: value }, () =>
+            console.log({ name, value, state: this.state })
+        );
+    }
     activeTab = (tab, index) => {
         console.log(index);
         if (index == undefined) {
@@ -50,10 +57,14 @@ export default class Profile extends React.Component {
     }
     setEditCar = (index) => {
         let car = this.props.userData.cars[index]
-        console.log(car.carDetails.carRegDate)
+        let carRegDate = car.carDetails.carRegDate
+        carRegDate = carRegDate.slice(0, 10)
+        console.log(carRegDate)
+
+
         this.setState({
             carPrice: car.carDetails.carPrice,
-            carRegDate: car.carDetails.carRegDate,
+            carRegDate: carRegDate,
             carMileage: car.carDetails.carMileage,
             carMake: car.carDetails.carMake,
             carModel: car.carDetails.carModel,
@@ -332,10 +343,12 @@ export default class Profile extends React.Component {
 
                             {/* Registration date */}
                             <div className="mb-2 col-6">
-                                <label className="form-label">Registration Date</label>
+                                <label className="form-label">Registration Date {this.state.carRegDate} </label>
                                 <input type="date" className="form-control"
-                                    name="carRegDate" value={this.state.carRegDate}
-                                    onChange={this.updateFormField} />
+                                    name="carRegDate"
+                                    value={this.state.carRegDate}
+                                    onChange={ this.updateFormField }
+                                />
                             </div>
                             {/* Mileage */}
                             <div className="mb-2 col-6">
@@ -381,7 +394,7 @@ export default class Profile extends React.Component {
                             <div className="mb-2 col-6">
                                 <label className="form-label">Vehicle Type</label>
                                 <select className="form-select" name="carType"
-                                        value={this.state.carType} onChange={ this.updateFormField }>
+                                    value={this.state.carType} onChange={this.updateFormField}>
                                     <option value="Sedan">Sedan</option>
                                     <option value="Luxury Sedan">Luxury Sedan</option>
                                     <option value="SUV">SUV</option>
@@ -427,7 +440,7 @@ export default class Profile extends React.Component {
                     </div>
 
                     {/* <div className="card-body"> */}
-                    <div className="content-box" style={ this.state.profileTab==="editCar"? { 'height': 'auto'} : null }>
+                    <div className="content-box" style={this.state.profileTab === "editCar" ? { 'height': 'auto' } : null}>
                         {this.state.profileTab === "inventory" ?
                             this.renderInventory()
                             : null}
