@@ -68,13 +68,25 @@
     height:60vh;
     overflow-y: scroll;
     overflow-x:hidden ;
+    padding: 5px;
     /* background-color:paleturquoise; */
     font-size: 14px;
     /* border: 1px solid lightgray; */
 }
+.mini-content {
+    height: 60px;
+    /* background-color: rgb(226, 223, 184); */
+    /* border: 1px solid; */
+    font-size: 11pt;
+    color: rgb(97,97,97)
+    /* overflow: hidden; */
+}
+
 
 .road-tax-warning{
-    font-size: 8px;
+    font-size: 10pt;
+    text-align: center;
+    color: rgb(185, 40, 40);
 }
 
 /* Chat icon styling with message number */
@@ -101,4 +113,5 @@
     white-space: nowrap; 
     overflow: hidden;
     text-overflow: ellipsis; 
+    margin-right: 5px;
 }

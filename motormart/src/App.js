@@ -44,7 +44,7 @@ export default class App extends React.Component {
   // baseURL = "https://tgc-p2-99ace.herokuapp.com";
 
   // Route for testing with express in development API 
-  baseURL = "https://3001-99ace-miniprojecttgcp-leqq5j6lxcz.ws-us38.gitpod.io";
+  baseURL = "https://3001-99ace-miniprojecttgcp-leqq5j6lxcz.ws-us39.gitpod.io";
 
   updateFormField = (e) => {
     this.setState({
@@ -75,7 +75,7 @@ export default class App extends React.Component {
   fetchData = async () => {
 
     let result = await axios.get(this.baseURL + '/car/search');
-    console.log(result.data)
+    // console.log(result.data)
     this.setState({
       dataCar: result.data,
       dataLoaded: true,
@@ -294,6 +294,9 @@ export default class App extends React.Component {
       })
       this.setActive("register", true)
     }
+  }
+  oneCarListing = async ( car )=>{
+
   }
 
   render() {

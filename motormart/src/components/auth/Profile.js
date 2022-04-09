@@ -1,125 +1,152 @@
 import React from 'react';
 import "bootstrap/dist/css/bootstrap.min.css";
+// import "./styles/auth.css";
 
 export default class Profile extends React.Component {
     state = {
         profileTab: "inventory",
         tabs: [],
-        tabsReady:false
-
+        tabsReady: false,
+        // edit state
+        carToBeEdited : ""
     }
     componentDidMount = () => {
         let tabs = []
         this.props.userData.cars.map((car, index) => {
             tabs.push({
-                tab: "list"
+                tab: "info"
             })
             // console.log(car, index)
         })
         this.setState({
             tabs: tabs,
-            tabsReady : true
+            tabsReady: true
         })
 
     }
-    activeTab = (tab) => {
+    activeTab = (tab, index) => {
+        console.log(index);
+        index==undefined? index="":null;
         this.setState({
-            profileTab: tab
+            profileTab: tab,
+            carToBeEdited:index
         })
     }
-    updateTabs = (tab, index) =>{
-        let clone = [...this.state.tabs];
+    updateTabs = (tab, index) => {
+        let clone = this.state.tabs.map(t => { return { tab: "info" } })
+
         clone[index].tab = tab
+
         this.setState({
             tabs: clone
         })
     }
-    showEachCar = (car, index) => {        
-        return this.state.tabsReady ? 
-        <React.Fragment>
-            <div className="col-12 p-1">
-                <div className="row">
-                    <div className="col-4 d-flex justify-content-center align-items-start flex-column">
-                        <img src="https://i.i-sgcm.com/cars_used/202112/1053408_1b.jpg" alt=""
-                            className="img-fluid" />
-                        <div className="text-danger road-tax-warning">Road tax : 30-Apr-2022</div>
-                    </div>
-                    <div className="col-8">
-                        <div>
-                            <h6 className="fw-bold clip-text">{car.carMake} {car.carModel} </h6>
+    
+    showEachCar = (car, index) => {
+        return this.state.tabsReady ?
+            <React.Fragment>
+                <div className="col-12 p-1">
+                    <div className="row">
+                        <div className="col-4 d-flex justify-content-center align-items-center flex-column">
+                            <img src="https://i.i-sgcm.com/cars_used/202112/1053408_1b.jpg" alt="" className="img-fluid" />
+                            <div className="road-tax-warning">Road tax due</div>
+                        </div>
+                        <div className="col-8">
                             <div>
-                                <b>{car.carPlate}</b>
-                                <small className="ms-2 text-danger fst-italic "> ${car.carDetails.carPrice}</small>
-                            </div>
-
-                            <ul className="nav nav-tabs d-flex justify-content-center">
-                                <li key={ "list"+index } className="nav-item">
-                                    <a  
-                                        className={ this.state.tabs[index].tab==="list"?
-                                        "nav-link active text-danger":
-                                        "nav-link text-muted"}  
-                                        ariacurrent="page" 
-                                        href="#"
-                                        onClick={ ()=> {
-                                            this.updateTabs("list", index)
-                                        }}
+                                {/* mini tabs */}
+                                <ul className="nav nav-tabs d-flex justify-content-between">
+                                    {/* check if tab = info  */}
+                                    <li key={"list" + index} className="nav-item">
+                                        <a
+                                            className={this.state.tabs[index].tab === "info" ?
+                                                "nav-link active text-danger" :
+                                                "nav-link text-muted"}
+                                            ariacurrent="page"
+                                            href="#"
+                                            onClick={() => {
+                                                this.updateTabs("info", index)
+                                            }}
                                         ><i
-                                        className="fa-brands fa-adversal"></i></a>
-                                </li>
-                                <li key={ "edit"+index } className="nav-item">
-                                    <a  className={ this.state.tabs[index].tab==="edit"?
-                                        "nav-link active text-danger":
-                                        "nav-link text-muted"}           
-                                        ariacurrent="page" 
-                                        href="#" 
-                                        onClick={ ()=> {
-                                            this.updateTabs("edit", index)
-                                        }}
-                                    ><i
-                                        className="fa-solid fa-pen-to-square"></i></a>
-                                </li>
-                                {/* <li className="nav-item">
-                                    <a  className="nav-link text-muted" 
-                                        ariacurrent="page" 
-                                        href="#"
-                                        onClick={ ()=> {
-                                            this.updateTabs("s", index)
-                                        }}
+                                            className="fa-brands fa-adversal"></i></a>
+                                    </li>
+                                    {/* check if tab = edit */}
+                                    <li key={"edit" + index} className="nav-item">
+                                        <a className={this.state.tabs[index].tab === "edit" ?
+                                            "nav-link active text-danger" :
+                                            "nav-link text-muted"}
+                                            ariacurrent="page"
+                                            href="#"
+                                            onClick={() => {
+                                                console.log(car._id)
+                                                this.activeTab("editCar", car._id)
+                                            }}
                                         ><i
-                                        className="fa-solid fa-wrench"></i></a>
-                                </li> */}
-                                <li key={ "delete"+index } className="nav-item">
-                                    <a  className={ this.state.tabs[index].tab==="delete"?
-                                        "nav-link active text-danger":
-                                        "nav-link text-muted"}
-                                        ariacurrent="page" 
-                                        href="#"
-                                        onClick={ ()=> {
-                                            this.updateTabs("delete", index)
-                                        }}
+                                            className="fa-solid fa-pen-to-square"></i></a>
+                                    </li>
+                                    {/* check if tab = delete */}
+                                    <li key={"delete" + index} className="nav-item">
+                                        <a className={this.state.tabs[index].tab === "delete" ?
+                                            "nav-link active text-danger" :
+                                            "nav-link text-muted"}
+                                            ariacurrent="page"
+                                            href="#"
+                                            onClick={() => {
+                                                this.updateTabs("delete", index)
+                                            }}
                                         ><i
-                                        className="fa-solid fa-trash-can"></i></a>
-                                </li>
-                                <li key={ "view"+index } className="nav-item">
-                                    <a  className={ this.state.tabs[index].tab==="view"?
-                                        "nav-link active text-danger":
-                                        "nav-link text-muted"}
-                                        ariacurrent="page" 
-                                        href="#"
-                                        onClick={ ()=> {
-                                            this.updateTabs("view", index)
-                                        }}
+                                            className="fa-solid fa-trash-can"></i></a>
+                                    </li>
+                                    {/* check if tab = view */}
+                                    <li key={"view" + index} className="nav-item">
+                                        <a className={this.state.tabs[index].tab === "open" ?
+                                            "nav-link active text-danger" :
+                                            "nav-link text-muted"}
+                                            ariacurrent="page"
+                                            href="#"
+                                            onClick={() => {
+                                                this.updateTabs("view", index)
+                                            }}
                                         >
-                                        <i className="fa-solid fa-arrow-up-right-from-square"></i>
-                                    </a>
-                                </li>
-                            </ul>
+                                            <i className="fa-solid fa-arrow-up-right-from-square"></i>
+                                        </a>
+                                    </li>
+                                </ul>
+                                <div className="mini-content">
+                                    {/* car info */}
+                                    {this.state.tabs[index].tab === "info" ?
+                                        <div>
+                                            <span className="fw-bold clip-text">
+                                                {car.carDetails.carMake} {car.carDetails.carModel}
+                                            </span>
+
+                                            <br />
+                                            <b>Status:</b> {car.availability}
+                                            {
+                                                car.availability ?
+                                                    <a href='#' className='text-danger fw-bold text-decoration-none'>Advertised</a> :
+                                                    <a href='#' className='text-muted fw-bold text-decoration-none'>Owned</a>
+                                            }
+                                            <br />
+                                            <b>Price:</b> ${(car.carDetails.carPrice).toLocaleString()}
+                                        </div> : null}
+                                    {this.state.tabs[index].tab === "delete" ?
+                                        <div>
+                                            <span className="fw-bold clip-text">
+                                                {car.carDetails.carMake} {car.carDetails.carModel}
+                                            </span>
+                                            <br />
+                                            <i className='text-muted'>I no longer own the car</i> <br />
+                                            <a href='' className='badge bg-danger'>remove</a>
+
+                                        </div> : null}
+                                </div>
+
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </React.Fragment>
-        : null
+            </React.Fragment>
+            : null
     }
     renderInventory = () => {
         return <React.Fragment>
@@ -247,6 +274,16 @@ export default class Profile extends React.Component {
             </div>
         </React.Fragment>
     }
+    renderEditCar = () => {
+        return <React.Fragment>
+            <div className="row gy-2">
+                {/* <!-- one car listing --> */}
+                <div className="col-12 p-0">
+                    <h4>Add Car info</h4>
+                </div>
+            </div>
+        </React.Fragment>
+    }
 
     render() {
         return (
@@ -277,6 +314,9 @@ export default class Profile extends React.Component {
                         {this.state.profileTab === "inventory" ?
                             this.renderInventory()
                             : null}
+                        {this.state.profileTab === "editCar" ?
+                            this.renderEditCar()
+                            : null}
                         {this.state.profileTab === "profile" ?
                             this.renderProfile()
                             : null}
@@ -288,7 +328,7 @@ export default class Profile extends React.Component {
                     <ul className="nav nav-tabs d-flex justify-content-center mt-4">
                         <li className="nav-item">
                             <a ariacurrent="page"
-                                className={this.state.profileTab === "inventory" ? "nav-link active" : "nav-link"}
+                                className={this.state.profileTab === "inventory" || this.state.profileTab === "editCar"  ? "nav-link active" : "nav-link"}
                                 onClick={() => { this.activeTab("inventory") }}>
                                 <i className={this.state.profileTab === "inventory" ? "fa-solid fa-car text-danger" : "fa-solid fa-car text-muted"}></i> Inventory</a>
                         </li>
