@@ -32,14 +32,6 @@ export default class Profile extends React.Component {
         })
 
     }
-
-
-    handleDateChange(event) {
-        const { name, value } = event.target;
-        this.setState({ [name]: value }, () =>
-            console.log({ name, value, state: this.state })
-        );
-    }
     activeTab = (tab, index) => {
         console.log(index);
         if (index == undefined) {
@@ -347,7 +339,7 @@ export default class Profile extends React.Component {
                                 <input type="date" className="form-control"
                                     name="carRegDate"
                                     value={this.state.carRegDate}
-                                    onChange={ this.updateFormField }
+                                    onChange={this.updateFormField}
                                 />
                             </div>
                             {/* Mileage */}
@@ -403,10 +395,34 @@ export default class Profile extends React.Component {
                                 </select>
                             </div>
 
-                            {/* Description */}
+                            {/* Description - to be upgraded */}
                             <div className="mb-2 col-12">
                                 <label className="form-label">Description</label>
                                 <textarea className="form-control" name='description' id="description" rows="5"></textarea>
+                            </div>
+
+                            <div className='mb-2 col-12'>
+                                <button className='btn auth-submit'
+                                    onClick={() => {
+
+                                        this.props.updateCar({
+                                            carPrice: parseInt(this.state.carPrice),
+                                            carRegDate: this.state.carRegDate,
+                                            carMileage: parseInt(this.state.carMileage),
+                                            carMake: this.state.carMake,
+                                            carModel: this.state.carModel,
+                                            carYearOfMake: parseInt(this.state.carYearOfMake),
+                                            carCOE: parseInt(this.state.carCOE),
+                                            carARF: parseInt(this.state.carARF),
+                                            carNoOfOwner: parseInt(this.state.carNoOfOwner),
+                                            carType: this.state.carType
+                                        })
+
+                                        this.setState({
+                                            profileTab: "inventory"
+                                        })
+
+                                    }}>Update</button>
                             </div>
                         </div>
                     </div>

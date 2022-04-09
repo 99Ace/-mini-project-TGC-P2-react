@@ -53,7 +53,7 @@ export default class App extends React.Component {
   }
 
   setActive = (page, nav) => {
-    // console.log("nav passed to setActive:", nav)
+    console.log("nav passed to setActive:", nav, page)
     const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0)
     // console.log("View width:",vw)
     if (vw < 992 && page !== "home") {
@@ -269,7 +269,7 @@ export default class App extends React.Component {
 
     // IF RESPONSE IS true; USER IS LOGIN
     if (auth) {
-      console.log("Register =>",userData._id)
+      console.log("Register =>", userData._id)
       // # save to session
       ReactSession.set(
         "userId", userData._id
@@ -295,8 +295,13 @@ export default class App extends React.Component {
       this.setActive("register", true)
     }
   }
-  oneCarListing = async ( car )=>{
+  oneCarListing = async (car) => {
 
+  }
+  updateCar = async (data) => {
+    console.log(data)
+    // redirect to profile page
+    this.setActive("profile", false);
   }
 
   render() {
@@ -349,6 +354,7 @@ export default class App extends React.Component {
                   message={this.state.message}
                   auth={this.state.auth}
                   page="inventory"
+                  updateCar={this.updateCar}
                 /> : null}
 
               {/* =========================================== */}
