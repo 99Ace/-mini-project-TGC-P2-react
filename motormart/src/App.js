@@ -295,8 +295,9 @@ export default class App extends React.Component {
       this.setActive("register", true)
     }
   }
-  oneCarListing = async (car) => {
-
+  showCarListing = async (car) => {
+    console.log(car)
+    this.setActive("showCarListing")
   }
   updateCar = async (data) => {
     console.log(data)
@@ -365,10 +366,15 @@ export default class App extends React.Component {
                   auth={this.state.auth}
                   page="inventory"
                   updateCar={this.updateCar}
+                  showCarListing={this.showCarListing}
+                  setActive={this.setActive}
                 /> : null}
 
               {/* =========================================== */}
-
+              {this.state.page === "showCarListing" ?
+                <ShowCar
+                  setActive={this.setActive}
+                /> : null}
 
 
               {this.state.page === "carlisting" ?

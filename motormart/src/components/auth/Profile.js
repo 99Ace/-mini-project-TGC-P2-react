@@ -77,7 +77,6 @@ export default class Profile extends React.Component {
             tabs: clone
         })
     }
-
     showEachCar = (car, index) => {
         return this.state.tabsReady ?
             <React.Fragment>
@@ -140,8 +139,9 @@ export default class Profile extends React.Component {
                                             ariacurrent="page"
                                             href="#"
                                             onClick={() => {
-                                                this.updateTabs("view", index)
+                                                this.props.showCarListing(car)
                                             }}
+                                            disabled={!car.availability}
                                         >
                                             <i className="fa-solid fa-arrow-up-right-from-square"></i>
                                         </a>
