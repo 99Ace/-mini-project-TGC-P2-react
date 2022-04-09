@@ -348,6 +348,7 @@ export default class App extends React.Component {
                   userData={this.state.userData}
                   message={this.state.message}
                   auth={this.state.auth}
+                  page="inventory"
                 /> : null}
 
               {/* =========================================== */}

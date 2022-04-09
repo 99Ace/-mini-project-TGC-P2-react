@@ -8,7 +8,17 @@ export default class Profile extends React.Component {
         tabs: [],
         tabsReady: false,
         // edit state
-        carToBeEdited : ""
+        carToBeEdited: "",
+        carPrice: "",
+        carRegDate: "",
+        carMileage: "",
+        carMake: "",
+        carModel: "",
+        carYearOfMake: "",
+        carCOE: "",
+        carARF: "",
+        carNoOfOwner: "",
+        carType: ""
     }
     componentDidMount = () => {
         let tabs = []
@@ -16,32 +26,53 @@ export default class Profile extends React.Component {
             tabs.push({
                 tab: "info"
             })
-            // console.log(car, index)
         })
         this.setState({
             tabs: tabs,
-            tabsReady: true
+            tabsReady: true,
         })
 
     }
     activeTab = (tab, index) => {
         console.log(index);
-        index==undefined? index="":null;
+        if (index == undefined) {
+            index = ""
+        }
         this.setState({
             profileTab: tab,
-            carToBeEdited:index
+            carToBeEdited: index
         })
+    }
+    updateFormField=(e)=>{
+        this.setState({
+            [e.target.name]: e.target.value
+        });
+    }
+    setEditCar = (index) => {
+        let car = this.props.userData.cars[index]
+        console.log(car.carDetails.carMileage)
+        this.setState({
+            carPrice: car.carDetails.carPrice,
+            carRegDate: car.carDetails.carRegDate,
+            carMileage: car.carDetails.carMileage,
+            carMake: car.carDetails.carMake,
+            carModel: car.carDetails.carModel,
+            carYearOfMake: car.carDetails.carYearOfMake,
+            carCOE: car.carDetails.carCOE,
+            carARF: car.carDetails.carARF,
+            carNoOfOwner: car.carDetails.carNoOfOwner,
+            carType: car.carDetails.carType
+        })
+        this.activeTab("editCar", index)
     }
     updateTabs = (tab, index) => {
         let clone = this.state.tabs.map(t => { return { tab: "info" } })
-
         clone[index].tab = tab
-
         this.setState({
             tabs: clone
         })
     }
-    
+
     showEachCar = (car, index) => {
         return this.state.tabsReady ?
             <React.Fragment>
@@ -77,8 +108,8 @@ export default class Profile extends React.Component {
                                             ariacurrent="page"
                                             href="#"
                                             onClick={() => {
-                                                console.log(car._id)
-                                                this.activeTab("editCar", car._id)
+                                                // console.log(car._id)
+                                                this.setEditCar(index)
                                             }}
                                         ><i
                                             className="fa-solid fa-pen-to-square"></i></a>
@@ -276,10 +307,36 @@ export default class Profile extends React.Component {
     }
     renderEditCar = () => {
         return <React.Fragment>
-            <div className="row gy-2">
-                {/* <!-- one car listing --> */}
-                <div className="col-12 p-0">
-                    <h4>Add Car info</h4>
+            <div className='container-fluid'>
+                <div className="row bg-light">
+                    {/* <!-- one car listing --> */}
+                    <div className="col-12">
+                        <h6><b>[ {this.props.userData.cars[this.state.carToBeEdited].carPlate} ]</b></h6>
+                        {/* Registration date */}
+                        <div className="mb-3">
+                            <label  className="form-label">Registration Date</label>
+                            <input type="date" className="form-control" name="carRegDate" />
+                        </div>
+                        {/* Mileage */}
+                        <div className="mb-3">
+                            <label className="form-label">Mileage</label>
+                            <input type="text" className="form-control" 
+                                   name="carMileage" git placeholder="mileage" 
+                                   value={this.state.carMileage} 
+                                   onChange={ this.updateFormField } />
+                        </div>
+                        {/* Ownership */}
+                        <div className="mb-3">
+                            <label className="form-label">No of owners</label>
+                            <input type="text" className="form-control" name="carNoOfOwner" id="carNoOfOwner" placeholder="No of owners"/>
+                        </div>
+
+                        {/* Description */}
+                        <div className="mb-3">
+                            <label className="form-label">Description</label>
+                            <textarea className="form-control" name='description' id="description" rows="3"></textarea>
+                        </div>
+                    </div>
                 </div>
             </div>
         </React.Fragment>
@@ -310,7 +367,7 @@ export default class Profile extends React.Component {
                     </div>
 
                     {/* <div className="card-body"> */}
-                    <div className="content-box container-fluid">
+                    <div className="content-box">
                         {this.state.profileTab === "inventory" ?
                             this.renderInventory()
                             : null}
@@ -328,7 +385,7 @@ export default class Profile extends React.Component {
                     <ul className="nav nav-tabs d-flex justify-content-center mt-4">
                         <li className="nav-item">
                             <a ariacurrent="page"
-                                className={this.state.profileTab === "inventory" || this.state.profileTab === "editCar"  ? "nav-link active" : "nav-link"}
+                                className={this.state.profileTab === "inventory" || this.state.profileTab === "editCar" ? "nav-link active" : "nav-link"}
                                 onClick={() => { this.activeTab("inventory") }}>
                                 <i className={this.state.profileTab === "inventory" ? "fa-solid fa-car text-danger" : "fa-solid fa-car text-muted"}></i> Inventory</a>
                         </li>
