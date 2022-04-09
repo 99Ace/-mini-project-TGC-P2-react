@@ -318,7 +318,7 @@ export default class Profile extends React.Component {
                         <div className='row mb-2'>
                             {/* Car Make */}
                             <div className="col-6">
-                                <label className="form-label">Make</label>
+                                <label className="form-label">Make:</label>
                                 <input type="text" className="form-control"
                                     name="carMake" placeholder='e.g Audi'
                                     value={this.state.carMake}
@@ -326,7 +326,7 @@ export default class Profile extends React.Component {
                             </div>
                             {/* Car Model */}
                             <div className="col-6">
-                                <label className="form-label">Model</label>
+                                <label className="form-label">Model:</label>
                                 <input type="text" className="form-control"
                                     name="carModel" placeholder='e.g A4'
                                     value={this.state.carModel}
@@ -335,16 +335,26 @@ export default class Profile extends React.Component {
 
                             {/* Registration date */}
                             <div className="mb-2 col-6">
-                                <label className="form-label">Registration Date</label>
+                                <label className="form-label">Registration Date:</label>
                                 <input type="date" className="form-control"
                                     name="carRegDate"
                                     value={this.state.carRegDate}
                                     onChange={this.updateFormField}
                                 />
                             </div>
+                            
+                            {/* Pricing */}
+                            <div className="mb-2 col-6">
+                                <label className="form-label">Price:</label>
+                                <input type="text" className="form-control"
+                                    name="carPrice" placeholder="car price"
+                                    value={this.state.carPrice}
+                                    onChange={this.updateFormField} />
+                            </div>
+
                             {/* Mileage */}
                             <div className="mb-2 col-6">
-                                <label className="form-label">Mileage</label>
+                                <label className="form-label">Mileage:</label>
                                 <input type="text" className="form-control"
                                     name="carMileage" placeholder="mileage"
                                     value={this.state.carMileage}
@@ -352,7 +362,7 @@ export default class Profile extends React.Component {
                             </div>
                             {/* COE */}
                             <div className="mb-2 col-6">
-                                <label className="form-label">COE</label>
+                                <label className="form-label">COE:</label>
                                 <input type="number" className="form-control"
                                     name="carCOE" min="0"
                                     value={this.state.carCOE}
@@ -360,7 +370,7 @@ export default class Profile extends React.Component {
                             </div>
                             {/* ARF */}
                             <div className="mb-2 col-6">
-                                <label className="form-label">ARF</label>
+                                <label className="form-label">ARF:</label>
                                 <input type="text" className="form-control"
                                     name="carARF" min="0"
                                     value={this.state.carARF}
@@ -368,7 +378,7 @@ export default class Profile extends React.Component {
                             </div>
                             {/* Year of make */}
                             <div className="mb-2 col-6">
-                                <label className="form-label">Year of make</label>
+                                <label className="form-label">Year of make:</label>
                                 <input type="number" className="form-control"
                                     name="carYearOfMake" min="1960" max="2022"
                                     value={this.state.carYearOfMake}
@@ -376,7 +386,7 @@ export default class Profile extends React.Component {
                             </div>
                             {/* Ownership */}
                             <div className="mb-2 col-6">
-                                <label className="form-label">No of Owners</label>
+                                <label className="form-label">No of Owners:</label>
                                 <input type="number" className="form-control"
                                     name="carNoOfOwner" min="1"
                                     value={this.state.carNoOfOwner}
@@ -384,7 +394,7 @@ export default class Profile extends React.Component {
                             </div>
                             {/* Vehicle Type */}
                             <div className="mb-2 col-6">
-                                <label className="form-label">Vehicle Type</label>
+                                <label className="form-label">Vehicle Type:</label>
                                 <select className="form-select" name="carType"
                                     value={this.state.carType} onChange={this.updateFormField}>
                                     <option value="Sedan">Sedan</option>
@@ -397,7 +407,7 @@ export default class Profile extends React.Component {
 
                             {/* Description - to be upgraded */}
                             <div className="mb-2 col-12">
-                                <label className="form-label">Description</label>
+                                <label className="form-label">Description:</label>
                                 <textarea className="form-control" name='description' id="description" rows="5"></textarea>
                             </div>
 
@@ -406,6 +416,7 @@ export default class Profile extends React.Component {
                                     onClick={() => {
 
                                         this.props.updateCar({
+                                            index : this.state.carToBeEdited,
                                             carId : this.props.userData.cars[this.state.carToBeEdited]._id,
                                             carPrice: parseInt(this.state.carPrice),
                                             carRegDate: this.state.carRegDate,

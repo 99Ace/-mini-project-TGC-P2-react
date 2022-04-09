@@ -303,9 +303,13 @@ export default class App extends React.Component {
     let userId = ReactSession.get("userId")
     // send back to api
     let result = await axios.put(this.baseURL + `/user/${userId}/${data.carId}/add_to_listing`, data);
-    let userData = {...this.state.userData}
-    console.log("clone userData after update car=>",userData)
-    console.log(result.data)
+    
+    this.setState({
+      auth : result.data.auth,
+      userData: result.data.userData,
+      message: result.data.message
+    })
+
     // redirect to profile page
     this.setActive("profile", false);
   }
