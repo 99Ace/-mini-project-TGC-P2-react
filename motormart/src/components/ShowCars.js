@@ -2,14 +2,68 @@ import React from 'react';
 import "bootstrap/dist/css/bootstrap.min.css";
 
 export default class ShowCars extends React.Component {
+    state = {
+        // Search Options
+        carMake: "",
+        carType: "",
+        tagSelected: false,
+        sortDirection: false
+
+
+    }
+    updateFormField=(e)=>{
+        this.setState({
+            [e.target.name]:e.target.value
+        })
+    }
     render() {
         return (
             <React.Fragment>
                 <div className="card border-0 car-listing">
+                    {/* Search bar */}
+                    <div className="row">
+                        <div className="col-12">
+                            <div className="search-bar">
+                                <i  class="fa-solid fa-retweet search-icon text-secondary"
+                                    onClick={() => { this.setState({ sortDirection: !this.state.sortDirection }) }}></i>
+
+                                <input  type="text" className="form-control form-control-sm" 
+                                        name="carMake" placeholder="e.g Audi A4" 
+                                        value={this.state.searchText}
+                                        onChange={this.updateFormField}/>
+
+                                <select name="carType" 
+                                        className="form-select form-select-sm" 
+                                        value={this.state.carType} 
+                                        onChange={this.updateFormField}>
+                                    <option value="">Type</option>
+                                    <option value="Sedan">Sedan</option>
+                                    <option value="Luxury Sedan">Luxury Sedan</option>
+                                    <option value="SUV">SUV</option>
+                                    <option value="MPV">MPV</option>
+                                    <option value="Hatchback">Hatchback</option>
+                                    <option value="Sports">Sports</option>
+                                </select>
+                                <button className="search-btn"
+                                        onClick={ ()=> { 
+                                            let query = {
+                                                carMake: this.state.carMake,
+                                                carType: this.state.carType
+                                            }
+                                            this.props.sendSearch(query)
+                                        }}
+                                >Search</button>
+                                <i className="fa-solid fa-rotate-right search-icon search-icon-blue"></i>
+                            </div>
+                        </div>
+
+                    </div>
+
                     {
+                        // Rendering each car listing
                         this.props.dataCar.map(car => {
                             return (
-                                <div key={car._id} className="card-body p-0" onClick={ ()=> {  this.props.showEachCar( car ) } }>
+                                <div key={car._id} className="card-body p-0" onClick={() => { this.props.showEachCar(car) }}>
                                     <div className="container-fluid">
                                         <div className="row">
                                             <div className="col-12 eachCar-title mt-2 ">
@@ -18,7 +72,7 @@ export default class ShowCars extends React.Component {
                                             <div className="col-12 eachCar-body">
                                                 <div className="row">
                                                     <div className="col-4 p-2">
-                                                        <img src="https://i.i-sgcm.com/cars_used/202202/1069590_1.jpg" className="img-fluid" />
+                                                        <img src="https://i.i-sgcm.com/cars_used/202202/1069590_1.jpg" className="img-fluid" alt="" />
                                                     </div>
                                                     <div className="col-8 p-2">
                                                         <b className="text-danger eachCar-title border">${car.carDetails.carPrice.toLocaleString()}</b><br />
@@ -42,7 +96,7 @@ export default class ShowCars extends React.Component {
                     }
 
                 </div>
-            </React.Fragment>
+            </React.Fragment >
         )
     }
 }

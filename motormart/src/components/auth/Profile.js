@@ -731,26 +731,7 @@ export default class Profile extends React.Component {
             </div>
         </React.Fragment>
     }
-    renderConfirmation = () => {
-        return <React.Fragment>
-            <div className='container-fluid'>
-                <div className="row bg-light">
-                    <div className='col-12'>
-                        {this.state.carPlate} has been successfully added
-                    </div>
-                    <div className='col-12'>
-                        <button className='auth-submit' 
-                                onClick={ ()=> {
-                                   this.setState({
-                                       profileTab:"inventory"
-                                   }) 
-                                }}>View my inventory</button>
-                    </div>
-
-                </div>
-            </div>
-        </React.Fragment>
-    }
+  
     render() {
         return (
             <React.Fragment>

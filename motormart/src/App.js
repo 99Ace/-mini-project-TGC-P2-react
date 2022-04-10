@@ -347,7 +347,19 @@ export default class App extends React.Component {
     //   this.setActive("home", false)
     // }, 2000)
   };
-
+  sendSearch = async (data)=>{
+    console.log(data)
+    let query = {
+      params : data
+    }
+    let result = await axios.get( this.baseURL + `/car/search`, query);
+    console.log(result.data)
+    this.setState({
+      dataCar : result.data.data,
+      auth : result.data.auth,
+      message: result.data.message
+    })
+  }
   render() {
     return (
       <React.Fragment>
@@ -416,6 +428,7 @@ export default class App extends React.Component {
                 <ShowCars
                   dataCar={this.state.dataCar}
                   showEachCar={this.showEachCar}
+                  sendSearch={this.sendSearch}
                   setActive={this.setActive}
                 /> : null}
               {this.state.page === "carAdd" ?
