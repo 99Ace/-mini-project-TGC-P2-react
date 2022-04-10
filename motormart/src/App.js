@@ -359,6 +359,7 @@ export default class App extends React.Component {
       auth : result.data.auth,
       message: result.data.message
     })
+    this.setActive("showCars")
   }
   render() {
     return (
@@ -420,6 +421,7 @@ export default class App extends React.Component {
               {this.state.page === "showEachCar" ?
                 <ShowEachCar
                   oneCarData={this.state.oneCarData}
+                  sendSearch={this.sendSearch}
                   setActive={this.setActive}
                 /> : null}
 

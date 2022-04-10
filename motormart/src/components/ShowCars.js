@@ -8,8 +8,6 @@ export default class ShowCars extends React.Component {
         carType: "",
         tagSelected: false,
         sortDirection: false
-
-
     }
     updateFormField=(e)=>{
         this.setState({
