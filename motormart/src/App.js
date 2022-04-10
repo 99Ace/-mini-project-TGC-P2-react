@@ -78,7 +78,7 @@ export default class App extends React.Component {
     let result = await axios.get(this.baseURL + '/car/search');
     // console.log(result.data)
     this.setState({
-      dataCar: result.data,
+      dataCar: result.data.data,
       dataLoaded: true,
     });
   };
@@ -137,7 +137,7 @@ export default class App extends React.Component {
               New Car
             </button>
             {/* <!-- Used Car --> */}
-            <button onClick={() => { this.setActive("listing", true) }} className="col-6 col-md-3 col-lg border mini-nav" id={this.state.page === "listing" ? "active" : null}>
+            <button onClick={() => { this.setActive("allCarListing", true) }} className="col-6 col-md-3 col-lg border mini-nav" id={this.state.page === "allCarListing" ? "active" : null}>
               <img src={require("./images/bmw-m2.png")} className="mini-nav-img" alt="" />
               Used Cars
             </button>
@@ -296,7 +296,7 @@ export default class App extends React.Component {
       this.setActive("register", true)
     }
   }
-  showCarListing = async (car) => {
+  showEachCar = async (car) => {
     console.log(car)
     this.setState({
       oneCarData : car
@@ -370,7 +370,7 @@ export default class App extends React.Component {
                   auth={this.state.auth}
                   page="inventory"
                   updateCar={this.updateCar}
-                  showCarListing={this.showCarListing}
+                  showEachCar={this.showEachCar}
                   setActive={this.setActive}
                 /> : null}
 
@@ -382,8 +382,9 @@ export default class App extends React.Component {
                 /> : null}
 
 
-              {this.state.page === "carlisting" ?
+              {this.state.page === "allCarListing" ?
                 <CarListing
+                  dataCar={this.state.dataCar}
                   setActive={this.setActive}
                 /> : null}
               {this.state.page === "carAdd" ?

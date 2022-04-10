@@ -139,7 +139,7 @@ export default class Profile extends React.Component {
                                             ariacurrent="page"
                                             href="#"
                                             onClick={() => {
-                                                this.props.showCarListing(car)
+                                                this.props.showEachCar(car)
                                             }}
                                             disabled={!car.availability}
                                         >
