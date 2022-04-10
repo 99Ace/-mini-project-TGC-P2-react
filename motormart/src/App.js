@@ -12,7 +12,7 @@ import Logout from './components/auth/Logout';
 import Register from './components/auth/Register';
 import Profile from './components/auth/Profile';
 
-import ShowCar from './components/ShowCar';
+import ShowEachCar from './components/ShowEachCar';
 import CarConsign from './components/CarConsign';
 
 import ShowNav from './components/navbar/ShowNav';
@@ -28,6 +28,7 @@ export default class App extends React.Component {
   state = {
     // data : load in data; tracker for data loaded
     dataCar: [],
+    oneCarData:{},
     dataLoaded: false,
     // navbar : page tracker
     page: "home",
@@ -297,7 +298,10 @@ export default class App extends React.Component {
   }
   showCarListing = async (car) => {
     console.log(car)
-    this.setActive("showCarListing")
+    this.setState({
+      oneCarData : car
+    })
+    this.setActive("showEachCar")
   }
   updateCar = async (data) => {
     console.log(data)
@@ -371,8 +375,9 @@ export default class App extends React.Component {
                 /> : null}
 
               {/* =========================================== */}
-              {this.state.page === "showCarListing" ?
-                <ShowCar
+              {this.state.page === "showEachCar" ?
+                <ShowEachCar
+                  oneCarData={this.state.oneCarData}
                   setActive={this.setActive}
                 /> : null}
 
@@ -389,12 +394,6 @@ export default class App extends React.Component {
                 /> : null}
               {this.state.page === "consign" ?
                 <CarConsign
-                /> : null}
-
-
-
-              {this.state.page === "showcar" ?
-                <ShowCar
                 /> : null}
 
             </div>

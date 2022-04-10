@@ -45,6 +45,20 @@ body {
     border: none;
 }
 
+/* SHOWEACHCAR page */
+.car-listing {
+    font-size: 14px;
+}
+
+.badge-outline-dark {
+    border: 1px solid;
+    text-decoration: none;
+    margin-right: 5px;
+}
+.badge-outline-dark:hover {
+    color: red !important;
+}
+
 /* ipad setting */
 @media screen and (min-width:768px) {
     /* MINI NAV */
@@ -86,7 +100,7 @@ body {
         border: none;
     }
     #nav-home:hover {
-        color:rgb(228, 228, 228);
+        color:rgb(228, 228, 228) !important;
         background-color: rgb(218, 0, 0);
     }
     #active {
