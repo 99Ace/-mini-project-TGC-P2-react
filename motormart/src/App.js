@@ -3,7 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./styles/style.css";
 // import component
 import Landing from './components/Landing';
-import CarListing from './components/CarListing';
+import ShowCars from './components/ShowCars';
 import CarAdd from './components/CarAdd';
 import CarUpdate from './components/CarUpdate';
 // Auth Components
@@ -137,7 +137,7 @@ export default class App extends React.Component {
               New Car
             </button>
             {/* <!-- Used Car --> */}
-            <button onClick={() => { this.setActive("allCarListing", true) }} className="col-6 col-md-3 col-lg border mini-nav" id={this.state.page === "allCarListing" ? "active" : null}>
+            <button onClick={() => { this.showCars() }} className="col-6 col-md-3 col-lg border mini-nav" id={this.state.page === "showCars" ? "active" : null}>
               <img src={require("./images/bmw-m2.png")} className="mini-nav-img" alt="" />
               Used Cars
             </button>
@@ -303,6 +303,9 @@ export default class App extends React.Component {
     })
     this.setActive("showEachCar")
   }
+  showCars = async () => {
+    this.setActive("showCars", true)
+  }
   updateCar = async (data) => {
     console.log(data)
     let userId = ReactSession.get("userId")
@@ -382,9 +385,10 @@ export default class App extends React.Component {
                 /> : null}
 
 
-              {this.state.page === "allCarListing" ?
-                <CarListing
+              {this.state.page === "showCars" ?
+                <ShowCars
                   dataCar={this.state.dataCar}
+                  showEachCar={this.showEachCar}
                   setActive={this.setActive}
                 /> : null}
               {this.state.page === "carAdd" ?

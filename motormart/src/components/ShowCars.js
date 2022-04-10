@@ -9,7 +9,7 @@ export default class CarListing extends React.Component {
                     {
                         this.props.dataCar.map(car => {
                             return (
-                                <div className="card-body p-0" onClick={ ()=> {  alert("click") } }>
+                                <div className="card-body p-0" onClick={ ()=> {  this.props.showEachCar( car ) } }>
                                     <div className="container-fluid">
                                         <div className="row">
                                             <div className="col-12 eachCar-title mt-2 ">

@@ -26,6 +26,7 @@ export default class Profile extends React.Component {
             tabs.push({
                 tab: "info"
             })
+            return
         })
         this.setState({
             tabs: tabs,
@@ -35,7 +36,7 @@ export default class Profile extends React.Component {
     }
     activeTab = (tab, index) => {
         console.log(index);
-        if (index == undefined) {
+        if (index === undefined) {
             index = ""
         }
         this.setState({
