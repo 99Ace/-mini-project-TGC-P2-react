@@ -6,7 +6,11 @@ export default class Profile extends React.Component {
         profileTab: "inventory",
         tabs: [],
         tabsReady: false,
-        // edit state
+        // form state
+        carPlate: "",
+        ownerId: "",
+        ownerIdType: "0",
+        //-----------------
         carToBeEdited: "",
         carPrice: "",
         carRegDate: "",
@@ -35,14 +39,17 @@ export default class Profile extends React.Component {
 
     }
     activeTab = (tab, index) => {
+
         console.log(index);
         if (index === undefined) {
             index = ""
         }
+
         this.setState({
             profileTab: tab,
             carToBeEdited: index
         })
+
     }
     updateFormField = (e) => {
         this.setState({
@@ -78,6 +85,30 @@ export default class Profile extends React.Component {
             tabs: clone
         })
     }
+    resetState = () => {
+        // RESET STATE
+        this.setState({
+            carPlate: "",
+            ownerId: "",
+            ownerIdType: "0",
+            //-------------
+            carToBeEdited: "",
+            carPrice: "",
+            carRegDate: "",
+            carMileage: "",
+            carMake: "",
+            carModel: "",
+            carYearOfMake: "",
+            carCOE: "",
+            carARF: "",
+            carNoOfOwner: "",
+            carType: "",
+            availability: false
+        })
+    }
+
+
+
     showEachCar = (car, index) => {
         return this.state.tabsReady ?
             <React.Fragment>
@@ -198,8 +229,15 @@ export default class Profile extends React.Component {
             <div className="row">
                 {/* EACH CAR */}
                 {this.props.userData.cars.map((car, index) => this.showEachCar(car, index))}
-
-
+                <hr />
+                <button className='text-muted bg-light border-muted'
+                    onClick={() => {
+                        this.resetState();
+                        this.renderAddCar();
+                        this.activeTab("addCar")
+                    }}>
+                    <i className="fa-solid fa-plus"></i> <i className="fa-solid fa-car-side"></i>
+                </button>
             </div>
         </React.Fragment>
     }
@@ -433,6 +471,7 @@ export default class Profile extends React.Component {
                                     <option value="SUV">SUV</option>
                                     <option value="MPV">MPV</option>
                                     <option value="Hatchback">Hatchback</option>
+                                    <option value="Sports">Sports</option>
                                 </select>
                             </div>
 
@@ -465,6 +504,7 @@ export default class Profile extends React.Component {
                                         this.setState({
                                             profileTab: "inventory"
                                         })
+                                        this.resetState();
 
                                     }}>Update</button>
                             </div>
@@ -475,6 +515,242 @@ export default class Profile extends React.Component {
         </React.Fragment>
     }
 
+    renderAddCar = () => {
+        return <React.Fragment>
+            <div className='container-fluid'>
+                <div className="row bg-light">
+                    <div className="col-12">
+                        <div className='row mb-2'>
+                            {/* Title */}
+                            <div className='col-6'>
+                                <h6 className='mt-2'><b> My new car details</b></h6>
+                            </div>
+                            {/* availability */}
+                            <div className='col-6 d-flex justify-content-end align-items-center'>
+                                {this.state.availability ?
+                                    <div className='badge bg-success'>Listed</div> :
+                                    <div className='badge bg-secondary'>Not listed</div>}
+
+                                <div class="form-check form-switch ms-2 pt-1">
+                                    <input class="form-check-input" type="checkbox"
+                                        role="switch" name='availability'
+                                        onClick={() => {
+                                            this.setState({
+                                                availability: !this.state.availability
+                                            })
+                                        }}
+                                    />
+                                </div>
+                            </div>
+
+                            {/* Show Vehicle Form */}
+                            {/* Vehicle Plate Number */}
+                            <div className="mb-1 col-6">
+                                <label className="form-label">
+                                    <b>Vehicle Plate Number</b> <span className="text-danger">*</span>
+                                </label>
+                                <input
+                                    type="text"
+                                    maxLength="8"
+                                    className="form-control"
+                                    name="carPlate"
+                                    value={this.state.carPlate}
+                                    onChange={this.updateFormField}
+                                />
+                            </div>
+                            {/* Owner ID */}
+                            <div className='mb-1 col-6'>
+                                <label className="form-label">
+                                    <b>Owner ID (last 4 char)</b> <span className="text-danger">*</span>
+                                </label>
+                                <input
+                                    type="text"
+                                    maxLength="4"
+                                    className="form-control"
+                                    name="ownerId"
+                                    id="ownerId"
+                                    value={this.state.ownerId}
+                                    onChange={this.updateFormField}
+                                />
+                            </div>
+                            {/* Owner ID Type */}
+                            <div className="mb-2 col-12">
+                                <label className="form-label">
+                                    <b>Owner ID Type</b> <span className="text-danger">*</span>
+                                </label>
+                                <select
+                                    name="ownerIdType"
+                                    id="ownerIdType"
+                                    className="form-select"
+                                    onChange={this.updateFormField}
+                                >
+                                    <option value="0" defaultChecked={this.state.ownerIdType === "0"}>Singapore NRIC</option>
+                                    <option value="1" defaultChecked={this.state.ownerIdType === "1"}>Company</option>
+                                    <option value="2" defaultChecked={this.state.ownerIdType === "2"}>Business</option>
+                                    <option value="3" defaultChecked={this.state.ownerIdType === "3"}>Foreign Company</option>
+                                    <option value="4" defaultChecked={this.state.ownerIdType === "4"}>Club/Association/Organization</option>
+                                    <option value="5" defaultChecked={this.state.ownerIdType === "5"}>Government</option>
+                                    <option value="6" defaultChecked={this.state.ownerIdType === "6"}>Limited Liability Partnership</option>
+                                    <option value="7" defaultChecked={this.state.ownerIdType === "7"}>Limited Partnership</option>
+                                    <option value="8" defaultChecked={this.state.ownerIdType === "8"}>Professional</option>
+                                    <option value="9" defaultChecked={this.state.ownerIdType === "9"}>Statutory Board</option>
+                                </select>
+                            </div>
+
+
+                            <hr />
+                            {this.state.availability ?
+                                <React.Fragment>
+                                    {/* Car Make */}
+                                    <div className="col-6">
+                                        <label className="form-label">Make:</label>
+                                        <input type="text" className="form-control"
+                                            name="carMake" placeholder='e.g Audi'
+                                            value={this.state.carMake}
+                                            onChange={this.updateFormField} />
+                                    </div>
+                                    {/* Car Model */}
+                                    <div className="col-6">
+                                        <label className="form-label">Model:</label>
+                                        <input type="text" className="form-control"
+                                            name="carModel" placeholder='e.g A4'
+                                            value={this.state.carModel}
+                                            onChange={this.updateFormField} />
+                                    </div>
+
+                                    {/* Registration date */}
+                                    <div className="mb-2 col-6">
+                                        <label className="form-label">Registration Date:</label>
+                                        <input type="date" className="form-control"
+                                            name="carRegDate"
+                                            value={this.state.carRegDate}
+                                            onChange={this.updateFormField}
+                                        />
+                                    </div>
+
+                                    {/* Pricing */}
+                                    <div className="mb-2 col-6">
+                                        <label className="form-label">Price:</label>
+                                        <input type="text" className="form-control"
+                                            name="carPrice" placeholder="car price"
+                                            value={this.state.carPrice}
+                                            onChange={this.updateFormField} />
+                                    </div>
+
+                                    {/* Mileage */}
+                                    <div className="mb-2 col-6">
+                                        <label className="form-label">Mileage:</label>
+                                        <input type="text" className="form-control"
+                                            name="carMileage" placeholder="mileage"
+                                            value={this.state.carMileage}
+                                            onChange={this.updateFormField} />
+                                    </div>
+                                    {/* COE */}
+                                    <div className="mb-2 col-6">
+                                        <label className="form-label">COE:</label>
+                                        <input type="number" className="form-control"
+                                            name="carCOE" min="0"
+                                            value={this.state.carCOE}
+                                            onChange={this.updateFormField} />
+                                    </div>
+                                    {/* ARF */}
+                                    <div className="mb-2 col-6">
+                                        <label className="form-label">ARF:</label>
+                                        <input type="text" className="form-control"
+                                            name="carARF" min="0"
+                                            value={this.state.carARF}
+                                            onChange={this.updateFormField} />
+                                    </div>
+                                    {/* Year of make */}
+                                    <div className="mb-2 col-6">
+                                        <label className="form-label">Year of make:</label>
+                                        <input type="number" className="form-control"
+                                            name="carYearOfMake" min="1960" max="2022"
+                                            value={this.state.carYearOfMake}
+                                            onChange={this.updateFormField} />
+                                    </div>
+                                    {/* Ownership */}
+                                    <div className="mb-2 col-6">
+                                        <label className="form-label">No of Owners:</label>
+                                        <input type="number" className="form-control"
+                                            name="carNoOfOwner" min="1"
+                                            value={this.state.carNoOfOwner}
+                                            onChange={this.updateFormField} />
+                                    </div>
+                                    {/* Vehicle Type */}
+                                    <div className="mb-2 col-6">
+                                        <label className="form-label">Vehicle Type:</label>
+                                        <select className="form-select" name="carType"
+                                            value={this.state.carType} onChange={this.updateFormField}>
+                                            <option value="Sedan">Sedan</option>
+                                            <option value="Luxury Sedan">Luxury Sedan</option>
+                                            <option value="SUV">SUV</option>
+                                            <option value="MPV">MPV</option>
+                                            <option value="Hatchback">Hatchback</option>
+                                            <option value="Sports">Sports</option>
+                                        </select>
+                                    </div>
+
+                                    {/* Description - to be upgraded */}
+                                    <div className="mb-2 col-12">
+                                        <label className="form-label">Description:</label>
+                                        <textarea className="form-control" name='description' id="description" rows="5"></textarea>
+                                    </div>
+                                </React.Fragment>
+                                : null}
+                            <div className='mb-2 col-12'>
+                                <button className='btn auth-submit'
+                                    onClick={() => {
+
+                                        this.props.addCar({
+                                            carPlate: this.state.carPlate,
+                                            ownerId: this.state.ownerId,
+                                            ownerIdType: this.state.ownerIdType,
+                                            //-----------------
+                                            carPrice: parseInt(this.state.carPrice),
+                                            carRegDate: this.state.carRegDate,
+                                            carMileage: parseInt(this.state.carMileage),
+                                            carMake: this.state.carMake,
+                                            carModel: this.state.carModel,
+                                            carYearOfMake: parseInt(this.state.carYearOfMake),
+                                            carCOE: parseInt(this.state.carCOE),
+                                            carARF: parseInt(this.state.carARF),
+                                            carNoOfOwner: parseInt(this.state.carNoOfOwner),
+                                            carType: this.state.carType,
+                                            availability: this.state.availability
+                                        })
+
+                                        // this.setState({
+                                        //     profileTab: "confirmation"
+                                        // })
+                                    }}>Add Car</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </React.Fragment>
+    }
+    renderConfirmation = () => {
+        return <React.Fragment>
+            <div className='container-fluid'>
+                <div className="row bg-light">
+                    <div className='col-12'>
+                        {this.state.carPlate} has been successfully added
+                    </div>
+                    <div className='col-12'>
+                        <button className='auth-submit' 
+                                onClick={ ()=> {
+                                   this.setState({
+                                       profileTab:"inventory"
+                                   }) 
+                                }}>View my inventory</button>
+                    </div>
+
+                </div>
+            </div>
+        </React.Fragment>
+    }
     render() {
         return (
             <React.Fragment>
@@ -500,13 +776,19 @@ export default class Profile extends React.Component {
                     </div>
 
                     {/* <div className="card-body"> */}
-                    <div className="content-box" style={this.state.profileTab === "editCar" ? { 'height': 'auto' } : null}>
+                    <div className="content-box" style={this.state.profileTab === "editCar" || this.state.profileTab === "addCar" ? { 'height': 'auto' } : null}>
                         {this.state.profileTab === "inventory" ?
                             this.renderInventory()
                             : null}
                         {this.state.profileTab === "editCar" ?
                             this.renderEditCar()
                             : null}
+                        {this.state.profileTab === "addCar" ?
+                            this.renderAddCar()
+                            : null}
+                        {/* {this.state.profileTab === "confirmation" ?
+                            this.renderConfirmation() */}
+                            {/* : null} */}
                         {this.state.profileTab === "profile" ?
                             this.renderProfile()
                             : null}

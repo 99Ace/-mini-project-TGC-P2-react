@@ -1,7 +1,7 @@
 import React from 'react';
 import "bootstrap/dist/css/bootstrap.min.css";
 
-export default class CarListing extends React.Component {
+export default class ShowCars extends React.Component {
     render() {
         return (
             <React.Fragment>
@@ -9,7 +9,7 @@ export default class CarListing extends React.Component {
                     {
                         this.props.dataCar.map(car => {
                             return (
-                                <div className="card-body p-0" onClick={ ()=> {  this.props.showEachCar( car ) } }>
+                                <div key={car._id} className="card-body p-0" onClick={ ()=> {  this.props.showEachCar( car ) } }>
                                     <div className="container-fluid">
                                         <div className="row">
                                             <div className="col-12 eachCar-title mt-2 ">

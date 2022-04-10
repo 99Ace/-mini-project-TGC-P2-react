@@ -28,7 +28,7 @@ export default class App extends React.Component {
   state = {
     // data : load in data; tracker for data loaded
     dataCar: [],
-    oneCarData:{},
+    oneCarData: {},
     dataLoaded: false,
     // navbar : page tracker
     page: "home",
@@ -299,11 +299,12 @@ export default class App extends React.Component {
   showEachCar = async (car) => {
     console.log(car)
     this.setState({
-      oneCarData : car
+      oneCarData: car
     })
     this.setActive("showEachCar")
   }
   showCars = async () => {
+    this.fetchData();
     this.setActive("showCars", true)
   }
   updateCar = async (data) => {
@@ -311,9 +312,9 @@ export default class App extends React.Component {
     let userId = ReactSession.get("userId")
     // send back to api
     let result = await axios.put(this.baseURL + `/user/${userId}/${data.carId}/add_to_listing`, data);
-    
+
     this.setState({
-      auth : result.data.auth,
+      auth: result.data.auth,
       userData: result.data.userData,
       message: result.data.message
     })
@@ -321,6 +322,31 @@ export default class App extends React.Component {
     // redirect to profile page
     this.setActive("profile", false);
   }
+  addCar = async (data) => {
+    // console.log(data.carPlate);
+    let userId = ReactSession.get("userId");
+    // console.log("add_car",userId)
+    let newCar = {
+      carPlate : data.carPlate,
+      ownerId : data.ownerId,
+      ownerIdType : data.ownerIdType
+    }
+    console.log("New car data=>",newCar)
+    let result = await axios.post(this.baseURL + `/user/${userId}/add_car`, newCar)
+    // console.log(result.data)
+    
+    // Set updated data to state
+    this.setState({
+      auth: result.data.auth,
+      userData: result.data.userData,
+      message: result.data.message
+    })
+    // redirect to profile page
+    this.setActive("showCars", false)
+    // setTimeout(() => {
+    //   this.setActive("home", false)
+    // }, 2000)
+  };
 
   render() {
     return (
@@ -373,6 +399,7 @@ export default class App extends React.Component {
                   auth={this.state.auth}
                   page="inventory"
                   updateCar={this.updateCar}
+                  addCar={this.addCar}
                   showEachCar={this.showEachCar}
                   setActive={this.setActive}
                 /> : null}
