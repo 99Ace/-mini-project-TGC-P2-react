@@ -235,12 +235,10 @@ export default class Profile extends React.Component {
                                     {/* car info */}
                                     {this.state.tabs[index].tab === "info" ?
                                         <div className='row'>
-                                            <div className='col-8'>
-                                                <span className="fw-bold clip-text">
+                                            <div className='col-11'>
+                                                <h6 className="fw-bold m-0 p-0 clip-text">
                                                     {car.carPlate} - {car.carDetails.carMake} {car.carDetails.carModel}
-                                                </span>
-
-                                                <br />
+                                                </h6>
                                                 <b>Status:</b>
                                                 {
                                                     car.availability ?
@@ -284,8 +282,8 @@ export default class Profile extends React.Component {
             <div className="row">
                 {/* EACH CAR */}
                 {this.props.userData.cars.map((car, index) => this.showEachCar(car, index))}
-                <hr />
-                <button className='text-muted bg-light border-muted'
+                
+                <button className='mt-4 text-muted border py-2 bg-transparent nav-icon text-start'
                     onClick={() => {
                         this.resetState();
                         this.renderAddCar();
@@ -678,7 +676,6 @@ export default class Profile extends React.Component {
             </div>
         </React.Fragment>
     }
-
     renderAddCar = () => {
         return <React.Fragment>
             <div className='container-fluid'>
@@ -959,6 +956,7 @@ export default class Profile extends React.Component {
                             this.renderFavorite()
                             : null}
                     </div>
+
                     {/* Tab nav at the bottom */}
                     <ul className="nav nav-tabs d-flex justify-content-center mt-4">
                         <li className="nav-item">

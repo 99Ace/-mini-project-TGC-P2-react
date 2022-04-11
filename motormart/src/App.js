@@ -396,6 +396,7 @@ export default class App extends React.Component {
       <React.Fragment>
         <div className='container p-0'>
           <ShowNav
+            dataLoaded={this.dataLoaded}
             setActive={this.setActive}
             activeUser={this.state.activeUser}
           />
