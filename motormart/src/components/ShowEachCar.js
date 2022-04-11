@@ -7,7 +7,13 @@ export default class ShowEachCar extends React.Component {
         carMake: "",
         carType: "",
         tagSelected: false,
-        sortDirection: false
+        sortDirection: false,
+
+        // tags Tracker
+        carTypeTag: false,
+        carMakeTag: false,
+        carFuelTag: false,
+        carGearTag: false,
     }
     render() {
         return (
@@ -15,7 +21,7 @@ export default class ShowEachCar extends React.Component {
                 {/* Search bar */}
                 <div className="row">
                     <div className="col-12">
-                        <div className="search-bar">
+                        <div className="search-bar ps-2">
                             <i class="fa-solid fa-retweet search-icon text-secondary"
                                 onClick={() => { this.setState({ sortDirection: !this.state.sortDirection }) }}></i>
 
@@ -47,6 +53,44 @@ export default class ShowEachCar extends React.Component {
                             >Search</button>
                             <i className="fa-solid fa-rotate-right search-icon search-icon-blue"></i>
                         </div>
+                        <div className='px-2'>
+                            {/* carMake Tag */}
+                            {this.state.carMakeTag ? <span
+                                className={this.state.carMakeTag ? "badge badge-outline-danger" : "badge badge-outline-dark"}
+                                onClick={() => {
+                                    this.setState({
+                                        carMake: this.props.oneCarData.carDetails.carMake,
+                                        carMakeTag: !this.state.carMakeTag
+                                    })
+                                }}>{this.props.oneCarData.carDetails.carMake}</span> : null}
+                            {/* carType tag */}
+                            {this.state.carTypeTag ? <span
+                                className={this.state.carTypeTag ? "badge badge-outline-danger" : "badge badge-outline-dark"}
+                                onClick={() => {
+                                    this.setState({
+                                        carType: this.props.oneCarData.carDetails.carType,
+                                        carTypeTag: !this.state.carTypeTag
+                                    })
+                                }}>{this.props.oneCarData.carDetails.carType}</span> : null}
+                            {/* carFuel tag */}
+                            {this.state.carFuelTag ? <span
+                                className={this.state.carFuelTag ? "badge badge-outline-danger" : "badge badge-outline-dark"}
+                                onClick={() => {
+                                    this.setState({
+                                        // carType: this.props.oneCarData.carDetails.carType,
+                                        carFuelTag: !this.state.carFuelTag
+                                    })
+                                }}><i class="fa-solid fa-gas-pump"></i> Petrol</span> : null}
+                            {/* carGear Tag */}
+                            {this.state.carGearTag ? <span
+                                className={this.state.carGearTag ? "badge badge-outline-danger" : "badge badge-outline-dark"}
+                                onClick={() => {
+                                    this.setState({
+                                        // carType: this.props.oneCarData.carDetails.carType,
+                                        carGearTag: !this.state.carGearTag
+                                    })
+                                }}><i className="fa-solid fa-gear"></i> Auto</span> : null}
+                        </div>
                     </div>
 
                 </div>
@@ -74,20 +118,48 @@ export default class ShowEachCar extends React.Component {
                                 <div className="col-12">
                                     <h5>{this.props.oneCarData.carDetails.carMake} {this.props.oneCarData.carDetails.carModel}</h5>
                                     {/* <!-- Petrol Hybrid or EV tags --> */}
-                                    <a className="badge text-dark badge-outline-dark" href=""><i
-                                        className="fa-solid fa-gas-pump text-danger"></i> Petrol</a>
+                                    <span
+                                        className={this.state.carFuelTag ? "badge badge-outline-danger" : "badge badge-outline-dark"}
+                                        onClick={() => {
+                                            this.setState({
+                                                // carType: this.props.oneCarData.carDetails.carType,
+                                                carFuelTag: !this.state.carFuelTag
+                                            })
+                                        }}><i class="fa-solid fa-gas-pump"></i> Petrol</span>
                                     {/* <!-- <a className="badge text-dark badge-outline-dark" href=""><i
                                         className="fa-solid fa-battery-full text-success"></i> Hybrid</a>
                                     <a className="badge text-dark badge-outline-dark" href=""><i
                                         className="fa-solid fa-battery-full text-primary"></i> EV</a> --> */}
                                     {/* <!-- Car type tags:  Sedan/SUV/Hatchback/MPV --> */}
-                                    {/* <!-- <a className="badge text-dark badge-outline-dark" href="">Sedan</a> --> */}
-                                    <a className="badge text-dark badge-outline-dark" href="">Hatchback</a>
-                                    {/* <!-- <a className="badge text-dark badge-outline-dark" href="">SUV</a> --> */}
-                                    {/* <!-- <a className="badge text-dark badge-outline-dark" href="">MPV</a> --> */}
+                                    <span
+                                        className={this.state.carMakeTag ? "badge badge-outline-danger" : "badge badge-outline-dark"}
+                                        onClick={() => {
+                                            this.setState({
+                                                carMake: this.props.oneCarData.carDetails.carMake,
+                                                carMakeTag: !this.state.carMakeTag
+                                            })
+                                        }}>{this.props.oneCarData.carDetails.carMake}</span>
+                                    {/* <!-- Car type tags:  Sedan/SUV/Hatchback/MPV --> */}
+                                    <span
+                                        className={this.state.carTypeTag ? "badge badge-outline-danger" : "badge badge-outline-dark"}
+                                        onClick={() => {
+                                            this.setState({
+                                                carType: this.props.oneCarData.carDetails.carType,
+                                                carTypeTag: !this.state.carTypeTag
+                                            })
+                                        }}
+                                    >{this.props.oneCarData.carDetails.carType}</span>
                                     {/* <!-- Transmission --> */}
-                                    <a className="badge text-dark badge-outline-dark" href=""><i className="fa-solid fa-gear"></i> Auto</a>
-                                    <a className="badge text-dark badge-outline-dark" href=""><i className="fa-solid fa-gear text-danger"></i> Manual</a>
+                                    <span
+                                        className={this.state.carGearTag ? "badge badge-outline-danger" : "badge badge-outline-dark"}
+                                        onClick={() => {
+                                            this.setState({
+                                                // carType: this.props.oneCarData.carDetails.carType,
+                                                carGearTag: !this.state.carGearTag
+                                            })
+                                        }}><i className="fa-solid fa-gear"></i> Auto</span>
+                                    {/* <span className="badge text-dark badge-outline-dark"><i className="fa-solid fa-gear"></i> Auto</span>
+                                    <span className="badge text-dark badge-outline-dark"><i className="fa-solid fa-gear text-danger"></i> Manual</span> */}
                                 </div>
                                 {/* <!-- Price --> */}
                                 <div className="col-12">
@@ -163,13 +235,7 @@ export default class ShowEachCar extends React.Component {
                                 <hr className="my-2" />
                                 <h6 className="m-0">Reference:</h6>
                                 <div className="col-12">
-                                    <span className="badge text-dark badge-outline-dark" href="#"
-                                        onClick={ ()=> {
-                                            this.setState({
-                                                carType: this.props.oneCarData.carDetails.carType
-                                            })
-                                        }}
-                                    >{this.props.oneCarData.carDetails.carType}</span>
+
                                     <a className="badge text-dark badge-outline-dark" href="">70% Loan</a>
                                 </div>
                                 {/* <!-- Specification --> */}
