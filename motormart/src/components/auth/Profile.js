@@ -22,7 +22,15 @@ export default class Profile extends React.Component {
         carARF: "",
         carNoOfOwner: "",
         carType: "",
-        carImages: [],
+        // carImages: [],
+        // Images 
+        image1: "",
+        image2: "",
+        image3: "",
+        image4: "",
+        image5: "",
+        image6: "",
+
         availability: false
     }
     componentDidMount = () => {
@@ -57,8 +65,8 @@ export default class Profile extends React.Component {
             [e.target.name]: e.target.value
         });
     }
-    updateCarImagesField=(e)=>{
-        console.log("update image field")
+    updateCarImagesField = (e) => {
+        console.log(e)
     }
     setEditCar = (index) => {
         let car = this.props.userData.cars[index]
@@ -84,14 +92,19 @@ export default class Profile extends React.Component {
     }
     setEditImages = (index) => {
         let car = this.props.userData.cars[index]
-        let carRegDate = car.carDetails.carRegDate
-        carRegDate = carRegDate.slice(0, 10)
-        console.log(carRegDate)
-
+        let carImages = car.carDetails.carImages
+        // let carImages = [
+        //     "test1", "test2", "test3", "test4"
+        // ]
+        carImages.filter( (i,index)=> {
+            this.setState({
+               [ "image"+(index+1)]:i
+            })
+        })
+        console.log( this.state["image"+"1"])
+        
 
         this.setState({
-            carPrice: car.carDetails.carPrice,
-            carMileage: car.carDetails.carImages,
             availability: car.availability
         })
         this.activeTab("editImages", index)
@@ -121,7 +134,14 @@ export default class Profile extends React.Component {
             carARF: "",
             carNoOfOwner: "",
             carType: "",
-            availability: false
+            availability: false,
+            // Images 
+            image1: "",
+            image2: "",
+            image3: "",
+            image4: "",
+            image5: "",
+            image6: "",
         })
     }
 
@@ -555,7 +575,6 @@ export default class Profile extends React.Component {
                             <div className='col-6'>
                                 <h6 className='mt-2'><b>[ {this.props.userData.cars[this.state.carToBeEdited].carPlate} ]</b></h6>
                             </div>
-
                             <div className='col-6 d-flex justify-content-end align-items-center'>
                                 {this.state.availability ?
                                     <div className='badge bg-success'>Listed</div> :
@@ -573,14 +592,72 @@ export default class Profile extends React.Component {
                                     />
                                 </div>
                             </div>
+                            {/* Image 1 */}
+                            <div className="col-6">
+                                <label className="form-label">Image 1:</label>
+                                <input type="text" className="form-control"
+                                    name="image1" placeholder='Image 1'
+                                    value={this.state.image1}
+                                    onChange={this.updateFormField} />
+                            </div>
+                            {/* Image 2 */}
+                            <div className="col-6">
+                                <label className="form-label">Image 2:</label>
+                                <input type="text" className="form-control"
+                                    name="image2" placeholder='Image 2'
+                                    value={this.state.image2}
+                                    onChange={this.updateFormField} />
+                            </div>
+                            {/* Image 3 */}
+                            <div className="col-6">
+                                <label className="form-label">Image 3:</label>
+                                <input type="text" className="form-control"
+                                    name="image3" placeholder='Image 3'
+                                    value={this.state.image3}
+                                    onChange={this.updateFormField} />
+                            </div>
+                            {/* Image 4 */}
+                            <div className="col-6">
+                                <label className="form-label">Image 4:</label>
+                                <input type="text" className="form-control"
+                                    name="image4" placeholder='Image 4'
+                                    value={this.state.image4}
+                                    onChange={this.updateFormField} />
+                            </div>
+                            {/* Image 5 */}
+                            <div className="col-6">
+                                <label className="form-label">Image 5:</label>
+                                <input type="text" className="form-control"
+                                    name="image5" placeholder='Image 5'
+                                    value={this.state.image5}
+                                    onChange={this.updateFormField} />
+                            </div>
+                            {/* Image 6 */}
+                            <div className="col-6">
+                                <label className="form-label">Image 6:</label>
+                                <input type="text" className="form-control"
+                                    name="image6" placeholder='Image 6'
+                                    value={this.state.image6}
+                                    onChange={this.updateFormField} />
+                            </div>
 
-                            <div className='mb-2 col-12'>
+                            <div className='mt-4 mb-2 col-12'>
                                 <button className='btn auth-submit'
                                     onClick={() => {
-
+                                        let carImages = [
+                                            this.state.image1, this.state.image2, this.state.image3,
+                                            this.state.image4, this.state.image5, this.state.image6
+                                        ]
+                                        carImages = carImages.filter( i=>{
+                                            if (i !== ""){
+                                                return i
+                                            }
+                                        })
+                                        console.log(carImages)
                                         this.props.updateImages({
                                             index: this.state.carToBeEdited,
                                             carId: this.props.userData.cars[this.state.carToBeEdited]._id,
+                                            carImages
                                         })
 
                                         this.setState({
@@ -588,7 +665,7 @@ export default class Profile extends React.Component {
                                         })
                                         this.resetState();
 
-                                    }}>Update</button>
+                                    }}>Submit</button>
                             </div>
                         </div>
                     </div>
@@ -820,12 +897,12 @@ export default class Profile extends React.Component {
                         {this.state.carPlate} has been successfully added
                     </div>
                     <div className='col-12'>
-                        <button className='auth-submit' 
-                                onClick={ ()=> {
-                                   this.setState({
-                                       profileTab:"inventory"
-                                   }) 
-                                }}>View my inventory</button>
+                        <button className='auth-submit'
+                            onClick={() => {
+                                this.setState({
+                                    profileTab: "inventory"
+                                })
+                            }}>View my inventory</button>
                     </div>
 
                 </div>
@@ -868,8 +945,8 @@ export default class Profile extends React.Component {
                             this.renderAddCar()
                             : null}
                         {this.state.profileTab === "editImages" ?
-                            this.renderEditImages() 
-                            git : null}
+                            this.renderEditImages()
+                            : null}
                         {this.state.profileTab === "profile" ?
                             this.renderProfile()
                             : null}
