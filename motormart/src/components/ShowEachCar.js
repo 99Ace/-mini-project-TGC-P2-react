@@ -3,6 +3,9 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 export default class ShowEachCar extends React.Component {
     state = {
+        // Images Tracker
+        activeImage: 0,
+
         // Search Options
         carMake: "",
         carType: "",
@@ -105,19 +108,31 @@ export default class ShowEachCar extends React.Component {
                     <div className="card border-0 car-listing">
                         <div className="row">
                             <div className="col-10">
-                            {/* <img src="https://i.i-sgcm.com/cars_used/202203/1084798_1b.jpg" className="card-img-top" alt="..." /> */}
-                            <img src={
-                                this.props.oneCarData.carDetails.carImages.length > 0 ?
-                                    this.props.oneCarData.carDetails.carImages[0] : "https://i.i-sgcm.com/cars_used/202203/1084798_1b.jpg"
-                            } alt="" className="img-fluid" />
+
+                                <img src={
+                                    this.props.oneCarData.carDetails.carImages.length > 0 ?
+                                        this.props.oneCarData.carDetails.carImages[ this.state.activeImage] 
+                                        : "https://i.i-sgcm.com/cars_used/202203/1084798_1b.jpg"
+                                } alt="" className="img-fluid" />
                             </div>
                             <div className="col-2">
                                 <div className="row gy-1">
+                                    {this.props.oneCarData.carDetails.carImages.map((car, index) => {
+                                        return <React.Fragment>
+                                            <div className="col-12">
+                                                <img src={car} 
+                                                     className="card-img-top" 
+                                                     onClick={()=>{ this.setState({ activeImage: index })}}
+                                                     alt="..." />
+                                            </div>
+                                        </React.Fragment>
+                                    })}
+                                    {/*                                     
                                     <div className="col-12"><img src="https://i.i-sgcm.com/cars_used/202203/1084798_1b.jpg" className="card-img-top" alt="..." /></div>
                                     <div className="col-12"><img src="https://i.i-sgcm.com/cars_used/202203/1084798_1b.jpg" className="card-img-top" alt="..." /></div>
                                     <div className="col-12"><img src="https://i.i-sgcm.com/cars_used/202203/1084798_1b.jpg" className="card-img-top" alt="..." /></div>
                                     <div className="col-12"><img src="https://i.i-sgcm.com/cars_used/202203/1084798_1b.jpg" className="card-img-top" alt="..." /></div>
-                                    <div className="col-12"><img src="https://i.i-sgcm.com/cars_used/202203/1084798_1b.jpg" className="card-img-top" alt="..." /></div>
+                                    <div className="col-12"><img src="https://i.i-sgcm.com/cars_used/202203/1084798_1b.jpg" className="card-img-top" alt="..." /></div> */}
                                 </div>
                             </div>
 
