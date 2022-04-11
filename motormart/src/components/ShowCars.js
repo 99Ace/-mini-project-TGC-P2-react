@@ -80,7 +80,10 @@ export default class ShowCars extends React.Component {
                                             <div className="col-12 eachCar-body">
                                                 <div className="row">
                                                     <div className="col-4 p-2">
-                                                        <img src="https://i.i-sgcm.com/cars_used/202202/1069590_1.jpg" className="img-fluid" alt="" />
+                                                        <img src={
+                                                            car.carDetails.carImages.length > 0 ?
+                                                                car.carDetails.carImages[0] : "https://i.i-sgcm.com/cars_used/202112/1053408_1b.jpg"
+                                                        } alt="" className="img-fluid" />
                                                     </div>
                                                     <div className="col-8 p-2">
                                                         <b className="text-danger eachCar-title border">${car.carDetails.carPrice.toLocaleString()}</b><br />

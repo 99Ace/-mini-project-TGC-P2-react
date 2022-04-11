@@ -112,6 +112,18 @@
 .btn-open:hover {
     color: rgb(220,53,69);
 }
+.btn-delete-mini {
+    color: rgb(214, 0, 0);
+    border: 1px solid rgb(214, 0, 0);
+    background-color: transparent;
+    padding: 2px 6px ;
+    border-radius: 4px;
+    
+}
+.btn-delete-mini:hover {
+    color: rgb(190, 0, 0);
+    border: 1px solid rgb(188, 0, 0);   
+}
 .clip-text {
     white-space: nowrap; 
     overflow: hidden;

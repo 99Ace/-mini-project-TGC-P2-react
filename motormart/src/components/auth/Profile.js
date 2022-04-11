@@ -96,13 +96,12 @@ export default class Profile extends React.Component {
         // let carImages = [
         //     "test1", "test2", "test3", "test4"
         // ]
-        carImages.filter( (i,index)=> {
+        carImages.filter((i, index) => {
             this.setState({
-               [ "image"+(index+1)]:i
+                ["image" + (index + 1)]: i
             })
         })
-        console.log( this.state["image"+"1"])
-        
+        console.log(this.state["image" + "1"])
 
         this.setState({
             availability: car.availability
@@ -153,7 +152,10 @@ export default class Profile extends React.Component {
                 <div className="col-12 p-1">
                     <div className="row">
                         <div className="col-4 d-flex justify-content-center align-items-center flex-column">
-                            <img src="https://i.i-sgcm.com/cars_used/202112/1053408_1b.jpg" alt="" className="img-fluid" />
+                            <img src={
+                                car.carDetails.carImages.length > 0 ?
+                                    car.carDetails.carImages[0] : "https://i.i-sgcm.com/cars_used/202112/1053408_1b.jpg"
+                            } alt="" className="img-fluid" />
                             <div className="road-tax-warning">Road tax due</div>
                         </div>
                         <div className="col-8">
@@ -202,17 +204,16 @@ export default class Profile extends React.Component {
                                         ><i class="fa-solid fa-image"></i></a>
                                     </li>
                                     {/* check if tab = delete */}
-                                    <li key={"delete" + index} className="nav-item">
-                                        <a className={this.state.tabs[index].tab === "delete" ?
+                                    <li key={"deleteCar" + index} className="nav-item">
+                                        <span className={this.state.tabs[index].tab === "deleteCar" ?
                                             "nav-link active text-danger" :
                                             "nav-link text-muted"}
                                             ariacurrent="page"
-                                            href="#"
                                             onClick={() => {
-                                                this.props.removeCar(car);
+                                                this.updateTabs("deleteCar", index)
                                             }}
                                         ><i
-                                            className="fa-solid fa-trash-can"></i></a>
+                                            className="fa-solid fa-trash-can"></i></span>
                                     </li>
                                     {/* check if tab = view */}
                                     <li key={"view" + index} className="nav-item">
@@ -236,7 +237,7 @@ export default class Profile extends React.Component {
                                         <div className='row'>
                                             <div className='col-8'>
                                                 <span className="fw-bold clip-text">
-                                                    {car.carDetails.carMake} {car.carDetails.carModel}
+                                                    {car.carPlate} - {car.carDetails.carMake} {car.carDetails.carModel}
                                                 </span>
 
                                                 <br />
@@ -256,14 +257,17 @@ export default class Profile extends React.Component {
 
                                         : null}
 
-                                    {this.state.tabs[index].tab === "delete" ?
+                                    {this.state.tabs[index].tab === "deleteCar" ?
                                         <div>
                                             <span className="fw-bold clip-text">
                                                 {car.carDetails.carMake} {car.carDetails.carModel}
                                             </span>
                                             <br />
-                                            <i className='text-muted'>I no longer own the car</i> <br />
-                                            <a href='' className='badge bg-danger'>remove</a>
+                                            <i className='text-muted'>I no longer own the car</i> 
+                                            <button className='btn-delete-mini ms-2'
+                                                onClick={() => {
+                                                    this.props.removeCar(car);
+                                                }}>remove</button>
 
                                         </div> : null}
                                 </div>
@@ -648,16 +652,17 @@ export default class Profile extends React.Component {
                                             this.state.image1, this.state.image2, this.state.image3,
                                             this.state.image4, this.state.image5, this.state.image6
                                         ]
-                                        carImages = carImages.filter( i=>{
-                                            if (i !== ""){
+                                        carImages = carImages.filter(i => {
+                                            if (i !== "") {
                                                 return i
                                             }
                                         })
-                                        console.log(carImages)
+                                        // console.log(carImages)
                                         this.props.updateImages({
                                             index: this.state.carToBeEdited,
                                             carId: this.props.userData.cars[this.state.carToBeEdited]._id,
-                                            carImages
+                                            carImages,
+                                            availability: this.state.availability
                                         })
 
                                         this.setState({
@@ -958,7 +963,12 @@ export default class Profile extends React.Component {
                     <ul className="nav nav-tabs d-flex justify-content-center mt-4">
                         <li className="nav-item">
                             <a ariacurrent="page"
-                                className={this.state.profileTab === "inventory" || this.state.profileTab === "editCar" ? "nav-link active" : "nav-link"}
+                                className={
+                                    this.state.profileTab === "inventory" ||
+                                        this.state.profileTab === "editCar" ||
+                                        this.state.profileTab === "editImages" ||
+                                        this.state.profileTab === "deleteCar"
+                                        ? "nav-link active" : "nav-link"}
                                 onClick={() => { this.activeTab("inventory") }}>
                                 <i className={this.state.profileTab === "inventory" ? "fa-solid fa-car text-danger" : "fa-solid fa-car text-muted"}></i> Inventory</a>
                         </li>

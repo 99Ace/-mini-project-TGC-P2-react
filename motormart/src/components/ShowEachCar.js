@@ -104,7 +104,13 @@ export default class ShowEachCar extends React.Component {
                 <div className="p-3">
                     <div className="card border-0 car-listing">
                         <div className="row">
-                            <div className="col-10"><img src="https://i.i-sgcm.com/cars_used/202203/1084798_1b.jpg" className="card-img-top" alt="..." /></div>
+                            <div className="col-10">
+                            {/* <img src="https://i.i-sgcm.com/cars_used/202203/1084798_1b.jpg" className="card-img-top" alt="..." /> */}
+                            <img src={
+                                this.props.oneCarData.carDetails.carImages.length > 0 ?
+                                    this.props.oneCarData.carDetails.carImages[0] : "https://i.i-sgcm.com/cars_used/202203/1084798_1b.jpg"
+                            } alt="" className="img-fluid" />
+                            </div>
                             <div className="col-2">
                                 <div className="row gy-1">
                                     <div className="col-12"><img src="https://i.i-sgcm.com/cars_used/202203/1084798_1b.jpg" className="card-img-top" alt="..." /></div>

@@ -312,7 +312,7 @@ export default class App extends React.Component {
     this.setActive("showCars", true)
   }
   updateCar = async (data) => {
-    console.log(data)
+    console.log("UpdateCar data==>",data)
     let userId = ReactSession.get("userId")
     // send back to api
     let result = await axios.put(this.baseURL + `/user/${userId}/${data.carId}/add_to_listing`, data);
@@ -323,6 +323,19 @@ export default class App extends React.Component {
       message: result.data.message
     })
 
+    // redirect to profile page
+    this.setActive("profile", false);
+  }
+  updateImages = async (data) => {
+    console.log("Sending to updateImages data", data)
+    let userId = ReactSession.get("userId")
+    let result = await axios.put( this.baseURL + `/user/${userId}/${data.carId}/add_images`, data )
+    console.log(result.data)
+    this.setState({
+      auth: result.data.auth,
+      userData: result.data.userData,
+      message: result.data.message
+    })
     // redirect to profile page
     this.setActive("profile", false);
   }
@@ -429,6 +442,7 @@ export default class App extends React.Component {
                   auth={this.state.auth}
                   page="inventory"
                   updateCar={this.updateCar}
+                  updateImages={this.updateImages}
                   addCar={this.addCar}
                   removeCar={this.removeCar}
                   showEachCar={this.showEachCar}
