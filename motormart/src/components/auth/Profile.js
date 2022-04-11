@@ -22,6 +22,7 @@ export default class Profile extends React.Component {
         carARF: "",
         carNoOfOwner: "",
         carType: "",
+        carImages: [],
         availability: false
     }
     componentDidMount = () => {
@@ -56,6 +57,9 @@ export default class Profile extends React.Component {
             [e.target.name]: e.target.value
         });
     }
+    updateCarImagesField=(e)=>{
+        console.log("update image field")
+    }
     setEditCar = (index) => {
         let car = this.props.userData.cars[index]
         let carRegDate = car.carDetails.carRegDate
@@ -77,6 +81,20 @@ export default class Profile extends React.Component {
             availability: car.availability
         })
         this.activeTab("editCar", index)
+    }
+    setEditImages = (index) => {
+        let car = this.props.userData.cars[index]
+        let carRegDate = car.carDetails.carRegDate
+        carRegDate = carRegDate.slice(0, 10)
+        console.log(carRegDate)
+
+
+        this.setState({
+            carPrice: car.carDetails.carPrice,
+            carMileage: car.carDetails.carImages,
+            availability: car.availability
+        })
+        this.activeTab("editImages", index)
     }
     updateTabs = (tab, index) => {
         let clone = this.state.tabs.map(t => { return { tab: "info" } })
@@ -149,6 +167,19 @@ export default class Profile extends React.Component {
                                             }}
                                         ><i
                                             className="fa-solid fa-pen-to-square"></i></a>
+                                    </li>
+                                    {/* check if tab = images */}
+                                    <li key={"images" + index} className="nav-item">
+                                        <a className={this.state.tabs[index].tab === "images" ?
+                                            "nav-link active text-danger" :
+                                            "nav-link text-muted"}
+                                            ariacurrent="page"
+                                            href="#"
+                                            onClick={() => {
+                                                // console.log(car._id)
+                                                this.setEditImages(index)
+                                            }}
+                                        ><i class="fa-solid fa-image"></i></a>
                                     </li>
                                     {/* check if tab = delete */}
                                     <li key={"delete" + index} className="nav-item">
@@ -514,6 +545,57 @@ export default class Profile extends React.Component {
             </div>
         </React.Fragment>
     }
+    renderEditImages = () => {
+        return <React.Fragment>
+            <div className='container-fluid'>
+                <div className="row bg-light">
+                    {/* <!-- one car listing --> */}
+                    <div className="col-12">
+                        <div className='row mb-2'>
+                            <div className='col-6'>
+                                <h6 className='mt-2'><b>[ {this.props.userData.cars[this.state.carToBeEdited].carPlate} ]</b></h6>
+                            </div>
+
+                            <div className='col-6 d-flex justify-content-end align-items-center'>
+                                {this.state.availability ?
+                                    <div className='badge bg-success'>Listed</div> :
+                                    <div className='badge bg-secondary'>Not listed</div>}
+
+                                <div class="form-check form-switch ms-2 pt-1">
+                                    <input class="form-check-input" type="checkbox"
+                                        role="switch" name='availability'
+                                        defaultChecked={this.state.availability}
+                                        onClick={() => {
+                                            this.setState({
+                                                availability: !this.state.availability
+                                            })
+                                        }}
+                                    />
+                                </div>
+                            </div>
+
+                            <div className='mb-2 col-12'>
+                                <button className='btn auth-submit'
+                                    onClick={() => {
+
+                                        this.props.updateImages({
+                                            index: this.state.carToBeEdited,
+                                            carId: this.props.userData.cars[this.state.carToBeEdited]._id,
+                                        })
+
+                                        this.setState({
+                                            profileTab: "inventory"
+                                        })
+                                        this.resetState();
+
+                                    }}>Update</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </React.Fragment>
+    }
 
     renderAddCar = () => {
         return <React.Fragment>
@@ -719,10 +801,9 @@ export default class Profile extends React.Component {
                                             carType: this.state.carType,
                                             availability: this.state.availability
                                         })
-
-                                        // this.setState({
-                                        //     profileTab: "confirmation"
-                                        // })
+                                        this.setState({
+                                            profileTab: "inventory"
+                                        })
                                     }}>Add Car</button>
                             </div>
                         </div>
@@ -786,9 +867,9 @@ export default class Profile extends React.Component {
                         {this.state.profileTab === "addCar" ?
                             this.renderAddCar()
                             : null}
-                        {/* {this.state.profileTab === "confirmation" ?
-                            this.renderConfirmation() */}
-                            {/* : null} */}
+                        {this.state.profileTab === "editImages" ?
+                            this.renderEditImages() 
+                            git : null}
                         {this.state.profileTab === "profile" ?
                             this.renderProfile()
                             : null}

@@ -71,8 +71,11 @@ export default class ShowCars extends React.Component {
                                 <div key={car._id} className="card-body p-0" onClick={() => { this.props.showEachCar(car) }}>
                                     <div className="container-fluid">
                                         <div className="row">
-                                            <div className="col-12 eachCar-title mt-2 ">
-                                                <b>{car.carDetails.carMake} {car.carDetails.carModel}</b>
+                                            <div className="col-12 mt-2 ">
+                                                <div className='d-flex justify-content-between'>
+                                                    <b className='eachCar-title '>{car.carDetails.carMake} {car.carDetails.carModel}</b>
+                                                    {/* <i class="fa-solid fa-heart text-muted "></i> */}
+                                                </div>
                                             </div>
                                             <div className="col-12 eachCar-body">
                                                 <div className="row">

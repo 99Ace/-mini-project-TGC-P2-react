@@ -296,6 +296,10 @@ export default class App extends React.Component {
       this.setActive("register", true)
     }
   }
+  showProfile=()=> {
+    this.fetchUser();
+    this.setActive("profile")
+  }
   showEachCar = async (car) => {
     console.log(car)
     this.setState({
@@ -333,24 +337,32 @@ export default class App extends React.Component {
     }
     console.log("New car data=>", newCar)
     let result = await axios.post(this.baseURL + `/user/${userId}/add_car`, newCar)
-    // console.log(result.data)
-
+    console.log(result.data.carId)
+    if (data.availability) {
+      let result = await axios.put(this.baseURL + `/user/${userId}/${result.data.carId}/car_sold`, newCar)
+    }
     // Set updated data to state
     this.setState({
       auth: result.data.auth,
       userData: result.data.userData,
       message: result.data.message
     })
-    // redirect to profile page
-    this.setActive("showCars", false)
-    // setTimeout(() => {
-    //   this.setActive("home", false)
-    // }, 2000)
+    this.showCars();
+    // this.showProfile();
   };
   removeCar = async (car) => {
-    console.log(car)
-    this.setActive("showCars", false)
-    
+    let userId = ReactSession.get("userId");
+    let carId = car._id
+    let result = await axios.delete(this.baseURL + `/user/${userId}/${carId}/delete_car`)
+    // Set updated data to state
+    this.setState({
+      auth: result.data.auth,
+      userData: result.data.userData,
+      message: result.data.message
+    })
+
+    this.showCars()
+
   }
   sendSearch = async (data) => {
     console.log(data)

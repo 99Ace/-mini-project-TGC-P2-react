@@ -123,7 +123,11 @@ export default class ShowEachCar extends React.Component {
                             <div className="row gy-1">
                                 {/* <!-- Title --> */}
                                 <div className="col-12">
-                                    <h5>{this.props.oneCarData.carDetails.carMake} {this.props.oneCarData.carDetails.carModel}</h5>
+                                    <div className='d-flex justify-content-between'>
+                                        <h5>{this.props.oneCarData.carDetails.carMake} {this.props.oneCarData.carDetails.carModel}</h5>
+                                        <i class="fa-solid fa-heart text-muted nav-icon"></i>
+                                    </div>
+
                                     {/* <!-- Petrol Hybrid or EV tags --> */}
                                     <span
                                         className={this.state.carFuelTag ? "badge badge-outline-danger" : "badge badge-outline-dark"}
