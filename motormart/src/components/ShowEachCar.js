@@ -7,7 +7,6 @@ export default class ShowEachCar extends React.Component {
         carMake: "",
         carType: "",
         tagSelected: false,
-        sortDirection: false,
 
         // tags Tracker
         carTypeTag: false,
@@ -22,11 +21,9 @@ export default class ShowEachCar extends React.Component {
                 <div className="row">
                     <div className="col-12">
                         <div className="search-bar ps-2">
-                            <i class="fa-solid fa-retweet search-icon text-secondary"
-                                onClick={() => { this.setState({ sortDirection: !this.state.sortDirection }) }}></i>
 
                             <input type="text" className="form-control form-control-sm"
-                                name="carMake" placeholder="e.g Audi A4"
+                                name="carMake" placeholder="search"
                                 value={this.state.searchText}
                                 onChange={this.updateFormField} />
 
@@ -51,7 +48,17 @@ export default class ShowEachCar extends React.Component {
                                     this.props.sendSearch(query)
                                 }}
                             >Search</button>
-                            <i className="fa-solid fa-rotate-right search-icon search-icon-blue"></i>
+                            <i className="fa-solid fa-rotate-right search-icon search-icon-blue"
+                                onClick={() => {
+                                    this.setState({
+                                        carMake: "",
+                                        carType: "",
+                                        carTypeTag: false,
+                                        carMakeTag: false,
+                                        carFuelTag: false,
+                                        carGearTag: false,
+                                    })
+                                }}></i>
                         </div>
                         <div className='px-2'>
                             {/* carMake Tag */}

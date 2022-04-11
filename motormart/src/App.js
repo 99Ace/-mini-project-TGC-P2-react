@@ -327,14 +327,14 @@ export default class App extends React.Component {
     let userId = ReactSession.get("userId");
     // console.log("add_car",userId)
     let newCar = {
-      carPlate : data.carPlate,
-      ownerId : data.ownerId,
-      ownerIdType : data.ownerIdType
+      carPlate: data.carPlate,
+      ownerId: data.ownerId,
+      ownerIdType: data.ownerIdType
     }
-    console.log("New car data=>",newCar)
+    console.log("New car data=>", newCar)
     let result = await axios.post(this.baseURL + `/user/${userId}/add_car`, newCar)
     // console.log(result.data)
-    
+
     // Set updated data to state
     this.setState({
       auth: result.data.auth,
@@ -347,16 +347,21 @@ export default class App extends React.Component {
     //   this.setActive("home", false)
     // }, 2000)
   };
-  sendSearch = async (data)=>{
+  removeCar = async (car) => {
+    console.log(car)
+    this.setActive("showCars", false)
+    
+  }
+  sendSearch = async (data) => {
     console.log(data)
     let query = {
-      params : data
+      params: data
     }
-    let result = await axios.get( this.baseURL + `/car/search`, query);
+    let result = await axios.get(this.baseURL + `/car/search`, query);
     console.log(result.data)
     this.setState({
-      dataCar : result.data.data,
-      auth : result.data.auth,
+      dataCar: result.data.data,
+      auth: result.data.auth,
       message: result.data.message
     })
     this.setActive("showCars")
@@ -413,6 +418,7 @@ export default class App extends React.Component {
                   page="inventory"
                   updateCar={this.updateCar}
                   addCar={this.addCar}
+                  removeCar={this.removeCar}
                   showEachCar={this.showEachCar}
                   setActive={this.setActive}
                 /> : null}

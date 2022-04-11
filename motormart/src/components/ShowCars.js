@@ -6,12 +6,12 @@ export default class ShowCars extends React.Component {
         // Search Options
         carMake: "",
         carType: "",
-        tagSelected: false,
+        // tagSelected: false,
         sortDirection: false
     }
-    updateFormField=(e)=>{
+    updateFormField = (e) => {
         this.setState({
-            [e.target.name]:e.target.value
+            [e.target.name]: e.target.value
         })
     }
     render() {
@@ -22,18 +22,18 @@ export default class ShowCars extends React.Component {
                     <div className="row">
                         <div className="col-12">
                             <div className="search-bar">
-                                <i  class="fa-solid fa-retweet search-icon text-secondary"
+                                <i class="fa-solid fa-retweet search-icon text-secondary"
                                     onClick={() => { this.setState({ sortDirection: !this.state.sortDirection }) }}></i>
 
-                                <input  type="text" className="form-control form-control-sm" 
-                                        name="carMake" placeholder="e.g Audi A4" 
-                                        value={this.state.searchText}
-                                        onChange={this.updateFormField}/>
+                                <input type="text" className="form-control form-control-sm"
+                                    name="carMake" placeholder="e.g Audi A4"
+                                    value={this.state.searchText}
+                                    onChange={this.updateFormField} />
 
-                                <select name="carType" 
-                                        className="form-select form-select-sm" 
-                                        value={this.state.carType} 
-                                        onChange={this.updateFormField}>
+                                <select name="carType"
+                                    className="form-select form-select-sm"
+                                    value={this.state.carType}
+                                    onChange={this.updateFormField}>
                                     <option value="">Type</option>
                                     <option value="Sedan">Sedan</option>
                                     <option value="Luxury Sedan">Luxury Sedan</option>
@@ -43,15 +43,22 @@ export default class ShowCars extends React.Component {
                                     <option value="Sports">Sports</option>
                                 </select>
                                 <button className="search-btn"
-                                        onClick={ ()=> { 
-                                            let query = {
-                                                carMake: this.state.carMake,
-                                                carType: this.state.carType
-                                            }
-                                            this.props.sendSearch(query)
-                                        }}
+                                    onClick={() => {
+                                        let query = {
+                                            carMake: this.state.carMake,
+                                            carType: this.state.carType
+                                        }
+                                        this.props.sendSearch(query)
+                                    }}
                                 >Search</button>
-                                <i className="fa-solid fa-rotate-right search-icon search-icon-blue"></i>
+                                <i className="fa-solid fa-rotate-right search-icon search-icon-blue"
+                                    onClick={() => {
+                                        let query = {
+                                            carMake: "",
+                                            carType: ""
+                                        }
+                                        this.props.sendSearch(query)
+                                    }}></i>
                             </div>
                         </div>
 
