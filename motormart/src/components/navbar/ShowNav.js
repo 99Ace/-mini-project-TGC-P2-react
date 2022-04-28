@@ -39,7 +39,7 @@ export default class ShowNav extends React.Component {
                     <button
                       onClick={() => { this.props.setActive("logout") }}
                       className="btn p-0 text-danger ms-2 ms-md-3"
-                      disabled={!this.props.dataLoaded}
+                      // disabled={!this.props.dataLoaded}
                       type="button"
                       databstoggle="tooltip"
                       databsplacement="bottom"
@@ -51,7 +51,7 @@ export default class ShowNav extends React.Component {
                     <button
                       onClick={() => { this.props.setActive("profile", false) }}
                       className="btn p-0 text-danger ms-2 ms-md-3"
-                      disabled={!this.props.dataLoaded}
+                      // disabled={!this.props.dataLoaded}
                       type="button"
                       databstoggle="tooltip"
                       databsplacement="bottom"
@@ -65,7 +65,7 @@ export default class ShowNav extends React.Component {
                     <button
                       onClick={() => { this.props.setActive("login") }}
                       className="btn p-0 text-muted ms-2 ms-md-3"
-                      disabled={!this.props.dataLoaded}
+                      // disabled={!this.props.dataLoaded}
                       type="button"
                       databstoggle="tooltip"
                       databsplacement="bottom"
@@ -78,7 +78,7 @@ export default class ShowNav extends React.Component {
                     <button
                       onClick={() => { this.props.setActive("register") }}
                       className="btn p-0 text-muted ms-2 ms-md-3"
-                      disabled={!this.props.dataLoaded}
+                      // disabled={!this.props.dataLoaded}
                       type="button"
                       databstoggle="tooltip"
                       databsplacement="bottom"

@@ -42,10 +42,10 @@ export default class App extends React.Component {
   };
 
   // base URL for testing with heroku deployed API
-  // baseURL = "https://tgc-p2-99ace.herokuapp.com";
+  baseURL = "https://tgc-p2-99ace.herokuapp.com";
 
   // Route for testing with express in development API 
-  baseURL = "https://3001-99ace-miniprojecttgcp-leqq5j6lxcz.ws-us39.gitpod.io";
+  // baseURL = "https://3001-99ace-miniprojecttgcp-leqq5j6lxcz.ws-us40.gitpod.io";
 
   updateFormField = (e) => {
     this.setState({
@@ -349,10 +349,11 @@ export default class App extends React.Component {
       ownerIdType: data.ownerIdType
     }
     console.log("New car data=>", newCar)
-    let result = await axios.post(this.baseURL + `/user/${userId}/add_car`, newCar)
-    console.log(result.data.carId)
+    let res1 = await axios.post(this.baseURL + `/user/${userId}/add_car`, newCar)
+    console.log(res1.data.carId)
+    let result
     if (data.availability) {
-      let result = await axios.put(this.baseURL + `/user/${userId}/${result.data.carId}/car_sold`, newCar)
+      result = await axios.put(this.baseURL + `/user/${userId}/${res1.data.carId}/car_sold`, newCar)
     }
     // Set updated data to state
     this.setState({
